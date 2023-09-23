@@ -88,16 +88,33 @@ export const AuthProvider = ({ children }) => {
             email,
             password,
         })
-        const { accessToken, user } = response.data
-
+        let { accessToken, user } = response.data
+        console.log('accessToken, user', user)
         setSession(accessToken)
-
+        user = {id: 1, avatar: '/assets/images/face-6.jpg', email: 'jason@ui-lib.com', name: 'Jason Alexander', role: 'SA'}
         dispatch({
             type: 'LOGIN',
             payload: {
                 user,
             },
         })
+
+        // const response = await axios.post('http://127.0.0.1:4330/api/login', {
+        //     userName:email,
+        //     password,
+        // })
+        // console.log('response.data',response.data);
+        // const { token: accessToken } = response.data
+        // let user = {id: 1, avatar: '/assets/images/face-6.jpg', email: 'jason@ui-lib.com', name: 'Jason Alexander', role: 'SA'}
+
+        // setSession(accessToken)
+
+        // dispatch({
+        //     type: 'LOGIN',
+        //     payload: {
+        //         user,
+        //     },
+        // })
     }
 
     const register = async (email, username, password) => {
