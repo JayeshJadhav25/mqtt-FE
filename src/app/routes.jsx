@@ -8,8 +8,8 @@ import { Navigate } from 'react-router-dom';
 import MatxLayout from './components/MatxLayout/MatxLayout';
 import userRoutes from 'app/views/users/UserRoutes';
 import logRoutes from 'app/views/log-types/LogRoutes';
-
-
+import deviceConfigRoutes from 'app/views/device-config/DeviceConfigRoutes';
+import deviceRoutes from 'app/views/device/DeviceRoutes';
 
 const routes = [
   {
@@ -18,7 +18,15 @@ const routes = [
         <MatxLayout />
       </AuthGuard>
     ),
-    children: [...dashboardRoutes, ...chartsRoute, ...materialRoutes, ...userRoutes, ...logRoutes],
+    children: [
+      ...dashboardRoutes,
+      ...chartsRoute,
+      ...materialRoutes,
+      ...userRoutes,
+      ...logRoutes,
+      ...deviceConfigRoutes,
+      ...deviceRoutes,
+    ],
   },
   ...sessionRoutes,
   { path: '/', element: <Navigate to="dashboard/default" /> },

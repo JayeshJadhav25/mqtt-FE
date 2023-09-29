@@ -13,7 +13,7 @@ import {
 
 import { useState, useEffect } from 'react';
 import { Breadcrumb, SimpleCard } from 'app/components';
-import LogForm from './LogForm';
+import CreateForm from './CreateForm';
 import EditForm from './EditForm';
 import axios from 'axios';
 const StyledTable = styled(Table)(() => ({
@@ -26,16 +26,6 @@ const StyledTable = styled(Table)(() => ({
   },
 }));
 
-const subscribarList = [
-  {
-    name: 'john doe',
-    date: '18 january, 2019',
-    amount: 1000,
-    status: 'close',
-    company: 'ABC Fintech LTD.',
-  },
-];
-
 const Container = styled('div')(({ theme }) => ({
   margin: '30px',
   [theme.breakpoints.down('sm')]: { margin: '16px' },
@@ -44,11 +34,12 @@ const Container = styled('div')(({ theme }) => ({
     [theme.breakpoints.down('sm')]: { marginBottom: '16px' },
   },
 }));
-const Logs = () => {
+
+const DeviceConfigs = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [logTypes, setLogTypes] = useState({
-    LogTypes: [],
+  const [data, setData] = useState({
+    list: [],
   });
 
   const handleChangePage = (_, newPage) => {
@@ -61,21 +52,20 @@ const Logs = () => {
   };
 
   const handleDelete = async (id) => {
-    console.log('handle delete called', id);
     try {
       const result = await axios.post('http://127.0.0.1:4330/api/deleteMQTTLoggerType', { id });
-      getLogTypes();
+      getData();
     } catch (error) {
       console.log('error', error);
     }
   };
 
-  const getLogTypes = async () => {
+  const getData = async () => {
     axios
       .post('http://127.0.0.1:4330/api/getMQTTLoggerType')
       .then((res) => {
         console.log('response=>', res.data.status);
-        setLogTypes({ LogTypes: res.data.status });
+        setData({ list: res.data.status });
       })
       .catch((error) => {
         console.log(error);
@@ -83,16 +73,16 @@ const Logs = () => {
   };
 
   useEffect(() => {
-    getLogTypes();
+    getData();
   }, []);
 
   return (
     <Container>
       <Box className="breadcrumb">
-        <LogForm getLogTypes={getLogTypes} />
+        <CreateForm getData={getData} />
         {/* <Breadcrumb routeSegments={[{ name: "Material", path: "/material" }, { name: "Table" }]} /> */}
       </Box>
-      <SimpleCard title="Log Types">
+      <SimpleCard title="Device Config">
         <Box width="100%" overflow="auto">
           <StyledTable>
             <TableHead>
@@ -104,26 +94,26 @@ const Logs = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {logTypes.LogTypes.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(
-                (logdata, index) => (
+              {data.list
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((dataList, index) => (
                   <TableRow key={index}>
                     {/* <TableCell align="left">{subscriber.name}</TableCell> */}
-                    <TableCell align="center">{logdata.deviceId}</TableCell>
-                    <TableCell align="center">{logdata.logType}</TableCell>
+                    <TableCell align="center">{dataList.deviceId}</TableCell>
+                    <TableCell align="center">{dataList.logType}</TableCell>
                     <TableCell align="center">
-                      <IconButton onClick={() => handleDelete(logdata.id)}>
+                      <IconButton onClick={() => handleDelete(dataList.id)}>
                         <Icon fontSize="small" color="error">
                           close
                         </Icon>
                       </IconButton>
                       <IconButton>
                         {/* <Icon fontSize="small">edit</Icon> */}
-                        <EditForm logdata={logdata} getLogTypes={getLogTypes} />
+                        <EditForm dataList={dataList} getData={getData} />
                       </IconButton>
                     </TableCell>
                   </TableRow>
-                )
-              )}
+                ))}
             </TableBody>
           </StyledTable>
 
@@ -132,7 +122,7 @@ const Logs = () => {
             page={page}
             component="div"
             rowsPerPage={rowsPerPage}
-            count={subscribarList.length}
+            count={data.list.length}
             onPageChange={handleChangePage}
             rowsPerPageOptions={[5, 10, 25]}
             onRowsPerPageChange={handleChangeRowsPerPage}
@@ -145,4 +135,4 @@ const Logs = () => {
   );
 };
 
-export default Logs;
+export default DeviceConfigs;

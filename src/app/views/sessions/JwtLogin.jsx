@@ -34,8 +34,8 @@ const JWTRoot = styled(JustifyBox)(() => ({
 
 // inital login credentials
 const initialValues = {
-  email: 'jason@ui-lib.com',
-  password: 'dummyPass',
+  email: '',
+  password: '',
   remember: true,
 };
 
@@ -57,11 +57,11 @@ const JwtLogin = () => {
   const handleFormSubmit = async (values) => {
     setLoading(true);
     try {
-      console.log('values',values);
+      console.log('values', values);
       await login(values.email, values.password);
       navigate('/');
     } catch (e) {
-      console.log('error',e)
+      console.log('error', e);
       setLoading(false);
     }
   };
@@ -147,7 +147,7 @@ const JwtLogin = () => {
                     </LoadingButton>
 
                     {/* <Paragraph> */}
-                      {/* Don't have an account?
+                    {/* Don't have an account?
                       <NavLink
                         to="/session/signup"
                         style={{ color: theme.palette.primary.main, marginLeft: 5 }}

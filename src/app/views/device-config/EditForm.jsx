@@ -11,7 +11,7 @@ import { Formik } from 'formik';
 import axios from 'axios';
 import uuid from 'react-uuid';
 
-export default function EditForm({ logdata, getLogTypes }) {
+export default function EditForm({ dataList, getData }) {
   const [open, setOpen] = React.useState(false);
   const [data, setData] = React.useState({});
 
@@ -27,12 +27,12 @@ export default function EditForm({ logdata, getLogTypes }) {
     try {
       if (values.deviceid && values.logtype) {
         let obj = {
-          id: logdata.id,
+          id: dataList.id,
           deviceId: values.deviceid,
           logType: values.logtype,
         };
         const result = await axios.post('http://127.0.0.1:4330/api/updateMQTTLoggerType', obj);
-        getLogTypes();
+        getData();
       }
     } catch (error) {
       console.log('erorr', error);
@@ -40,8 +40,8 @@ export default function EditForm({ logdata, getLogTypes }) {
     setOpen(false);
   }
   const initialValues = {
-    deviceid: logdata.deviceId || '',
-    logtype: logdata.logType || '',
+    deviceid: dataList.deviceId || '',
+    logtype: dataList.logType || '',
   };
   return (
     <Box>

@@ -11,7 +11,7 @@ import { Formik } from 'formik';
 import axios from 'axios';
 import uuid from 'react-uuid';
 
-export default function EditForm({ logdata, getLogTypes }) {
+export default function DeviceConfigForm({ getData }) {
   const [open, setOpen] = React.useState(false);
   const [data, setData] = React.useState({});
 
@@ -24,29 +24,28 @@ export default function EditForm({ logdata, getLogTypes }) {
   }
 
   async function handleFormSubmit(values) {
+    console.log('handle submit', values);
     try {
-      if (values.deviceid && values.logtype) {
-        let obj = {
-          id: logdata.id,
-          deviceId: values.deviceid,
-          logType: values.logtype,
-        };
-        const result = await axios.post('http://127.0.0.1:4330/api/updateMQTTLoggerType', obj);
-        getLogTypes();
-      }
+      let obj = {
+        id: uuid(),
+        deviceId: values.deviceid,
+        logType: values.logtype,
+      };
+      const result = await axios.post('http://127.0.0.1:4330/api/createMQTTLoggerType', obj);
+      getData();
     } catch (error) {
       console.log('erorr', error);
     }
     setOpen(false);
   }
   const initialValues = {
-    deviceid: logdata.deviceId || '',
-    logtype: logdata.logType || '',
+    deviceid: '',
+    logtype: '',
   };
   return (
     <Box>
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        <Icon>edit</Icon> Edit
+        <Icon>add</Icon> Create
       </Button>
       <Formik onSubmit={handleFormSubmit} initialValues={initialValues}>
         {({ values, errors, touched, handleChange, handleBlur, handleSubmit }) => (
@@ -92,7 +91,7 @@ export default function EditForm({ logdata, getLogTypes }) {
                   Cancel
                 </Button>
                 <Button type="submit" onClick={handleFormSubmit} color="primary">
-                  Update
+                  Create
                 </Button>
               </DialogActions>
             </form>

@@ -11,7 +11,7 @@ import { Formik } from 'formik';
 import axios from 'axios';
 import uuid from 'react-uuid';
 
-export default function LogForm() {
+export default function LogForm({ getLogTypes }) {
   const [open, setOpen] = React.useState(false);
   const [data, setData] = React.useState({});
 
@@ -32,6 +32,7 @@ export default function LogForm() {
         logType: values.logtype,
       };
       const result = await axios.post('http://127.0.0.1:4330/api/createMQTTLoggerType', obj);
+      getLogTypes();
     } catch (error) {
       console.log('erorr', error);
     }

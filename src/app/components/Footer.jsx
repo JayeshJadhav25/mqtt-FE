@@ -38,7 +38,7 @@ const Footer = () => {
   return (
     <ThemeProvider theme={footerTheme}>
       <AppBar color="primary" position="static" sx={{ zIndex: 96 }}>
-        <AppFooter>
+        {/* <AppFooter>
           <FooterContent>
             <a href="https://ui-lib.com/downloads/matx-pro-react-admin/">
               <Button variant="contained" color="secondary">
@@ -50,7 +50,7 @@ const Footer = () => {
               Design and Developed by <a href="http://ui-lib.com">UI Lib</a>
             </Paragraph>
           </FooterContent>
-        </AppFooter>
+        </AppFooter> */}
       </AppBar>
     </ThemeProvider>
   );
