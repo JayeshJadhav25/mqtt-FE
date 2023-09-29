@@ -1,4 +1,4 @@
-import { Box, Icon } from '@mui/material';
+import { Box, Icon,Autocomplete, styled } from '@mui/material';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -14,6 +14,7 @@ import uuid from 'react-uuid';
 export default function EditForm({ dataList, getData }) {
   const [open, setOpen] = React.useState(false);
   const [data, setData] = React.useState({});
+  const [value, setValue] = React.useState(dataList.status);
 
   function handleClickOpen() {
     setOpen(true);
@@ -25,6 +26,7 @@ export default function EditForm({ dataList, getData }) {
 
   async function handleFormSubmit(values) {
     try {
+      console.log('initialValues.status',value);
       if (values.deviceid) {
         let obj = {
           id: dataList.id,
@@ -36,7 +38,7 @@ export default function EditForm({ dataList, getData }) {
           mqttTopic: values.mqttTopic,
           mqttUrl: values.mqttUrl,
           mqttMacId: values.mqttMacId,
-          status: values.status,
+          status: value || values.status,
           mqttPort: values.mqttPort,
         };
         const result = await axios.post('http://127.0.0.1:4330/api/updateMQTTDevice', obj);
@@ -47,7 +49,7 @@ export default function EditForm({ dataList, getData }) {
     }
     setOpen(false);
   }
-  const initialValues = {
+  let initialValues = {
     deviceid: dataList.deviceId || '',
     deviceName: dataList.deviceName || '',
     mqttIP: dataList.mqttIP || '',
@@ -58,6 +60,29 @@ export default function EditForm({ dataList, getData }) {
     mqttMacId: dataList.mqttMacId || '',
     status: dataList.status || '',
     mqttPort: dataList.mqttPort || '',
+  };
+
+  const suggestions = [
+    { label: 'Active' },
+    { label: 'InActive' },
+  ]
+
+  const AutoComplete = styled(Autocomplete)(() => ({
+    width: 540,
+    // marginBottom: '16px',
+  }));
+
+  const handleChangeDrop = (_, newValue) => {
+    setValue(newValue.label)
+
+    // initialValues.status = "InActive"
+    // initialValues.status = newValue.label;
+    // console.log('handleChange',newValue)
+    // if (newValue && newValue.inputValue) {
+    //   setValue({ label: newValue.inputValue });
+    //   return;
+    // }
+    // setValue(newValue);
   };
 
   return (
@@ -163,7 +188,7 @@ export default function EditForm({ dataList, getData }) {
                   onChange={handleChange}
                   fullWidth
                 />
-                <TextField
+                {/* <TextField
                   margin="dense"
                   id="status"
                   label="Status"
@@ -172,6 +197,28 @@ export default function EditForm({ dataList, getData }) {
                   value={values.status}
                   onChange={handleChange}
                   fullWidth
+                /> */}
+                <AutoComplete
+                  // value={value}
+                  options={suggestions}
+                  defaultValue={{label:value}}
+                  onChange={handleChangeDrop}
+                  // getOptionLabel={(option) => {
+                  //   console.log('option',option)
+                  //   // if(option.label != values.status) {
+                  //     return  option.label;
+                  //   // }
+                  // }}
+                  renderInput={(params) => (
+                    <TextField 
+                      {...params} 
+                      margin="dense" 
+                      label="Status" 
+                      variant="outlined" 
+                      // name="status"
+                      // value={values.status}
+                      fullWidth />
+                  )}
                 />
                 <TextField
                   margin="dense"

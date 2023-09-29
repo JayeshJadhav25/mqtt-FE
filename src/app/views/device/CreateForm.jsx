@@ -14,6 +14,7 @@ import uuid from 'react-uuid';
 export default function DeviceConfigForm({ getData }) {
   const [open, setOpen] = React.useState(false);
   const [data, setData] = React.useState({});
+  const [value, setValue] = React.useState(null);
 
   function handleClickOpen() {
     setOpen(true);
@@ -37,7 +38,7 @@ export default function DeviceConfigForm({ getData }) {
         mqttTopic: values.mqttTopic,
         mqttUrl: values.mqttUrl,
         mqttMacId: values.mqttMacId,
-        status: values.status,
+        status: value && value.label || 'InActive',
         mqttPort: values.mqttPort,
       };
       const result = await axios.post('http://127.0.0.1:4330/api/createMQTTDevice', obj);
@@ -59,8 +60,10 @@ export default function DeviceConfigForm({ getData }) {
     status: '',
     mqttPort: '',
   };
-  const [value, setValue] = React.useState(null);
-  const handleChange = (_, newValue) => {
+
+
+    
+  const handleChangeDrop = (_, newValue) => {
     console.log('handleChange',newValue)
     if (newValue && newValue.inputValue) {
       setValue({ label: newValue.inputValue });
@@ -193,9 +196,10 @@ export default function DeviceConfigForm({ getData }) {
                   fullWidth
                 /> */}
                 <AutoComplete
-                  // value="Active"
+                  value={value}
                   options={suggestions}
-                  // onChange={handleChange}
+                  // defaultValue={{label:value}}
+                  onChange={handleChangeDrop}
                   getOptionLabel={(option) => {
                     console.log('option',option)
                     return  option.label;
