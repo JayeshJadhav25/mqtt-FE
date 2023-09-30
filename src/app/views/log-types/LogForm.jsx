@@ -1,4 +1,4 @@
-import { Box, Icon } from '@mui/material';
+import { Box, Icon, Autocomplete, styled } from '@mui/material';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -10,10 +10,15 @@ import React from 'react';
 import { Formik } from 'formik';
 import axios from 'axios';
 import uuid from 'react-uuid';
+import { useEffect } from 'react';
 
 export default function LogForm({ getLogTypes }) {
   const [open, setOpen] = React.useState(false);
   const [data, setData] = React.useState({});
+  const [value, setValue] = React.useState(null);
+  const [deviceList, setDeviceList] = React.useState({
+    devices: []
+  });
 
   function handleClickOpen() {
     setOpen(true);
@@ -23,12 +28,16 @@ export default function LogForm({ getLogTypes }) {
     setOpen(false);
   }
 
+  const AutoComplete = styled(Autocomplete)(() => ({
+    width: 540,
+    // marginBottom: '16px',
+  }));
+
   async function handleFormSubmit(values) {
-    console.log('handle submit', values);
     try {
       let obj = {
         id: uuid(),
-        deviceId: values.deviceid,
+        deviceId: value && value.label ? value.label : "",
         logType: values.logtype,
       };
       const result = await axios.post('http://127.0.0.1:4330/api/createMQTTLoggerType', obj);
@@ -42,6 +51,43 @@ export default function LogForm({ getLogTypes }) {
     deviceid: '',
     logtype: '',
   };
+
+  const suggestions = [
+    { label: 'Active' },
+    { label: 'InActive' },
+  ]
+
+  const handleChangeDrop = (_, newValue) => {
+    if (newValue && newValue.inputValue) {
+      setValue({ label: newValue.inputValue });
+      return;
+    }
+    setValue(newValue);
+  };
+
+  const getDevices = async () => {
+    axios
+      .post('http://127.0.0.1:4330/api/getMQTTDevice')
+      .then((res) => {
+        console.log('response=>', res.data.status);
+        let devices = [];
+        res.data.status.forEach(elem => {
+          devices.push({label:elem.deviceId});
+        })
+        setDeviceList({devices:devices});
+
+        // setDeviceList(res.data.status);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  
+  useEffect(() => {
+    getDevices();
+  }, []);
+
+
   return (
     <Box>
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
@@ -64,7 +110,7 @@ export default function LogForm({ getLogTypes }) {
             occasionally.
           </DialogContentText> */}
 
-                <TextField
+                {/* <TextField
                   autoFocus
                   margin="dense"
                   id="name"
@@ -74,6 +120,26 @@ export default function LogForm({ getLogTypes }) {
                   value={values.deviceid}
                   onChange={handleChange}
                   fullWidth
+                /> */}
+                <AutoComplete
+                  value={value}
+                  options={deviceList.devices}
+                  // defaultValue={{label:value}}
+                  onChange={handleChangeDrop}
+                  getOptionLabel={(option) => {
+                    console.log('option',option)
+                    return  option.label;
+                  }}
+                  renderInput={(params) => (
+                    <TextField 
+                      {...params} 
+                      margin="dense" 
+                      label="Device Id" 
+                      variant="outlined" 
+                      // name="status"
+                      // value={values.status}
+                      fullWidth />
+                  )}
                 />
                 <TextField
                   margin="dense"
