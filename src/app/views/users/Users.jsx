@@ -112,7 +112,7 @@ const Main = () => {
                     <TableCell align="center">{dataList.userName}</TableCell>
                     <TableCell align="center">{dataList.status}</TableCell>
                     {/* <TableCell align="center">{dataList.mqttPassword}</TableCell> */}
-                    <TableCell align="center">{dataList.accesslevel}</TableCell>
+                    <TableCell align="center">{dataList.accesslevel == 1 ? 'SuperAdmin' : dataList.accesslevel == 2 ? 'Admin' : dataList.accesslevel == 3 ? 'Supervisor' : dataList.accesslevel }</TableCell>
                     <TableCell align="center">{dataList.email}</TableCell>
                     {/* <TableCell align="center">{dataList.mqttMacId}</TableCell> */}
                     {/* <TableCell align="center">{dataList.status}</TableCell> */}

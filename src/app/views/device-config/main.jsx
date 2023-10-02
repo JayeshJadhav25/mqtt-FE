@@ -35,7 +35,7 @@ const Container = styled('div')(({ theme }) => ({
   },
 }));
 
-const DeviceConfigs = () => {
+const Main = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [data, setData] = useState({
@@ -53,7 +53,7 @@ const DeviceConfigs = () => {
 
   const handleDelete = async (id) => {
     try {
-      const result = await axios.post('http://127.0.0.1:4330/api/deleteMQTTLoggerType', { id });
+      const result = await axios.post('http://127.0.0.1:4330/api/deleteMQTTDevice', { id });
       getData();
     } catch (error) {
       console.log('error', error);
@@ -62,7 +62,7 @@ const DeviceConfigs = () => {
 
   const getData = async () => {
     axios
-      .post('http://127.0.0.1:4330/api/getMQTTLoggerType')
+      .post('http://127.0.0.1:4330/api/getMQTTDevice')
       .then((res) => {
         console.log('response=>', res.data.status);
         setData({ list: res.data.status });
@@ -79,18 +79,26 @@ const DeviceConfigs = () => {
   return (
     <Container>
       <Box className="breadcrumb">
-        <CreateForm getData={getData} />
+        {/* <CreateForm getData={getData} /> */}
         {/* <Breadcrumb routeSegments={[{ name: "Material", path: "/material" }, { name: "Table" }]} /> */}
       </Box>
-      <SimpleCard title="Device Config">
+      <SimpleCard title="Devices">
         <Box width="100%" overflow="auto">
           <StyledTable>
             <TableHead>
               <TableRow>
                 {/* <TableCell align="left">Name</TableCell> */}
-                <TableCell align="center">Device Id</TableCell>
-                <TableCell align="center">Log Type</TableCell>
-                <TableCell align="center">Action</TableCell>
+                {/* <TableCell align="center">Device Id</TableCell> */}
+                <TableCell align="center">Device Name</TableCell>
+                <TableCell align="center">MQTT IP</TableCell>
+                <TableCell align="center">Username</TableCell>
+                {/* <TableCell align="center">Password</TableCell> */}
+                <TableCell align="center">Topic</TableCell>
+                <TableCell align="center">URL</TableCell>
+                <TableCell align="center">MACID</TableCell>
+                <TableCell align="center">Status</TableCell>
+                <TableCell align="center">PORT</TableCell>
+                {/* <TableCell align="center">Action</TableCell> */}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -99,19 +107,27 @@ const DeviceConfigs = () => {
                 .map((dataList, index) => (
                   <TableRow key={index}>
                     {/* <TableCell align="left">{subscriber.name}</TableCell> */}
-                    <TableCell align="center">{dataList.deviceId}</TableCell>
-                    <TableCell align="center">{dataList.logType}</TableCell>
-                    <TableCell align="center">
-                      <IconButton onClick={() => handleDelete(dataList.id)}>
-                        <Icon fontSize="small" color="error">
-                          close
-                        </Icon>
-                      </IconButton>
-                      <IconButton>
+                    {/* <TableCell align="center">{dataList.deviceId}</TableCell> */}
+                    <TableCell align="center">{dataList.deviceName}</TableCell>
+                    <TableCell align="center">{dataList.mqttIP}</TableCell>
+                    <TableCell align="center">{dataList.mqttUserName}</TableCell>
+                    {/* <TableCell align="center">{dataList.mqttPassword}</TableCell> */}
+                    <TableCell align="center">{dataList.mqttTopic}</TableCell>
+                    <TableCell align="center">{dataList.mqttUrl}</TableCell>
+                    <TableCell align="center">{dataList.mqttMacId}</TableCell>
+                    <TableCell align="center">{dataList.status}</TableCell>
+                    <TableCell align="center">{dataList.mqttPort}</TableCell>
+                    {/* <TableCell align="center"> */}
+                      {/* <IconButton onClick={() => handleDelete(dataList.id)}> */}
+                        {/* <Icon fontSize="small" color="error"> */}
+                          {/* close */}
+                        {/* </Icon> */}
+                      {/* </IconButton> */}
+                      {/* <IconButton> */}
                         {/* <Icon fontSize="small">edit</Icon> */}
-                        <EditForm dataList={dataList} getData={getData} />
-                      </IconButton>
-                    </TableCell>
+                        {/* <EditForm dataList={dataList} getData={getData} /> */}
+                      {/* </IconButton> */}
+                    {/* </TableCell> */}
                   </TableRow>
                 ))}
             </TableBody>
@@ -135,4 +151,4 @@ const DeviceConfigs = () => {
   );
 };
 
-export default DeviceConfigs;
+export default Main;

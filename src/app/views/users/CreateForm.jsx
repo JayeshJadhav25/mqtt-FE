@@ -1,4 +1,4 @@
-import { Box, Icon } from '@mui/material';
+import { Box, Icon, Autocomplete, styled, Snackbar, Alert } from '@mui/material';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -10,10 +10,25 @@ import React from 'react';
 import { Formik } from 'formik';
 import axios from 'axios';
 import uuid from 'react-uuid';
+import { useState } from 'react';
 
 export default function CreateForm({ getData }) {
   const [open, setOpen] = React.useState(false);
   const [data, setData] = React.useState({});
+  const [value, setValue] = React.useState(null);
+  const [access, setAccessLevel] = React.useState(null);
+
+  const [opens, setOpens] = React.useState(false);
+  const [errorMessage,setErrorMessage] = useState(null);
+
+
+  function handleClose(_, reason) {
+    console.log('handleclose')
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpens(false);
+  }
 
   function handleClickOpen() {
     setOpen(true);
@@ -30,14 +45,17 @@ export default function CreateForm({ getData }) {
         id: uuid(),
         name:values.name,
         userName: values.userName,
-        status: values.status,
-        accesslevel: 3,
+        status: value && value.label || 'InActive',
+        accesslevel: access && access.label == 'Admin' ? 2 : 3 ,
         email: values.email,
         password: values.password,
       };
       const result = await axios.post('http://127.0.0.1:4330/api/createUser', obj);
       getData();
     } catch (error) {
+      setErrorMessage(error.msg || 'Something Went Wrong');
+      setOpens(true);
+      setOpens(false);
       console.log('erorr', error);
     }
     setOpen(false);
@@ -50,6 +68,41 @@ export default function CreateForm({ getData }) {
     email:'',
     password:''
   };
+
+  const suggestions = [
+    { label: 'Active' },
+    { label: 'InActive' },
+  ]
+
+  const accessLevel = [
+    { label: 'Admin' },
+    { label: 'Supervisor' },
+  ]
+
+  const handleChangeDrop = (_, newValue) => {
+    console.log('handleChange',newValue)
+    if (newValue && newValue.inputValue) {
+      setValue({ label: newValue.inputValue });
+      return;
+    }
+    setValue(newValue);
+  };
+
+  const handleAccessLevel = (_, newValue) => {
+    console.log('handleChange',newValue)
+    if (newValue && newValue.inputValue) {
+      setAccessLevel({ label: newValue.inputValue });
+      return;
+    }
+    setAccessLevel(newValue);
+  };
+
+
+  const AutoComplete = styled(Autocomplete)(() => ({
+    width: 540,
+    // marginBottom: '16px',
+  }));
+
   return (
     <Box>
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
@@ -65,7 +118,7 @@ export default function CreateForm({ getData }) {
             aria-labelledby="max-width-dialog-title"
           >
             <form onSubmit={handleSubmit}>
-              <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+              <DialogTitle id="form-dialog-title">Create User</DialogTitle>
               <DialogContent>
                 {/* <DialogContentText>
             To subscribe to this website, please enter your email address here. We will send updates
@@ -113,7 +166,7 @@ export default function CreateForm({ getData }) {
                   onChange={handleChange}
                   fullWidth
                 />
-                <TextField
+                {/* <TextField
                   margin="dense"
                   id="name"
                   label="Status"
@@ -122,6 +175,48 @@ export default function CreateForm({ getData }) {
                   value={values.status}
                   onChange={handleChange}
                   fullWidth
+                /> */}
+                
+                <AutoComplete
+                  value={value}
+                  options={suggestions}
+                  // defaultValue={{label:value}}
+                  onChange={handleChangeDrop}
+                  getOptionLabel={(option) => {
+                    console.log('option',option)
+                    return  option.label;
+                  }}
+                  renderInput={(params) => (
+                    <TextField 
+                      {...params} 
+                      margin="dense" 
+                      label="Status" 
+                      variant="outlined" 
+                      // name="status"
+                      // value={values.status}
+                      fullWidth />
+                  )}
+                />
+
+                <AutoComplete
+                  value={access}
+                  options={accessLevel}
+                  // defaultValue={{label:value}}
+                  onChange={handleAccessLevel}
+                  getOptionLabel={(option) => {
+                    console.log('option',option)
+                    return  option.label;
+                  }}
+                  renderInput={(params) => (
+                    <TextField 
+                      {...params} 
+                      margin="dense" 
+                      label="Access Level" 
+                      variant="outlined" 
+                      // name="status"
+                      // value={values.status}
+                      fullWidth />
+                  )}
                 />
               </DialogContent>
               <DialogActions>
@@ -136,6 +231,12 @@ export default function CreateForm({ getData }) {
           </Dialog>
         )}
       </Formik>
+
+      {/* <Snackbar open={opens} autoHideDuration={3000} onClose={handleClose}>
+      <Alert onClose={handleClose} sx={{ m: 1 }} severity="error" variant="filled">
+          {errorMessage}
+      </Alert>
+      </Snackbar> */}
     </Box>
   );
 }

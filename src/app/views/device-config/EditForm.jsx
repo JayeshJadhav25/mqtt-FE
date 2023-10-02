@@ -58,7 +58,7 @@ export default function EditForm({ dataList, getData }) {
             aria-labelledby="max-width-dialog-title"
           >
             <form onSubmit={handleSubmit}>
-              <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+              <DialogTitle id="form-dialog-title">Update</DialogTitle>
               <DialogContent>
                 {/* <DialogContentText>
             To subscribe to this website, please enter your email address here. We will send updates

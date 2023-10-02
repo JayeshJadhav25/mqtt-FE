@@ -1,4 +1,4 @@
-import { Box, Icon } from '@mui/material';
+import { Box, Icon, Autocomplete, styled } from '@mui/material';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -14,6 +14,7 @@ import uuid from 'react-uuid';
 export default function EditForm({ dataList, getData }) {
   const [open, setOpen] = React.useState(false);
   const [data, setData] = React.useState({});
+  const [value, setValue] = React.useState(dataList.status);
 
   function handleClickOpen() {
     setOpen(true);
@@ -23,6 +24,11 @@ export default function EditForm({ dataList, getData }) {
     setOpen(false);
   }
 
+  const suggestions = [
+    { label: 'Active' },
+    { label: 'InActive' },
+  ]
+
   async function handleFormSubmit(values) {
     try {
       if (values.name) {
@@ -30,7 +36,7 @@ export default function EditForm({ dataList, getData }) {
           id: dataList.id,
           name:values.name,
           userName: values.userName,
-          status: values.status,
+          status: value || values.status,
           accesslevel: 3,
           email: values.email,
           password: values.password,
@@ -51,6 +57,17 @@ export default function EditForm({ dataList, getData }) {
     email:dataList.email || "",
     password: dataList.password || "",
   };
+
+
+  const AutoComplete = styled(Autocomplete)(() => ({
+    width: 540,
+    // marginBottom: '16px',
+  }));
+
+  const handleChangeDrop = (_, newValue) => {
+    setValue(newValue.label)
+  }
+
   return (
     <Box>
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
@@ -66,7 +83,7 @@ export default function EditForm({ dataList, getData }) {
             aria-labelledby="max-width-dialog-title"
           >
             <form onSubmit={handleSubmit}>
-              <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+              <DialogTitle id="form-dialog-title">Update</DialogTitle>
               <DialogContent>
                 {/* <DialogContentText>
             To subscribe to this website, please enter your email address here. We will send updates
@@ -93,7 +110,40 @@ export default function EditForm({ dataList, getData }) {
                   value={values.userName}
                   onChange={handleChange}
                   fullWidth
-                />
+                />     
+                <TextField
+                  margin="dense"
+                  id="accesslevel"
+                  label="Access Level"
+                  type="text"
+                  name="accesslevel"
+                  value={values.accesslevel == 1 ? 'SuperAdmin' : values.accesslevel == 2 ? 'Admin' : values.accesslevel == 3 ? 'Supervisor' : values.accesslevel }
+                  disabled
+                  onChange={handleChange}
+                  fullWidth
+                />                           
+                <AutoComplete
+                // value={value}
+                options={suggestions}
+                defaultValue={{label:value}}
+                onChange={handleChangeDrop}
+                // getOptionLabel={(option) => {
+                //   console.log('option',option)
+                //   // if(option.label != values.status) {
+                //     return  option.label;
+                //   // }
+                // }}
+                renderInput={(params) => (
+                  <TextField 
+                    {...params} 
+                    margin="dense" 
+                    label="Status" 
+                    variant="outlined" 
+                    // name="status"
+                    // value={values.status}
+                    fullWidth />
+                )}
+              />
                                 <TextField
                   margin="dense"
                   id="name"
@@ -114,7 +164,7 @@ export default function EditForm({ dataList, getData }) {
                   onChange={handleChange}
                   fullWidth
                 /> */}
-                <TextField
+                {/* <TextField
                   margin="dense"
                   id="name"
                   label="Status"
@@ -123,7 +173,30 @@ export default function EditForm({ dataList, getData }) {
                   value={values.status}
                   onChange={handleChange}
                   fullWidth
+                /> */}
+                <AutoComplete
+                  // value={value}
+                  options={suggestions}
+                  defaultValue={{label:value}}
+                  onChange={handleChangeDrop}
+                  // getOptionLabel={(option) => {
+                  //   console.log('option',option)
+                  //   // if(option.label != values.status) {
+                  //     return  option.label;
+                  //   // }
+                  // }}
+                  renderInput={(params) => (
+                    <TextField 
+                      {...params} 
+                      margin="dense" 
+                      label="Status" 
+                      variant="outlined" 
+                      // name="status"
+                      // value={values.status}
+                      fullWidth />
+                  )}
                 />
+
               </DialogContent>
               <DialogActions>
                 <Button variant="outlined" color="secondary" onClick={handleClose}>
