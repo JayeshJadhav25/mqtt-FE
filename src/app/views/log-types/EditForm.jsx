@@ -33,7 +33,7 @@ export default function EditForm({ logdata, getLogTypes }) {
       if (values.deviceid && values.logtype) {
         let obj = {
           id: logdata.id,
-          deviceId: value || logdata.deviceId || "",
+          deviceId: values.deviceid,
           logType: values.logtype,
         };
         const result = await axios.post('http://127.0.0.1:4330/api/updateMQTTLoggerType', obj);
@@ -102,14 +102,14 @@ export default function EditForm({ logdata, getLogTypes }) {
             aria-labelledby="max-width-dialog-title"
           >
             <form onSubmit={handleSubmit}>
-              <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+              <DialogTitle id="form-dialog-title">Update</DialogTitle>
               <DialogContent>
                 {/* <DialogContentText>
             To subscribe to this website, please enter your email address here. We will send updates
             occasionally.
           </DialogContentText> */}
 
-                {/* <TextField
+                <TextField
                   autoFocus
                   margin="dense"
                   id="name"
@@ -119,8 +119,9 @@ export default function EditForm({ logdata, getLogTypes }) {
                   value={values.deviceid}
                   onChange={handleChange}
                   fullWidth
-                /> */}
-                <AutoComplete
+                  disabled
+                />
+                {/* <AutoComplete
                   // value={value}
                   options={deviceList.devices}
                   defaultValue={{label:value}}
@@ -139,7 +140,7 @@ export default function EditForm({ logdata, getLogTypes }) {
                       // value={values.status}
                       fullWidth />
                   )}
-                />
+                /> */}
 
                 <TextField
                   margin="dense"

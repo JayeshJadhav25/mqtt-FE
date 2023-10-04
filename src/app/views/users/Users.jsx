@@ -15,7 +15,9 @@ import { useState, useEffect } from 'react';
 import { Breadcrumb, SimpleCard } from 'app/components';
 import CreateForm from './CreateForm';
 import EditForm from './EditForm';
+import FilterExpansionPanel from './FilterExpansionPanel';
 import axios from 'axios';
+
 const StyledTable = styled(Table)(() => ({
   whiteSpace: 'pre',
   '& thead': {
@@ -82,7 +84,11 @@ const Main = () => {
         <CreateForm getData={getData} />
         {/* <Breadcrumb routeSegments={[{ name: "Material", path: "/material" }, { name: "Table" }]} /> */}
       </Box>
-      <SimpleCard title="Devices">
+
+      <Box alignContent="right">
+        <FilterExpansionPanel />
+      </Box>
+      <SimpleCard title="Users">
         <Box width="100%" overflow="auto">
           <StyledTable>
             <TableHead>

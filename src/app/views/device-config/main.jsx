@@ -15,6 +15,8 @@ import { useState, useEffect } from 'react';
 import { Breadcrumb, SimpleCard } from 'app/components';
 import CreateForm from './CreateForm';
 import EditForm from './EditForm';
+import FullScreenDialog from './ViewDetail';
+
 import axios from 'axios';
 const StyledTable = styled(Table)(() => ({
   whiteSpace: 'pre',
@@ -60,6 +62,10 @@ const Main = () => {
     }
   };
 
+  const viewDetails = async() => {
+    alert('view details')
+  }
+
   const getData = async () => {
     axios
       .post('http://127.0.0.1:4330/api/getMQTTDevice')
@@ -98,7 +104,7 @@ const Main = () => {
                 <TableCell align="center">MACID</TableCell>
                 <TableCell align="center">Status</TableCell>
                 <TableCell align="center">PORT</TableCell>
-                {/* <TableCell align="center">Action</TableCell> */}
+                <TableCell align="center">Action</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -117,7 +123,7 @@ const Main = () => {
                     <TableCell align="center">{dataList.mqttMacId}</TableCell>
                     <TableCell align="center">{dataList.status}</TableCell>
                     <TableCell align="center">{dataList.mqttPort}</TableCell>
-                    {/* <TableCell align="center"> */}
+                    <TableCell align="center">
                       {/* <IconButton onClick={() => handleDelete(dataList.id)}> */}
                         {/* <Icon fontSize="small" color="error"> */}
                           {/* close */}
@@ -127,7 +133,10 @@ const Main = () => {
                         {/* <Icon fontSize="small">edit</Icon> */}
                         {/* <EditForm dataList={dataList} getData={getData} /> */}
                       {/* </IconButton> */}
-                    {/* </TableCell> */}
+                      <IconButton>
+                        <FullScreenDialog />
+                      </IconButton>
+                    </TableCell>
                   </TableRow>
                 ))}
             </TableBody>
