@@ -51,10 +51,19 @@ const AutoComplete = st(Autocomplete)(() => ({
     width: 200,
     // marginBottom: '16px',
   }));
-export default function DetailedExpansionPanel() {
+export default function DetailedExpansionPanel({ handleFilter,getData }) {
 
     const [value, setValue] = useState(null);
     const [access, setAccessLevel] = useState(null);
+
+    const [filterData,setFilterData] = useState({
+      username:'',
+      email:''
+    })
+
+    const { email,username } = filterData;
+
+    const handleChange = e => setFilterData({...filterData,[e.target.name]:e.target.value})
 
     const handleChangeDrop = (_, newValue) => {
         console.log('handleChange',newValue)
@@ -74,6 +83,16 @@ export default function DetailedExpansionPanel() {
         setAccessLevel(newValue);
     };
 
+    const handleClear = () => {
+      setFilterData({
+        username:'',
+        email:''
+      })
+      setValue(null);
+      setAccessLevel(null);
+      getData();
+    }
+
   return (
     <AccordionRoot>
       <Accordion defaultExpanded>
@@ -90,8 +109,8 @@ export default function DetailedExpansionPanel() {
                   label="Username"
                   type="text"
                   name="username"
-                //   value={values.name}
-                //   onChange={handleChange}
+                  value={username}
+                  onChange={handleChange}
                 //   fullWidth
                 />
           </Box>
@@ -150,8 +169,8 @@ export default function DetailedExpansionPanel() {
                   label="Email"
                   type="text"
                   name="email"
-                //   value={values.name}
-                //   onChange={handleChange}
+                  value={email}
+                  onChange={handleChange}
                 //   fullWidth
                 />                    
             </Box>
@@ -190,8 +209,13 @@ export default function DetailedExpansionPanel() {
         <Divider />
 
         <AccordionActions>
-          <Button size="small">Clear</Button>
-          <Button size="small" color="primary">
+          <Button size="small" onClick = {handleClear}>Clear</Button>
+          <Button size="small" color="primary" 
+            onClick={() => {
+              filterData.status = value;
+              filterData.accessLevel = access;
+              handleFilter(filterData)}
+            }>
             Filter
           </Button>
         </AccordionActions>

@@ -74,6 +74,27 @@ const Main = () => {
       });
   };
 
+  const handleFilter = (filterData) => {
+    let filter = {};
+    if(filterData.username) filter.userName = filterData.username;
+    if(filterData.email) filter.email = filterData.email;
+    if(filterData.status) filter.status = filterData.status ? filterData.status.label : "";
+    if(filterData.accessLevel) filter.accessLevel = filterData.accessLevel ? filterData.accessLevel.label : "";
+
+    axios
+    .post('http://127.0.0.1:4330/api/getUser',filter)
+    .then((res) => {
+      console.log('response=>', res.data.status);
+      setData({ list: res.data.status });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+    console.log('hanlding fliter..')
+    console.log('filterData',filterData);
+  }
+
   useEffect(() => {
     getData();
   }, []);
@@ -86,7 +107,7 @@ const Main = () => {
       </Box>
 
       <Box alignContent="right">
-        <FilterExpansionPanel />
+        <FilterExpansionPanel handleFilter = {handleFilter} getData={getData} />
       </Box>
       <SimpleCard title="Users">
         <Box width="100%" overflow="auto">
