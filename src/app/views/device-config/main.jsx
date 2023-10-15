@@ -15,7 +15,7 @@ import { useState, useEffect } from 'react';
 import { Breadcrumb, SimpleCard } from 'app/components';
 import CreateForm from './CreateForm';
 import EditForm from './EditForm';
-import FullScreenDialog from './ViewDetail';
+import ViewDetail from './ViewDetail';
 
 import axios from 'axios';
 const StyledTable = styled(Table)(() => ({
@@ -70,7 +70,7 @@ const Main = () => {
     axios
       .post('http://127.0.0.1:4330/api/getMQTTDevice')
       .then((res) => {
-        console.log('response=>', res.data.status);
+        console.log('response= device>', res.data.status);
         setData({ list: res.data.status });
       })
       .catch((error) => {
@@ -134,7 +134,7 @@ const Main = () => {
                         {/* <EditForm dataList={dataList} getData={getData} /> */}
                       {/* </IconButton> */}
                       <IconButton>
-                        <FullScreenDialog />
+                        <ViewDetail deviceConfigId={dataList.id} deviceId={dataList.deviceId}/>
                       </IconButton>
                     </TableCell>
                   </TableRow>

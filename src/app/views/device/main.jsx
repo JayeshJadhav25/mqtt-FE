@@ -15,6 +15,7 @@ import { useState, useEffect } from 'react';
 import { Breadcrumb, SimpleCard } from 'app/components';
 import CreateForm from './CreateForm';
 import EditForm from './EditForm';
+import Assign from './AssignForm';
 import axios from 'axios';
 const StyledTable = styled(Table)(() => ({
   whiteSpace: 'pre',
@@ -119,13 +120,22 @@ const Main = () => {
                     <TableCell align="center">{dataList.mqttPort}</TableCell>
                     <TableCell align="center">
                       <IconButton onClick={() => handleDelete(dataList.id)}>
-                        <Icon fontSize="small" color="error">
+                        <Icon fontSize="inherit" color="error">
                           close
                         </Icon>
                       </IconButton>
                       <IconButton>
                         {/* <Icon fontSize="small">edit</Icon> */}
                         <EditForm dataList={dataList} getData={getData} />
+                      </IconButton>
+                      <IconButton>
+                        {/* <Icon fontSize="small">edit</Icon> */}
+                        <Assign deviceId = {dataList.id}/>
+                      </IconButton>
+                      <IconButton>
+                        {/* <Icon fontSize="small">
+                          Assign
+                        </Icon> */}
                       </IconButton>
                     </TableCell>
                   </TableRow>

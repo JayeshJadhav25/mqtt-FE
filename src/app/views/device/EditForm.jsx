@@ -23,7 +23,7 @@ export default function EditForm({ dataList, getData }) {
   function handleClose() {
     setOpen(false);
   }
-
+  console.log('editform')
   async function handleFormSubmit(values) {
     try {
       console.log('initialValues.status',value);
