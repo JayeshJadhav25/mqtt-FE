@@ -129,15 +129,17 @@ const Layout1Topbar = () => {
             menuButton={
               <UserMenu>
                 <Hidden xsDown>
-                  <Span>
+                  {/* <Span>
                     Hi <strong>{user.name}</strong>
-                  </Span>
+                  </Span> */}
                 </Hidden>
-                <Avatar src={user.avatar} sx={{ cursor: 'pointer' }} />
+                <Avatar src="#" sx={{ cursor: 'pointer' }} />
+                {/* <Avatar src={user.avatar} sx={{ cursor: 'pointer' }} /> */}
+
               </UserMenu>
             }
           >
-            <StyledItem>
+            {/* <StyledItem>
               <Link to="/">
                 <Icon> home </Icon>
                 <Span> Home </Span>
@@ -154,7 +156,7 @@ const Layout1Topbar = () => {
             <StyledItem>
               <Icon> settings </Icon>
               <Span> Settings </Span>
-            </StyledItem>
+            </StyledItem> */}
 
             <StyledItem onClick={logout}>
               <Icon> power_settings_new </Icon>
