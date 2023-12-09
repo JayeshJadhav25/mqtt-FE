@@ -4,6 +4,8 @@ export const navigations = [
   { name: 'Device', path: '/device', icon: 'cloud' },
   { name: 'Device Config', path: '/deviceconfig', icon: 'device_hub' },
   { name: 'Log Types', path: '/logtypes', icon: 'note' },
+  { name: 'Logger', path: '/logger', icon: 'note' },
+  // { name: 'Logger', path: '/logger', icon: 'note' },
   // { label: 'PAGES', type: 'label' },
   // {
   //   name: 'Session/Auth',

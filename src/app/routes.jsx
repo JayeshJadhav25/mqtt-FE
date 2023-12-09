@@ -10,6 +10,7 @@ import userRoutes from 'app/views/users/UserRoutes';
 import logRoutes from 'app/views/log-types/LogRoutes';
 import deviceConfigRoutes from 'app/views/device-config/DeviceConfigRoutes';
 import deviceRoutes from 'app/views/device/DeviceRoutes';
+import loggerRoutes from 'app/views/logger/LoggerRoutes';
 
 const routes = [
   {
@@ -26,6 +27,7 @@ const routes = [
       ...logRoutes,
       ...deviceConfigRoutes,
       ...deviceRoutes,
+      ...loggerRoutes
     ],
   },
   ...sessionRoutes,
