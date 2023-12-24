@@ -16,6 +16,8 @@ import { Breadcrumb, SimpleCard } from 'app/components';
 import CreateForm from './CreateForm';
 import EditForm from './EditForm';
 import ViewDetail from './ViewDetail';
+import View from './View';
+
 
 import axios from 'axios';
 const StyledTable = styled(Table)(() => ({
@@ -134,7 +136,7 @@ const Main = () => {
                         {/* <EditForm dataList={dataList} getData={getData} /> */}
                       {/* </IconButton> */}
                       <IconButton>
-                        <ViewDetail deviceConfigId={dataList.id} deviceId={dataList.deviceId}/>
+                        <View deviceConfigId={dataList.id} deviceId={dataList.deviceId}/>
                       </IconButton>
                     </TableCell>
                   </TableRow>
