@@ -208,7 +208,7 @@ export default function ViewDetail({deviceConfigId='',deviceId=''}) {
           )}
            </Formik>
 
-        <Box width="50%" overflow="auto">
+        <Box width="100%" overflow="auto">
           <StyledTable>
             {/* <TableHead> */}
               {/* <TableRow> */}
@@ -246,7 +246,7 @@ export default function ViewDetail({deviceConfigId='',deviceId=''}) {
 
                         <AccordionDetails>
                         <Typography>
-                            < DeviceTemp />
+                            < DeviceTemp deviceConfigId = {deviceConfigId} deviceId={deviceId} receipeId={dataList.id}/>
                             {/* Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, */}
                             {/* sit amet blandit leo lobortis eget. */}
                         </Typography>
