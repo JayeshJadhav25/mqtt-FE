@@ -177,7 +177,7 @@ export default function CreateForm({ getData }) {
                   margin="dense"
                   id="name"
                   label="Email *"
-                  type="text"
+                  type="email"
                   name="email"
                   value={values.email}
                   onChange={handleChange}
