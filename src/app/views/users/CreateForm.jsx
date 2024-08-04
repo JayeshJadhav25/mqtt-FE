@@ -20,7 +20,10 @@ export default function CreateForm({ getData }) {
 
   const [opens, setOpens] = React.useState(false);
   const [errorMessage,setErrorMessage] = useState(null);
-
+  const [nameErrorMessage,setNameErrorMessage] = useState(false);
+  const [usernameErrorMessage,setusernameErrorMessage] = useState(false);
+  const [emailErrorMessage,setemailErrorMessage] = useState(false);
+  const [passwordErrorMessage,setpasswordErrorMessage] = useState(false);
 
   function handleClose(_, reason) {
     console.log('handleclose')
@@ -41,6 +44,22 @@ export default function CreateForm({ getData }) {
   async function handleFormSubmit(values) {
     console.log('handle submit', values);
     try {
+      if(!values.name) {
+        setNameErrorMessage(true);
+        return;
+      }
+      if(!values.userName) {
+        setusernameErrorMessage(true);
+        return;
+      }
+      if(!values.email) {
+        setemailErrorMessage(true);
+        return;
+      }
+      if(!values.password) {
+        setpasswordErrorMessage(true);
+        return;
+      }
       let obj = {
         id: uuid(),
         name:values.name,
@@ -53,10 +72,14 @@ export default function CreateForm({ getData }) {
       const result = await axios.post('http://127.0.0.1:4330/api/createUser', obj);
       getData();
     } catch (error) {
-      setErrorMessage(error.msg || 'Something Went Wrong');
-      setOpens(true);
-      setOpens(false);
+      // setErrorMessage(error.msg || 'Something Went Wrong');
+      // setOpens(true);
+      // setOpens(false);
+      // alert(error.msg)
       console.log('erorr', error);
+      alert(error.response.data.msg || 'Something Went Wrong');
+      console.log('erorr', error.response);
+
     }
     setOpen(false);
   }
@@ -118,6 +141,7 @@ export default function CreateForm({ getData }) {
             aria-labelledby="max-width-dialog-title"
           >
             <form onSubmit={handleSubmit}>
+            {/* <form> */}
               <DialogTitle id="form-dialog-title">Create User</DialogTitle>
               <DialogContent>
                 {/* <DialogContentText>
@@ -129,43 +153,48 @@ export default function CreateForm({ getData }) {
                   autoFocus
                   margin="dense"
                   id="name"
-                  label="Name"
+                  label="Name *"
                   type="text"
                   name="name"
                   value={values.name}
                   onChange={handleChange}
                   fullWidth
                 />
+                {nameErrorMessage && <p>this field is required</p>}
                 <TextField
                   margin="dense"
                   id="name"
-                  label="User Name"
+                  label="User Name *"
                   type="text"
                   name="userName"
                   value={values.userName}
                   onChange={handleChange}
                   fullWidth
                 />
+                {usernameErrorMessage && <p>this field is required</p>}
+
                                 <TextField
                   margin="dense"
                   id="name"
-                  label="Email"
+                  label="Email *"
                   type="text"
                   name="email"
                   value={values.email}
                   onChange={handleChange}
                   fullWidth
                 />
+                {emailErrorMessage && <p>this field is required</p>}
                 <TextField
                   margin="dense"
                   id="name"
-                  label="Password"
+                  label="Password *"
                   type="text"
                   name="password"
                   value={values.password}
                   onChange={handleChange}
                   fullWidth
                 />
+                {passwordErrorMessage && <p>this field is required</p>}
                 {/* <TextField
                   margin="dense"
                   id="name"
