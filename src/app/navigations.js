@@ -5,6 +5,8 @@ export const navigations = [
   { name: 'Device Config', path: '/deviceconfig', icon: 'device_hub' },
   { name: 'Log Types', path: '/logtypes', icon: 'note' },
   { name: 'Logger', path: '/logger', icon: 'note' },
+  { name: 'Maintenance', path: '/maintenance', icon: 'note' },
+
   // { name: 'Logger', path: '/logger', icon: 'note' },
   // { label: 'PAGES', type: 'label' },
   // {
