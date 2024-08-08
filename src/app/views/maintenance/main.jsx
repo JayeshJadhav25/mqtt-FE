@@ -1,5 +1,6 @@
 import CreateForm from './CreateForm';
 import SimpleForm from './SimpleForm';
+import PaginationTable from './PaginationTable';
 import {
     Box,
     Icon,
@@ -12,6 +13,8 @@ import {
     TablePagination,
     TableRow,
   } from '@mui/material';
+
+import { Breadcrumb, SimpleCard } from 'app/components';
 
 const Container = styled('div')(({ theme }) => ({
     margin: '30px',
@@ -37,6 +40,10 @@ const Main = () => {
           {/* <CreateForm getData={getData} /> */}
           {/* <Breadcrumb routeSegments={[{ name: "Material", path: "/material" }, { name: "Table" }]} /> */}
         </Box>
+        <SimpleCard title="Maintenance">
+
+          <PaginationTable/>
+        </SimpleCard>
         </Container>
     )
 }
