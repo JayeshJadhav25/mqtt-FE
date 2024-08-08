@@ -142,16 +142,6 @@ const SimpleForm = ({ handleClose }) => {
                             errorMessages={["this field is required"]}
                         />
 
-                        {/* <TextField
-                            type="email"
-                            name="email"
-                            label="Email"
-                            value={email || ""}
-                            onChange={handleChange}
-                            validators={["required", "isEmail"]}
-                            errorMessages={["this field is required", "email is not valid"]}
-                        /> */}
-
                         {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DatePicker
                                 value={date}

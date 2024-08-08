@@ -34,13 +34,13 @@ export default function FormDialog() {
       <Icon>add</Icon>Create
       </Button>
 
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" fullWidth={true} maxWidth="xs">
+        <DialogTitle id="form-dialog-title">Maintenance</DialogTitle>
         <DialogContent>
-          <DialogContentText>
+          {/* <DialogContentText>
             To subscribe to this website, please enter your email address here. We will send updates
             occasionally.
-          </DialogContentText>
+          </DialogContentText> */}
             <SimpleForm handleClose={handleClose}></SimpleForm>
         </DialogContent>
         {/* <DialogActions>
