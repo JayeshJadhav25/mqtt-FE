@@ -12,7 +12,7 @@ import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import { Span } from "app/components/Typography";
 import SimpleForm from './SimpleForm';
 
-export default function FormDialog() {
+export default function FormDialog({fetchData}) {
   const [open, setOpen] = React.useState(false);
 
   function handleClickOpen() {
@@ -41,7 +41,7 @@ export default function FormDialog() {
             To subscribe to this website, please enter your email address here. We will send updates
             occasionally.
           </DialogContentText> */}
-            <SimpleForm handleClose={handleClose}></SimpleForm>
+            <SimpleForm handleClose={handleClose} fetchData={fetchData}></SimpleForm>
         </DialogContent>
         {/* <DialogActions>
           <Button variant="outlined" color="secondary" onClick={handleClose}>

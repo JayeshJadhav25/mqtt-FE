@@ -107,7 +107,6 @@ const Main = () => {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((dataList, index) => (
                   <TableRow key={index}>
-                    {/* <TableCell align="left">{subscriber.name}</TableCell> */}
                     {/* <TableCell align="center">{dataList.deviceId}</TableCell> */}
                     <TableCell align="center">{dataList.deviceName}</TableCell>
                     <TableCell align="center">{dataList.mqttIP}</TableCell>

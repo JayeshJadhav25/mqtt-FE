@@ -4,25 +4,39 @@ import {
     styled,
     MenuItem,
     Snackbar, 
-    Alert
+    Alert,
+    Box,
+    Icon
 } from "@mui/material";
 import { Span } from "app/components/Typography";
 import { useEffect, useState } from "react";
 import { TextValidator, ValidatorForm, SelectValidator } from "react-material-ui-form-validator";
 import axios from 'axios';
 import uuid from 'react-uuid';
-
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import React from 'react';
 const TextField = styled(TextValidator)(() => ({
     width: "100%",
     marginBottom: "16px",
 }));
 
-const SimpleForm = ({ handleClose,fetchData }) => {
-    const [state, setState] = useState({
-        // date: new Date(),
-        // dropdown: [], // Initialize as an array for multi-selection
-        // dropdownOptions: [] // State to hold dropdown options
-    });
+const EditForm = ({ fetchData, dataList }) => {
+
+    const [open, setOpen] = React.useState(false);
+
+    function handleClickOpen() {
+      setOpen(true);
+    }
+  
+    function handleClose() {
+      setOpen(false);
+    }
+
+    const [state, setState] = useState(dataList);
 
     const [alertOpen, setAlertOpen] = useState(false);
     const [alertMessage, setAlertMessage] = useState('');
@@ -37,11 +51,11 @@ const SimpleForm = ({ handleClose,fetchData }) => {
         try {
             const updatedFormData = {
                 ...state,
-                id: uuid(),
+                // id: uuid(),
                 mqttTopic: state.mqttTopic ? [state.mqttTopic] : [],
               };
-            const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/createMQTTDevice`, updatedFormData);
-            setAlertMessage('Device created successfully!');
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/updateMQTTDevice`, updatedFormData);
+            setAlertMessage('Device updated successfully!');
             setAlertSeverity('success');
             fetchData()
             setTimeout(() => {
@@ -76,7 +90,14 @@ const SimpleForm = ({ handleClose,fetchData }) => {
     } = state;
 
     return (
-        <div>
+        // <div>
+        <Box>
+            <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+            <Icon>edit</Icon>
+        </Button>
+        <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" fullWidth={true} maxWidth="xs">
+        <DialogTitle id="form-dialog-title">Create Device</DialogTitle>
+        <DialogContent>
             <ValidatorForm onSubmit={handleSubmit} onError={() => null}>
                 <Grid container spacing={6}>
                     <Grid item lg={12} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
@@ -198,11 +219,12 @@ const SimpleForm = ({ handleClose,fetchData }) => {
                     </Button>
                     <Button color="primary" variant="outlined" type="submit">
                         {/* <Icon>send</Icon> */}
-                        <Span sx={{ textTransform: "capitalize" }}>Submit</Span>
+                        <Span sx={{ textTransform: "capitalize" }}>Update</Span>
                     </Button>
                 </div>
             </ValidatorForm>
-
+        </DialogContent>
+        </Dialog>
             <Snackbar
                 open={alertOpen}
                 autoHideDuration={6000} // Adjust the duration as needed
@@ -213,8 +235,8 @@ const SimpleForm = ({ handleClose,fetchData }) => {
                 </Alert>
             </Snackbar>
 
-        </div>
+        </Box>
     );
 };
 
-export default SimpleForm;
+export default EditForm;
