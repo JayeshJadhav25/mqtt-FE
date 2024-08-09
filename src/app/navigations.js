@@ -2,6 +2,7 @@ export const navigations = [
   { name: 'Dashboard', path: '/dashboard/default', icon: 'dashboard' },
   { name: 'Users', path: '/users', icon: 'account_circle' },
   { name: 'Device', path: '/device', icon: 'cloud' },
+  { name: 'Devices', path: '/devices', icon: 'cloud' },
   { name: 'Device Config', path: '/deviceconfig', icon: 'device_hub' },
   { name: 'Log Types', path: '/logtypes', icon: 'note' },
   { name: 'Logger', path: '/logger', icon: 'note' },
