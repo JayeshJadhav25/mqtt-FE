@@ -13,6 +13,8 @@ import deviceRoutes from 'app/views/device/DeviceRoutes';
 import loggerRoutes from 'app/views/logger/LoggerRoutes';
 import maintenanceRoutes from 'app/views/maintenance/MaintenanceRoutes';
 import mainDeviceRoutes from 'app/views/devices/DeviceRoutes';
+import stateReportRoutes from 'app/views/state-report/StateRoute';
+import doorReportRoutes from './views/door-report/DoorReportRoute';
 
 const routes = [
   {
@@ -31,7 +33,9 @@ const routes = [
       ...deviceRoutes,
       ...loggerRoutes,
       ...maintenanceRoutes,
-      ...mainDeviceRoutes
+      ...mainDeviceRoutes,
+      ...stateReportRoutes,
+      ...doorReportRoutes
     ],
   },
   ...sessionRoutes,

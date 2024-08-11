@@ -27,10 +27,9 @@ let accessLevelNavigation = [
     name: 'Reports',
     icon: 'security',
     children: [
-      // { name: 'Door Report', iconText: 'SI', path: '/session/signin' },
-      // { name: 'State Report', iconText: 'SU', path: '/session/signup' },
       { name: 'Logger Report', iconText: 'FP', path: '/logger' },
-      // { name: 'Email Logs', iconText: '404', path: '/session/404' },
+      { name: 'Door Report', iconText: 'SU', path: '/report/door' },
+      { name: 'State Report', iconText: '404', path: '/report/state' },
     ],
   },
   // {
