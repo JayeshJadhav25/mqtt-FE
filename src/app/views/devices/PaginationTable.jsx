@@ -18,7 +18,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import EditIcon from '@mui/icons-material/Edit';
 import EditForm from './EditForm';
-
+import Tooltip from '@mui/material/Tooltip';
+import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import uuid from 'react-uuid';
 
   const StyledTable = styled(Table)(() => ({
@@ -126,6 +127,32 @@ import uuid from 'react-uuid';
             setAlertOpen(true); // Show the alert after API response
         }
     }
+
+    const handleRelayOff = async(id) => {
+        try {
+          const result = await axios.post(`${process.env.REACT_APP_API_URL}/api/relayTriggerOffMQTTDevice`, { id });
+          setAlertMessage('Device Relay Off successfully!');
+          setAlertSeverity('success');
+        } catch(error) {
+          setAlertMessage(error.response.data.msg || 'Something Went Wrong');
+          setAlertSeverity('error');
+        } finally{
+          setAlertOpen(true); // Show the alert after API response
+        }
+    }
+
+    const handleRelayOn = async(id) => {
+      try {
+        const result = await axios.post(`${process.env.REACT_APP_API_URL}/api/relayTriggerOnMQTTDevice`, { id });
+        setAlertMessage('Device Relay On successfully!');
+        setAlertSeverity('success');
+      } catch(error) {
+        setAlertMessage(error.response.data.msg || 'Something Went Wrong');
+        setAlertSeverity('error');
+      } finally{
+        setAlertOpen(true); // Show the alert after API response
+      }
+  }
     // useEffect(() => {
     //     fetchData();
     //   }, []);
@@ -140,7 +167,7 @@ import uuid from 'react-uuid';
                 <TableCell align="center">Username</TableCell>
                 {/* <TableCell align="center">Password</TableCell> */}
                 <TableCell align="center">Topic</TableCell>
-                <TableCell align="center">URL</TableCell>
+                {/* <TableCell align="center">URL</TableCell> */}
                 <TableCell align="center">MACID</TableCell>
                 <TableCell align="center">Status</TableCell>
                 <TableCell align="center">PORT</TableCell>
@@ -156,18 +183,36 @@ import uuid from 'react-uuid';
                     <TableCell align="center">{dataList.mqttIP}</TableCell>
                     <TableCell align="center">{dataList.mqttUserName}</TableCell>
                     <TableCell align="center">{dataList.mqttTopic}</TableCell>
-                    <TableCell align="center">{dataList.mqttUrl}</TableCell>
+                    {/* <TableCell align="center">{dataList.mqttUrl}</TableCell> */}
                     <TableCell align="center">{dataList.mqttMacId}</TableCell>
                     <TableCell align="center">{dataList.status}</TableCell>
                     <TableCell align="center">{dataList.mqttPort}</TableCell>
                     <TableCell align="right">
-                        <IconButton onClick={() => handleDelete(dataList.id)} color="error">
-                            <DeleteIcon />
-                        </IconButton>
-                        
-                        <IconButton onClick={() => handleOpenDialog(dataList.id)} color="primary">
-                            <AssignmentIcon />
-                        </IconButton>
+                      
+                        <Tooltip title='Delete User'>
+
+                          <IconButton onClick={() => handleDelete(dataList.id)} color="error">
+                              <DeleteIcon />
+                          </IconButton>
+                        </Tooltip>
+
+                        <Tooltip title='Assign User'>
+                          <IconButton onClick={() => handleOpenDialog(dataList.id)} color="primary">
+                              <AssignmentIcon />
+                          </IconButton>
+                        </Tooltip>
+
+                        <Tooltip title='Relay On'>
+                          <IconButton color="success" onClick={() => handleRelayOn(dataList.id)}>
+                            <PowerSettingsNewIcon />
+                          </IconButton>
+                        </Tooltip>
+
+                        <Tooltip title='Relay Off'>
+                          <IconButton onClick={() => handleRelayOff(dataList.id)} color="error">
+                            <PowerSettingsNewIcon />
+                          </IconButton>
+                        </Tooltip>
 
                         <IconButton color="primary" >
                              <EditForm fetchData={fetchData} dataList={dataList} />

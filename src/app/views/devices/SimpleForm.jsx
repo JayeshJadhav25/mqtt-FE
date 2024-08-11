@@ -69,7 +69,7 @@ const SimpleForm = ({ handleClose,fetchData }) => {
         mqttUserName,
         mqttPassword,
         mqttTopic,
-        mqttUrl,
+        // mqttUrl,
         mqttMacId,
         mqttPort,
         status,
@@ -144,7 +144,7 @@ const SimpleForm = ({ handleClose,fetchData }) => {
                         />
 
                         
-                        <TextField
+                        {/* <TextField
                             type="text"
                             name="mqttUrl"
                             label="MQTT Url *"
@@ -152,7 +152,7 @@ const SimpleForm = ({ handleClose,fetchData }) => {
                             value={mqttUrl || ""}
                             validators={["required"]}
                             errorMessages={["this field is required"]}
-                        />
+                        /> */}
 
                         <TextField
                             type="text"

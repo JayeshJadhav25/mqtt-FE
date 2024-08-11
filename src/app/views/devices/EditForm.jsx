@@ -83,7 +83,7 @@ const EditForm = ({ fetchData, dataList }) => {
         mqttUserName,
         mqttPassword,
         mqttTopic,
-        mqttUrl,
+        // mqttUrl, 
         mqttMacId,
         mqttPort,
         status,
@@ -165,7 +165,7 @@ const EditForm = ({ fetchData, dataList }) => {
                         />
 
                         
-                        <TextField
+                        {/* <TextField
                             type="text"
                             name="mqttUrl"
                             label="MQTT Url *"
@@ -173,7 +173,7 @@ const EditForm = ({ fetchData, dataList }) => {
                             value={mqttUrl || ""}
                             validators={["required"]}
                             errorMessages={["this field is required"]}
-                        />
+                        /> */}
 
                         <TextField
                             type="text"
