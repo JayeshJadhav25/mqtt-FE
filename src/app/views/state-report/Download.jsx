@@ -1,5 +1,5 @@
 
-import { Box, Icon, Autocomplete, styled } from '@mui/material';
+import { Box, Icon } from '@mui/material';
 import Button from '@mui/material/Button';
 import axios from 'axios';
 
@@ -7,7 +7,7 @@ export default function Download() {
 
     async function handleDownload() {
         try {
-            const result = await axios.post(`${process.env.REACT_APP_API_URL}/api/downloadLogger`);
+            const result = await axios.post(`${process.env.REACT_APP_API_URL}/api/downloadStateLogger`);
             // getData();
             if(result && result.data && result.data.download) {
                 let fileUrl = result.data.download;

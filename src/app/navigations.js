@@ -10,7 +10,7 @@ let accessLevelNavigation = [
     icon: 'cloud',
     children: [
       { name: 'Devices', iconText: 'FP', path: '/devices' },
-      { name: 'Device Config', iconText: 'FP', path: '/deviceconfig' },
+      { name: 'Config', iconText: 'FP', path: '/config' },
       { name: 'Maintenance', iconText: 'FP', path: '/maintenance' },
 
     ],

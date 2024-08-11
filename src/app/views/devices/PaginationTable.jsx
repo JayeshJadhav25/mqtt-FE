@@ -1,6 +1,5 @@
 import {
     Box,
-    Icon,
     IconButton,
     styled,
     Table,
@@ -16,7 +15,6 @@ import { useState, useEffect } from "react";
 import axios from 'axios';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AssignmentIcon from '@mui/icons-material/Assignment';
-import EditIcon from '@mui/icons-material/Edit';
 import EditForm from './EditForm';
 import Tooltip from '@mui/material/Tooltip';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';

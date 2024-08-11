@@ -58,7 +58,7 @@ const Main = () => {
 
     const handleFilter = async () => {
         try {
-            const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/getDeviceLogger`, {
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/getStateLogger`, {
                 device_id: deviceId,
                 device_name: deviceName,
                 log_type: logType,
@@ -82,7 +82,7 @@ const Main = () => {
 
     const fetchData = async () => {
         try {
-          const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/getDeviceLogger`);
+          const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/getStateLogger`);
           setData(response.data.status);
         } catch (error) {
           console.error('Error fetching data:', error);

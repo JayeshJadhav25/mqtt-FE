@@ -2,14 +2,9 @@
 import { Box,Icon } from '@mui/material';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import TextField from '@mui/material/TextField';
 import React from 'react';
-import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
-import { Span } from "app/components/Typography";
 import SimpleForm from './SimpleForm';
 
 export default function FormDialog({fetchData}) {
