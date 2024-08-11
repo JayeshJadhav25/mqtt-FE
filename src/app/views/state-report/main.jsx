@@ -1,8 +1,6 @@
 
 import {
     Box,
-    Icon,
-    IconButton,
     styled,
     Table,
     TableBody,

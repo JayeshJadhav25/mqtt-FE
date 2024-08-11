@@ -4,15 +4,7 @@
 let accessLevelNavigation = [
   { name: 'Dashboard', path: '/dashboard/default', icon: 'dashboard' },
   { name: 'Users', path: '/users', icon: 'account_circle' },
-  // { name: 'Device', path: '/device', icon: 'cloud' },
-  // { name: 'Devices', path: '/devices', icon: 'cloud' },
-  // { name: 'Device Config', path: '/deviceconfig', icon: 'device_hub' },
   { name: 'Log Types', path: '/logtypes', icon: 'note' },
-  // { name: 'Logger', path: '/logger', icon: 'note' },
-  // { name: 'Maintenance', path: '/maintenance',  icon: 'note' },
-
-  // { name: 'Logger', path: '/logger', icon: 'note' },
-  // { label: 'PAGES', type: 'label' },
   {
     name: 'Devices',
     icon: 'cloud',
@@ -32,17 +24,7 @@ let accessLevelNavigation = [
       { name: 'State Report', iconText: '404', path: '/report/state' },
     ],
   },
-  // {
-  //   name: 'Session/Auth',
-  //   icon: 'security',
-  //   children: [
-  //     { name: 'Sign in', iconText: 'SI', path: '/session/signin' },
-  //     { name: 'Sign up', iconText: 'SU', path: '/session/signup' },
-  //     { name: 'Forgot Password', iconText: 'FP', path: '/session/forgot-password' },
-  //     { name: 'Error', iconText: '404', path: '/session/404' },
-  //   ],
-  // },
-  // { label: 'Components', type: 'label' },
+  { name: 'Audit Log', path: '/auditlog', icon: 'history' },
   {
     name: 'Components',
     icon: 'favorite',
