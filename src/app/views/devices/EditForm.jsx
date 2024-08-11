@@ -215,11 +215,11 @@ const EditForm = ({ fetchData, dataList }) => {
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <Button color="secondary" variant="outlined" sx={{ mr: 2 }} onClick={handleClose}>
                         {/* <Icon>send</Icon> */}
-                        <Span sx={{ textTransform: "capitalize" }}>Cancel</Span>
+                        <Span sx={{ textTransform: 'none' }}>Cancel</Span>
                     </Button>
                     <Button color="primary" variant="outlined" type="submit">
                         {/* <Icon>send</Icon> */}
-                        <Span sx={{ textTransform: "capitalize" }}>Update</Span>
+                        <Span sx={{ textTransform: 'none' }}>Update</Span>
                     </Button>
                 </div>
             </ValidatorForm>

@@ -28,7 +28,7 @@ const CardHeader = styled(Box)(() => ({
 const Title = styled('span')(() => ({
   fontSize: '1rem',
   fontWeight: '500',
-  textTransform: 'capitalize',
+  textTransform: 'none',
 }));
 
 const ProductTable = styled(Table)(() => ({
@@ -93,14 +93,14 @@ const TopSellingTable = () => {
           <TableBody>
             {productList.map((product, index) => (
               <TableRow key={index} hover>
-                <TableCell colSpan={4} align="left" sx={{ px: 0, textTransform: 'capitalize' }}>
+                <TableCell colSpan={4} align="left" sx={{ px: 0, textTransform: 'none' }}>
                   <Box display="flex" alignItems="center">
                     <Avatar src={product.imgUrl} />
                     <Paragraph sx={{ m: 0, ml: 4 }}>{product.name}</Paragraph>
                   </Box>
                 </TableCell>
 
-                <TableCell align="left" colSpan={2} sx={{ px: 0, textTransform: 'capitalize' }}>
+                <TableCell align="left" colSpan={2} sx={{ px: 0, textTransform: 'none' }}>
                   ${product.price > 999 ? (product.price / 1000).toFixed(1) + 'k' : product.price}
                 </TableCell>
 

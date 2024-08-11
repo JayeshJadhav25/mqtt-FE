@@ -9,6 +9,9 @@ import {
     TableHead,
     TablePagination,
     TableRow,
+    TextField,
+    Divider,
+    Button
   } from '@mui/material';
   
   import { useState, useEffect } from 'react';
@@ -24,7 +27,7 @@ import {
       '& tr': { '& th': { paddingLeft: 0, paddingRight: 0 } },
     },
     '& tbody': {
-      '& tr': { '& td': { paddingLeft: 0, textTransform: 'capitalize' } },
+      '& tr': { '& td': { paddingLeft: 0, textTransform: 'none' } },
     },
   }));
   
@@ -40,9 +43,12 @@ import {
   const Main = () => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    const [data, setData] = useState({
-      list: [],
-    });
+    const [data, setData] = useState([]);
+
+    const [deviceId, setDeviceId] = useState('');
+    const [deviceName, setDeviceName] = useState('');
+    const [macId, setMacId] = useState('');
+    const [logType, setLogType] = useState('');
   
     const handleChangePage = (_, newPage) => {
       setPage(newPage);
@@ -55,15 +61,40 @@ import {
   
     const getData = async () => {
       axios
-        .post('http://127.0.0.1:4330/api/getDeviceLogger')
+        .post(`${process.env.REACT_APP_API_URL}/api/getDeviceLogger`)
         .then((res) => {
           console.log('response= device>', res.data.status);
-          setData({ list: res.data.status });
+          setData(res.data.status);
         })
         .catch((error) => {
           console.log(error);
         });
     };
+
+
+    const handleFilter = async () => {
+      try {
+          const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/getDeviceLogger`, {
+              device_id: deviceId,
+              device_name: deviceName,
+              log_type: logType,
+              mac_id: macId
+          });
+          setData(response.data.status);
+          // Handle the API response here
+          console.log('Filter results:', response.data);
+        } catch (error) {
+          // Handle error here
+          console.error('Error filtering data:', error);
+        }
+  }
+
+  const handleClear = () => {
+      setDeviceId(''); // Clear the value of the TextField
+      setDeviceName('');
+      setLogType('');
+      setMacId('')
+  };
   
     useEffect(() => {
       getData();
@@ -79,8 +110,66 @@ import {
           {/* <CreateForm getData={getData} /> */}
           {/* <Breadcrumb routeSegments={[{ name: "Material", path: "/material" }, { name: "Table" }]} /> */}
         </Box>
-        <SimpleCard title="State Report">
+        <SimpleCard title="Logger Report">
           <Box width="100%" overflow="auto">
+
+          <Box display="flex" justifyContent="space-between" mb={2} mt={1} alignItems="center">
+            <TextField
+              label="Device ID"
+              value={deviceId}
+              onChange={(e) => setDeviceId(e.target.value)}
+              variant="outlined"
+              size="small" // Smaller input size
+              sx={{ marginRight: 2 }} // Add space between inputs
+            />
+            <TextField
+              label="Device Name"
+              value={deviceName}
+              onChange={(e) => setDeviceName(e.target.value)}
+              variant="outlined"
+              size="small" // Smaller input size
+              sx={{ marginRight: 2 }} // Add space between inputs
+            />
+
+            <TextField
+              label="Mac Id"
+              value={macId}
+              onChange={(e) => setMacId(e.target.value)}
+              variant="outlined"
+              size="small" // Smaller input size
+              sx={{ marginRight: 2 }} // Add space between inputs
+            />
+
+            <TextField
+              label="Log Type"
+              value={logType}
+              onChange={(e) => setLogType(e.target.value)}
+              variant="outlined"
+              size="small" // Smaller input size
+              sx={{ marginRight: 2 }} // Add space between inputs
+            />
+
+            <Box display="flex" gap={1}>
+                <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={handleClear} // Clear the TextField value
+                >
+                    Clear
+                </Button>
+                
+                <Button
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    onClick={handleFilter}
+                >
+                    Filter
+                </Button>
+            </Box>
+          </Box>
+
+          <Divider sx={{ marginBottom: 2 }} />
             <StyledTable>
               <TableHead>
                 <TableRow>
@@ -94,7 +183,7 @@ import {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {data.list
+                {data
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((dataList, index) => (
                     <TableRow key={index}>
@@ -115,7 +204,7 @@ import {
               page={page}
               component="div"
               rowsPerPage={rowsPerPage}
-              count={data.list.length}
+              count={data.length}
               onPageChange={handleChangePage}
               rowsPerPageOptions={[5, 10, 25]}
               onRowsPerPageChange={handleChangeRowsPerPage}

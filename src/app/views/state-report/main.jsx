@@ -10,6 +10,9 @@ import {
     TableHead,
     TablePagination,
     TableRow,
+    TextField,
+    Button,
+    Divider
   } from '@mui/material';
 
 import { useState, useEffect } from 'react';
@@ -23,7 +26,7 @@ const StyledTable = styled(Table)(() => ({
       '& tr': { '& th': { paddingLeft: 0, paddingRight: 0 } },
     },
     '& tbody': {
-      '& tr': { '& td': { paddingLeft: 0, textTransform: 'capitalize' } },
+      '& tr': { '& td': { paddingLeft: 0, textTransform: 'none' } },
     },
   }));
 const Container = styled('div')(({ theme }) => ({
@@ -40,7 +43,12 @@ const Main = () => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [data, setData] = useState([]);
-  
+    const [deviceId, setDeviceId] = useState('');
+    const [deviceName, setDeviceName] = useState('');
+    const [macId, setMacId] = useState('');
+    const [logType, setLogType] = useState('');
+
+
     const handleChangePage = (_, newPage) => {
       setPage(newPage);
     };
@@ -48,6 +56,30 @@ const Main = () => {
     const handleChangeRowsPerPage = (event) => {
       setRowsPerPage(+event.target.value);
       setPage(0);
+    };
+
+    const handleFilter = async () => {
+        try {
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/getDeviceLogger`, {
+                device_id: deviceId,
+                device_name: deviceName,
+                log_type: logType,
+                mac_id: macId
+            });
+            setData(response.data.status);
+            // Handle the API response here
+            console.log('Filter results:', response.data);
+          } catch (error) {
+            // Handle error here
+            console.error('Error filtering data:', error);
+          }
+    }
+
+    const handleClear = () => {
+        setDeviceId(''); // Clear the value of the TextField
+        setDeviceName('');
+        setLogType('');
+        setMacId('')
     };
 
     const fetchData = async () => {
@@ -72,6 +104,65 @@ const Main = () => {
 
             <SimpleCard title="Logger Report">
             <Box width="100%" overflow="auto">
+
+            <Box display="flex" justifyContent="space-between" mb={2} mt={1} alignItems="center">
+            <TextField
+              label="Device ID"
+              value={deviceId}
+              onChange={(e) => setDeviceId(e.target.value)}
+              variant="outlined"
+              size="small" // Smaller input size
+              sx={{ marginRight: 2 }} // Add space between inputs
+            />
+            <TextField
+              label="Device Name"
+              value={deviceName}
+              onChange={(e) => setDeviceName(e.target.value)}
+              variant="outlined"
+              size="small" // Smaller input size
+              sx={{ marginRight: 2 }} // Add space between inputs
+            />
+
+            <TextField
+              label="Mac Id"
+              value={macId}
+              onChange={(e) => setMacId(e.target.value)}
+              variant="outlined"
+              size="small" // Smaller input size
+              sx={{ marginRight: 2 }} // Add space between inputs
+            />
+
+            <TextField
+              label="Log Type"
+              value={logType}
+              onChange={(e) => setLogType(e.target.value)}
+              variant="outlined"
+              size="small" // Smaller input size
+              sx={{ marginRight: 2 }} // Add space between inputs
+            />
+
+            <Box display="flex" gap={1}>
+                <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={handleClear} // Clear the TextField value
+                >
+                    Clear
+                </Button>
+                
+                <Button
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    onClick={handleFilter}
+                >
+                    Filter
+                </Button>
+            </Box>
+          </Box>
+
+          <Divider sx={{ marginBottom: 2 }} />
+
                 <StyledTable>
                 <TableHead>
                     <TableRow>

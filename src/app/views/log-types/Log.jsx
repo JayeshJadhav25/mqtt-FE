@@ -22,7 +22,7 @@ const StyledTable = styled(Table)(() => ({
     '& tr': { '& th': { paddingLeft: 0, paddingRight: 0 } },
   },
   '& tbody': {
-    '& tr': { '& td': { paddingLeft: 0, textTransform: 'capitalize' } },
+    '& tr': { '& td': { paddingLeft: 0, textTransform: 'none' } },
   },
 }));
 

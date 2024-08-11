@@ -11,7 +11,7 @@ const DialogBox = styled('div')(() => ({
 const Title = styled('h4')(() => ({
   margin: 0,
   marginBottom: '8px',
-  textTransform: 'capitalize',
+  textTransform: 'none',
 }));
 
 const Controller = styled('div')(() => ({

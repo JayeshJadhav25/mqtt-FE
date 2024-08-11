@@ -9,7 +9,7 @@ const CardRoot = styled(Card)(() => ({
 const CardTitle = styled('div')(({ subtitle }) => ({
   fontSize: '1rem',
   fontWeight: '500',
-  textTransform: 'capitalize',
+  textTransform: 'none',
   marginBottom: !subtitle && '16px',
 }));
 

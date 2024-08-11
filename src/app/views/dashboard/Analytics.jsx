@@ -17,7 +17,7 @@ const Title = styled('span')(() => ({
   fontSize: '1rem',
   fontWeight: '500',
   marginRight: '.5rem',
-  textTransform: 'capitalize',
+  textTransform: 'none',
 }));
 
 const SubTitle = styled('span')(({ theme }) => ({
@@ -29,7 +29,7 @@ const H4 = styled('h4')(({ theme }) => ({
   fontSize: '1rem',
   fontWeight: '500',
   marginBottom: '16px',
-  textTransform: 'capitalize',
+  textTransform: 'none',
   color: theme.palette.text.secondary,
 }));
 

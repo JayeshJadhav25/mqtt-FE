@@ -194,11 +194,11 @@ const SimpleForm = ({ handleClose,fetchData }) => {
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <Button color="secondary" variant="outlined" sx={{ mr: 2 }} onClick={handleClose}>
                         {/* <Icon>send</Icon> */}
-                        <Span sx={{ textTransform: "capitalize" }}>Cancel</Span>
+                        <Span sx={{ textTransform: 'none' }}>Cancel</Span>
                     </Button>
                     <Button color="primary" variant="outlined" type="submit">
                         {/* <Icon>send</Icon> */}
-                        <Span sx={{ textTransform: "capitalize" }}>Submit</Span>
+                        <Span sx={{ textTransform: 'none' }}>Submit</Span>
                     </Button>
                 </div>
             </ValidatorForm>
