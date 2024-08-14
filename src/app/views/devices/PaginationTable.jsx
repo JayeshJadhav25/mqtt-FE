@@ -50,8 +50,11 @@ import uuid from 'react-uuid';
     const [alertSeverity, setAlertSeverity] = useState('success'); 
 
     const getDevices = async () => {
+      //fetch only supervisor user
         axios
-          .post(`${process.env.REACT_APP_API_URL}/api/getUser`)
+          .post(`${process.env.REACT_APP_API_URL}/api/getUserAsRole`,{
+            "accesslevel":3
+          })
           .then((res) => {
             console.log('response=>', res.data.status);
             setUsers(res.data.status)
@@ -85,7 +88,7 @@ import uuid from 'react-uuid';
                 deviceId: selectedDeviceId || "",
                 userId: selectedUser ||  "",
             };
-            const result = await axios.post(`http://127.0.0.1:4330/api/assignMQTTDevice`, obj);  
+            const result = await axios.post(`${process.env.REACT_APP_API_URL}/api/assignMQTTDevice`, obj);  
             setAlertMessage('Device Assigned successfully!');
             setAlertSeverity('success');
         } catch(error) {
@@ -170,6 +173,7 @@ import uuid from 'react-uuid';
                 <TableCell align="center">Status</TableCell>
                 <TableCell align="center">PORT</TableCell>
                 <TableCell align="center">Action</TableCell>
+                <TableCell align="center">Relay ON/OFF</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -185,7 +189,7 @@ import uuid from 'react-uuid';
                     <TableCell align="center">{dataList.mqttMacId}</TableCell>
                     <TableCell align="center">{dataList.status}</TableCell>
                     <TableCell align="center">{dataList.mqttPort}</TableCell>
-                    <TableCell align="right">
+                    <TableCell align="left">
                       
                         <Tooltip title='Delete User'>
 
@@ -200,22 +204,26 @@ import uuid from 'react-uuid';
                           </IconButton>
                         </Tooltip>
 
-                        <Tooltip title='Relay On'>
-                          <IconButton color="success" onClick={() => handleRelayOn(dataList.id)}>
-                            <PowerSettingsNewIcon />
-                          </IconButton>
-                        </Tooltip>
-
-                        <Tooltip title='Relay Off'>
-                          <IconButton onClick={() => handleRelayOff(dataList.id)} color="error">
-                            <PowerSettingsNewIcon />
-                          </IconButton>
-                        </Tooltip>
-
                         <IconButton color="primary" >
                              <EditForm fetchData={fetchData} dataList={dataList} />
                         </IconButton>
                     </TableCell>
+
+                    <TableCell align="right">
+
+                      <Tooltip title='Relay On'>
+                          <IconButton color="success" onClick={() => handleRelayOn(dataList.id)}>
+                              <PowerSettingsNewIcon />
+                          </IconButton>
+                      </Tooltip>
+
+                      <Tooltip title='Relay Off'>
+                        <IconButton onClick={() => handleRelayOff(dataList.id)} color="error">
+                          <PowerSettingsNewIcon />
+                        </IconButton>
+                      </Tooltip>
+                    </TableCell>
+
                 </TableRow>
               ))}
           </TableBody>

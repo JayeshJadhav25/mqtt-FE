@@ -19,12 +19,14 @@ const isValidToken = (accessToken) => {
   return decodedToken.exp > currentTime;
 };
 
-const setSession = (accessToken) => {
+const setSession = (accessToken, accessLevel) => {
   if (accessToken) {
     localStorage.setItem('accessToken', accessToken);
+    localStorage.setItem('accessLevel', accessLevel);
     axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
   } else {
     localStorage.removeItem('accessToken');
+    localStorage.removeItem('accessLevel');
     delete axios.defaults.headers.common.Authorization;
   }
 };
@@ -76,7 +78,7 @@ const AuthContext = createContext({
   ...initialState,
   method: 'JWT',
   login: () => Promise.resolve(),
-  logout: () => {},
+  logout: () => { },
   register: () => Promise.resolve(),
 });
 
@@ -110,7 +112,7 @@ export const AuthProvider = ({ children }) => {
       password,
     });
     console.log('response.data', response.data);
-    const { token: accessToken } = response.data;
+    const { token: accessToken, userData } = response.data;
     let user = {
       id: 1,
       avatar: '/assets/images/face-6.jpg',
@@ -119,7 +121,7 @@ export const AuthProvider = ({ children }) => {
       role: 'SA',
     };
 
-    setSession(accessToken);
+    setSession(accessToken, userData.accesslevel);
 
     dispatch({
       type: 'LOGIN',
@@ -136,9 +138,9 @@ export const AuthProvider = ({ children }) => {
       password,
     });
 
-    const { accessToken, user } = response.data;
+    const { accessToken, user, userData } = response.data;
 
-    setSession(accessToken);
+    setSession(accessToken, userData.accesslevel);
 
     dispatch({
       type: 'REGISTER',
@@ -149,7 +151,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    setSession(null);
+    setSession(null, null);
     dispatch({ type: 'LOGOUT' });
   };
 
@@ -157,8 +159,9 @@ export const AuthProvider = ({ children }) => {
     (async () => {
       try {
         const accessToken = window.localStorage.getItem('accessToken');
+        const accessLevel = window.localStorage.getItem('accessLevel');
         if (accessToken) {
-          setSession(accessToken);
+          setSession(accessToken, accessLevel);
           //   const response = await axios.get('/api/auth/profile');
           //   const { user } = response.data;
           let user = {
