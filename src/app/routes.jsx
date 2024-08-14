@@ -9,7 +9,7 @@ import MatxLayout from './components/MatxLayout/MatxLayout';
 import userRoutes from 'app/views/users/UserRoutes';
 import logRoutes from 'app/views/log-types/LogRoutes';
 import deviceConfigRoutes from 'app/views/device-config/DeviceConfigRoutes';
-import deviceRoutes from 'app/views/device/DeviceRoutes';
+// import deviceRoutes from 'app/views/device/DeviceRoutes';
 import loggerRoutes from 'app/views/logger/LoggerRoutes';
 import maintenanceRoutes from 'app/views/maintenance/MaintenanceRoutes';
 import mainDeviceRoutes from 'app/views/devices/DeviceRoutes';
@@ -32,7 +32,7 @@ const routes = [
       ...userRoutes,
       ...logRoutes,
       ...deviceConfigRoutes,
-      ...deviceRoutes,
+      // ...deviceRoutes,
       ...loggerRoutes,
       ...maintenanceRoutes,
       ...mainDeviceRoutes,

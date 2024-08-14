@@ -16,9 +16,12 @@ import axios from 'axios';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import EditForm from './EditForm';
+import EditIcon from '@mui/icons-material/Edit'; // Import EditIcon
 import Tooltip from '@mui/material/Tooltip';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import uuid from 'react-uuid';
+
+const accessLevel = window.localStorage.getItem('accessLevel');
 
   const StyledTable = styled(Table)(() => ({
     whiteSpace: "pre",
@@ -172,8 +175,12 @@ import uuid from 'react-uuid';
                 <TableCell align="center">MACID</TableCell>
                 <TableCell align="center">Status</TableCell>
                 <TableCell align="center">PORT</TableCell>
-                <TableCell align="center">Action</TableCell>
-                <TableCell align="center">Relay ON/OFF</TableCell>
+                { (accessLevel == 1 || accessLevel == 2) && 
+                  <TableCell align="center">Action</TableCell>
+                }
+                { accessLevel == 1 && 
+                  <TableCell align="center">Relay ON/OFF</TableCell>
+                }
             </TableRow>
           </TableHead>
           <TableBody>
@@ -189,25 +196,28 @@ import uuid from 'react-uuid';
                     <TableCell align="center">{dataList.mqttMacId}</TableCell>
                     <TableCell align="center">{dataList.status}</TableCell>
                     <TableCell align="center">{dataList.mqttPort}</TableCell>
-                    <TableCell align="left">
-                      
-                        <Tooltip title='Delete User'>
+                    { (accessLevel == 1 || accessLevel == 2) && 
+                      <TableCell align="left">
+                          { accessLevel == 1 && 
+                              <Tooltip title='Delete User'>
+                                <IconButton onClick={() => handleDelete(dataList.id)} color="error">
+                                    <DeleteIcon />
+                                </IconButton>
+                              </Tooltip>
+                          }
+                          <Tooltip title='Assign User'>
+                            <IconButton onClick={() => handleOpenDialog(dataList.id)} color="primary">
+                                <AssignmentIcon />
+                            </IconButton>
+                          </Tooltip>
 
-                          <IconButton onClick={() => handleDelete(dataList.id)} color="error">
-                              <DeleteIcon />
+                          <IconButton color="primary" >
+                              {/* <EditIcon /> */}
+                                <EditForm fetchData={fetchData} dataList={dataList} />
                           </IconButton>
-                        </Tooltip>
-
-                        <Tooltip title='Assign User'>
-                          <IconButton onClick={() => handleOpenDialog(dataList.id)} color="primary">
-                              <AssignmentIcon />
-                          </IconButton>
-                        </Tooltip>
-
-                        <IconButton color="primary" >
-                             <EditForm fetchData={fetchData} dataList={dataList} />
-                        </IconButton>
-                    </TableCell>
+                      </TableCell>
+                    }
+                    { accessLevel == 1 && 
 
                     <TableCell align="right">
 
@@ -223,7 +233,7 @@ import uuid from 'react-uuid';
                         </IconButton>
                       </Tooltip>
                     </TableCell>
-
+                  }
                 </TableRow>
               ))}
           </TableBody>
