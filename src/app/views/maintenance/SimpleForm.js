@@ -1,6 +1,3 @@
-import { DatePicker } from "@mui/lab";
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import {
     Button,
     Checkbox,
@@ -76,15 +73,8 @@ const SimpleForm = ({ handleClose }) => {
     }, []);
 
     const {
-        username,
         firstName,
         creditCard,
-        mobile,
-        password,
-        confirmPassword,
-        gender,
-        date,
-        email,
         dropdown,
         dropdownOptions
     } = state;
@@ -94,16 +84,6 @@ const SimpleForm = ({ handleClose }) => {
             <ValidatorForm onSubmit={handleSubmit} onError={() => null}>
                 <Grid container spacing={6}>
                     <Grid item lg={12} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
-                        {/* <TextField
-                            type="text"
-                            name="username"
-                            id="standard-basic"
-                            value={username || ""}
-                            onChange={handleChange}
-                            errorMessages={["this field is required"]}
-                            label="Username (Min length 4, Max length 9)"
-                            validators={["required", "minStringLength: 4", "maxStringLength: 9"]}
-                        /> */}
                         <Box mb={2}> {/* Adds margin-bottom */}
 
                             <InputLabel id="dropdown-label">Device List</InputLabel>
@@ -142,21 +122,6 @@ const SimpleForm = ({ handleClose }) => {
                             errorMessages={["this field is required"]}
                         />
 
-                        {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
-                            <DatePicker
-                                value={date}
-                                onChange={handleDateChange}
-                                renderInput={(props) => (
-                                    <TextField
-                                        {...props}
-                                        label="Date picker"
-                                        id="mui-pickers-date"
-                                        sx={{ mb: 2, width: "100%" }}
-                                    />
-                                )}
-                            />
-                        </LocalizationProvider> */}
-
                         <TextField
                             sx={{ mb: 4 }}
                             type="number"
@@ -167,94 +132,8 @@ const SimpleForm = ({ handleClose }) => {
                             errorMessages={["this field is required"]}
                             validators={["required", "maxStringLength: 10"]}
                         />
-                        <Typography variant="subtitle1" gutterBottom>
-                            Maintenance Type
-                        </Typography>
-                        <RadioGroup
-                            row
-                            name="gender"
-                            sx={{ mb: 2 }}
-                            value={gender || ""}
-                            onChange={handleChange}
-                        >
-                            <FormControlLabel
-                                value="Door Panel"
-                                label="Door Panel"
-                                labelPlacement="end"
-                                control={<Radio color="secondary" />}
-                            />
-
-                            <FormControlLabel
-                                value="Door Unit"
-                                label="Door Unit"
-                                labelPlacement="end"
-                                control={<Radio color="secondary" />}
-                            />
-                        </RadioGroup>
                     </Grid>
 
-                    {/* <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
-                        <TextField
-                            type="text"
-                            name="mobile"
-                            value={mobile || ""}
-                            label="Mobile Nubmer"
-                            onChange={handleChange}
-                            validators={["required"]}
-                            errorMessages={["this field is required"]}
-                        />
-                        <TextField
-                            name="password"
-                            type="password"
-                            label="Password"
-                            value={password || ""}
-                            onChange={handleChange}
-                            validators={["required"]}
-                            errorMessages={["this field is required"]}
-                        />
-                        <TextField
-                            type="password"
-                            name="confirmPassword"
-                            onChange={handleChange}
-                            label="Confirm Password"
-                            value={confirmPassword || ""}
-                            validators={["required", "isPasswordMatch"]}
-                            errorMessages={["this field is required", "password didn't match"]}
-                        />
-                        <RadioGroup
-                            row
-                            name="gender"
-                            sx={{ mb: 2 }}
-                            value={gender || ""}
-                            onChange={handleChange}
-                        >
-                            <FormControlLabel
-                                value="Male"
-                                label="Male"
-                                labelPlacement="end"
-                                control={<Radio color="secondary" />}
-                            />
-
-                            <FormControlLabel
-                                value="Female"
-                                label="Female"
-                                labelPlacement="end"
-                                control={<Radio color="secondary" />}
-                            />
-
-                            <FormControlLabel
-                                value="Others"
-                                label="Others"
-                                labelPlacement="end"
-                                control={<Radio color="secondary" />}
-                            />
-                        </RadioGroup>
-
-                        <FormControlLabel
-                            control={<Checkbox />}
-                            label="I have read and agree to the terms of service."
-                        />
-                    </Grid> */}
                 </Grid>
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <Button color="secondary" variant="outlined" sx={{ mr: 2 }} onClick={handleClose}>
