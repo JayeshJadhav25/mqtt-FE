@@ -1,7 +1,6 @@
-import { Box, Card, Grid, Icon, IconButton, styled, Tooltip } from '@mui/material';
-import { Small } from 'app/components/Typography';
-import { useEffect, useState } from 'react'; 
-const axios = require('axios');
+import React, { useEffect, useState } from 'react';
+import { Box, Card, Grid, Icon, IconButton, styled, Tooltip, Typography,Divider } from '@mui/material';
+import axios from 'axios';
 
 const StyledCard = styled(Card)(({ theme }) => ({
   display: 'flex',
@@ -30,57 +29,82 @@ const Heading = styled('h6')(({ theme }) => ({
 }));
 
 const StatCards = () => {
-  const cardList = [
-    { name: 'New Leads', amount: 3050, icon: 'group' },
-    { name: 'This week Sales', amount: '$80,500', icon: 'attach_money' },
-    // { name: 'Inventory Status', amount: '8.5% Stock Surplus', icon: 'store' },
-    // { name: 'Orders to deliver', amount: '305 Orders', icon: 'shopping_cart' },
-  ];
   const [logCount, setLogCount] = useState(0);
+  const [deviceData, setDeviceData] = useState([]);
 
   useEffect(() => {
-      let data = JSON.stringify({});
-
-      let config = {
-        method: 'post',
-        url: 'http://127.0.0.1:4330/api/getDeviceLogCount',
-        headers: { 
-          'Content-Type': 'application/json'
-        },
-        data : data
-      };
-
-      axios.request(config)
-      .then((response) => {
-        setLogCount(response.data.totalSize)
-        // console.log(JSON.stringify(response.data));
+    // Fetch log count
+    axios.post(`${process.env.REACT_APP_API_URL}/api/getDeviceLogCount`)
+      .then(response => {
+        setLogCount(response.data.totalSize);
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(error => {
+        console.error('Error fetching log count:', error);
       });
-  },[])
+
+    // Fetch device data
+    axios.post(`${process.env.REACT_APP_API_URL}/api/getDeviceData`)
+      .then(response => {
+        if(response && response.data && response.data.status) {
+          setDeviceData(response.data.status);
+
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching device data:', error);
+      });
+  }, []);
 
   return (
     <Grid container spacing={3} sx={{ mb: '24px' }}>
-      {/* {cardList.map((item, index) => ( */}
-        <Grid item xs={12} md={6} >
+            <Grid item xs={12} md={6}>
+        <StyledCard elevation={6}>
+          <ContentBox>
+            <Icon className="icon">group</Icon>
+            <Box ml="12px">
+              <Typography variant="body2" color="textSecondary">Log Count</Typography>
+              <Heading>{logCount}</Heading>
+            </Box>
+          </ContentBox>
+
+          {/* <Tooltip title="View Details" placement="top">
+            <IconButton>
+              <Icon>arrow_right_alt</Icon>
+            </IconButton>
+          </Tooltip> */}
+        </StyledCard>
+      </Grid>
+      <Grid item xs={12}>
+        <Divider />
+      </Grid>
+      
+      {deviceData.map((data, index) => (
+        <Grid item xs={12} md={6} key={index}>
           <StyledCard elevation={6}>
             <ContentBox>
-              <Icon className="icon">group</Icon>
+              <Icon className="icon">{data.logType === 'POWER' ? 'power' : 'wifi'}</Icon>
               <Box ml="12px">
-                <Small>Log Count</Small>
-                <Heading>{logCount}</Heading>
+                <Typography variant="body2" color="textSecondary">Log Type</Typography>
+                <Heading>{data.logType}</Heading>
+              </Box>
+              <Box ml="12px">
+                <Typography variant="body2" color="textSecondary">Count</Typography>
+                <Heading>{data.count}</Heading>
+              </Box>
+              <Box ml="12px">
+                <Typography variant="body2" color="textSecondary">Date</Typography>
+                <Heading>{data.date}</Heading>
               </Box>
             </ContentBox>
 
-            <Tooltip title="View Details" placement="top">
-              {/* <IconButton>
+            {/* <Tooltip title="View Details" placement="top">
+              <IconButton>
                 <Icon>arrow_right_alt</Icon>
-              </IconButton> */}
-            </Tooltip>
+              </IconButton>
+            </Tooltip> */}
           </StyledCard>
         </Grid>
-      {/* ))} */}
+      ))}
     </Grid>
   );
 };
