@@ -17,6 +17,7 @@ import {
 import { useState, useEffect } from "react";
 import axios from 'axios';
 import EditForm from './EditForm';
+const accessLevel = window.localStorage.getItem('accessLevel');
 
 const StyledTable = styled(Table)(() => ({
   whiteSpace: "pre",
@@ -120,19 +121,26 @@ const PaginationTable = () => {
                 <TableCell align="center">{request.endTime}</TableCell>
                 <TableCell align="center">{request.status}</TableCell>
                 <TableCell align="center">
-                  <Tooltip title='Reject'>
-                    <IconButton onClick={() => handleApproveReject(request.id,false)}>
-                      <Icon fontSize="small" color="error">close</Icon>
-                    </IconButton>
-                  </Tooltip>
-                  <Tooltip title='Approve'>
-                    <IconButton onClick={() => handleApproveReject(request.id,true)}>
-                      <Icon fontSize="small">check</Icon>
-                    </IconButton>
-                  </Tooltip>
-
+                {(accessLevel == 1 || accessLevel == 2) && (
+                      <>
+                        <Tooltip title='Reject'>
+                          <IconButton onClick={() => handleApproveReject(request.id, false)}>
+                            <Icon fontSize="small" color="error">close</Icon>
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title='Approve'>
+                          <IconButton onClick={() => handleApproveReject(request.id, true)}>
+                            <Icon fontSize="small">check</Icon>
+                          </IconButton>
+                        </Tooltip>
+                      </>
+                  )}
                   <Tooltip title='Edit'>
-                    <IconButton onClick={() => handleEditClick(request)}>
+                    <IconButton 
+                        onClick={() => handleEditClick(request)}
+                        disabled={!request.isEditable} // Disable button if not editable
+                        color={request.isEditable ? "primary" : "default"}
+                    >
                       <Icon fontSize="small">edit</Icon>
                     </IconButton>
                   </Tooltip>

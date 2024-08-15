@@ -56,7 +56,7 @@ const EditForm = ({ data, onClose, fetchData }) => {
       />
       {/* Other form fields as needed */}
       <Button type="submit" color="primary" variant="contained">
-        Save
+        Update
       </Button>
       <Button color="secondary" onClick={onClose}>
         Cancel
