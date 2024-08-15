@@ -1,5 +1,6 @@
 import CreateForm from './CreateForm';
 import SimpleForm from './SimpleForm';
+import Download from './Download';
 import PaginationTable from './PaginationTable';
 import {
     Box,
@@ -36,6 +37,9 @@ const Main = () => {
 
         {/* <Breadcrumb routeSegments={[{ name: "Material", path: "/material" }, { name: "Table" }]} /> */}
         </Box>
+        <Box className="breadcrumb">
+                <Download/>
+            </Box>
         <Box className="breadcrumb">
           {/* <CreateForm getData={getData} /> */}
           {/* <Breadcrumb routeSegments={[{ name: "Material", path: "/material" }, { name: "Table" }]} /> */}

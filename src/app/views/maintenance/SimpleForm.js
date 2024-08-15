@@ -1,13 +1,6 @@
 import {
     Button,
-    Checkbox,
-    FormControlLabel,
     Grid,
-    Icon,
-    Radio,
-    RadioGroup,
-    styled,
-    Typography,
     MenuItem,
     InputLabel,
     Box,
@@ -15,8 +8,10 @@ import {
 } from "@mui/material";
 import { Span } from "app/components/Typography";
 import { useEffect, useState } from "react";
-import { TextValidator, ValidatorForm, SelectValidator } from "react-material-ui-form-validator";
+import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import axios from 'axios';
+import { styled } from '@mui/material/styles';
+import uuid from 'react-uuid';
 
 const TextField = styled(TextValidator)(() => ({
     width: "100%",
@@ -27,50 +22,80 @@ const SimpleForm = ({ handleClose }) => {
     const [state, setState] = useState({
         date: new Date(),
         dropdown: [], // Initialize as an array for multi-selection
-        dropdownOptions: [] // State to hold dropdown options
+        dropdownOptions: [], // State to hold dropdown options
+        firstName: '',
+        creditCard: ''
     });
 
     useEffect(() => {
-        ValidatorForm.addValidationRule("isPasswordMatch", (value) => {
-            if (value !== state.password) return false;
+        // Fetch dropdown options from API
+        axios.post(`${process.env.REACT_APP_API_URL}/api/getMQTTDevice`)
+            .then(response => {
+                const options = response.data.status.map(item => ({
+                    id: item.id, // ID of the device
+                    value: item.deviceName, // Device name
+                    label: item.deviceName // Device name
+                }));
+                setState(prevState => ({
+                    ...prevState,
+                    dropdownOptions: options,
+                    dropdown: [options[0]?.id] // Set default value to the id of the first option, if available
+                }));
+            })
+            .catch(error => {
+                console.error("Error fetching dropdown options:", error);
+            });
 
-            return true;
-        });
-        return () => ValidatorForm.removeValidationRule("isPasswordMatch");
-    }, [state.password]);
-
-    const handleSubmit = (event) => {
-        // console.log("submitted");
-        // console.log(event);
-    };
-
-    const handleChange = (event) => {
-        // event.persist();
-        setState({ ...state, [event.target.name]: event.target.value });
-    };
-
-    const handleDateChange = (date) => setState({ ...state, date });
-
-    useEffect(() => {
-        // Custom validation rule for the dropdown
-
-        const options = [
-            { id: '1', value: 'option1', label: 'Option 1' },
-            { id: '2', value: 'option2', label: 'Option 2' },
-            { id: '3', value: 'option3', label: 'Option 3' }
-        ];
-
-        // Set the options and default value (first option)
-        setState(prevState => ({
-            ...prevState,
-            dropdownOptions: options,
-            dropdown: [options[0].value] // Set default value to the first option
-        })); ValidatorForm.addValidationRule("isDropdownSelected", (value) => {
+        ValidatorForm.addValidationRule("isDropdownSelected", (value) => {
             if (value.length === 0) return false; // Require at least one selection
             return true;
         });
+
         return () => ValidatorForm.removeValidationRule("isDropdownSelected");
     }, []);
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+
+        // Prepare the request body
+        const requestBody = {
+            id: uuid(),
+            devices: state.dropdown, // Use selected dropdown IDs
+            engineerName: state.firstName,
+            engineerContact: state.creditCard,
+            "startTime": "2024-07-06 16:25:00",
+            "endTime": "2024-07-08 16:25:00"
+        };
+
+        axios.post(`${process.env.REACT_APP_API_URL}/api/createMaintainenceRequest`, requestBody)
+            .then(response => {
+                console.log("Success:", response.data);
+                // Handle successful response
+                handleClose();
+            })
+            .catch(error => {
+                console.error("Error creating maintenance request:", error);
+                // Handle error response
+            });
+    };
+
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+
+        // Update state based on the input field name
+        setState(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
+
+    const handleDropdownChange = (event) => {
+        const value = event.target.value;
+        setState(prevState => ({
+            ...prevState,
+            dropdown: typeof value === 'string' ? value.split(',') : value
+        }));
+    };
 
     const {
         firstName,
@@ -93,33 +118,34 @@ const SimpleForm = ({ handleClose }) => {
                                 name="dropdown"
                                 multiple
                                 value={dropdown}
-                                onChange={handleChange}
-                                // validators={['required']}
-                                // errorMessages={['This field is required']}
+                                onChange={handleDropdownChange}
                                 renderValue={(selected) => (
                                     <div>
-                                        {selected.map((value) => (
-                                            <div key={value}>{value}</div>
-                                        ))}
+                                        {dropdownOptions
+                                            .filter(option => selected.includes(option.id))
+                                            .map((option) => (
+                                                <div key={option.id}>{option.label}</div>
+                                            ))}
                                     </div>
                                 )}
                                 fullWidth
                             >
                                 {dropdownOptions.map(option => (
-                                    <MenuItem key={option.id} value={option.value}>
+                                    <MenuItem key={option.id} value={option.id}>
                                         {option.label}
                                     </MenuItem>
                                 ))}
                             </Select>
                         </Box>
+
                         <TextField
                             type="text"
                             name="firstName"
                             label="Engineer Name"
                             onChange={handleChange}
-                            value={firstName || ""}
+                            value={firstName}
                             validators={["required"]}
-                            errorMessages={["this field is required"]}
+                            errorMessages={["This field is required"]}
                         />
 
                         <TextField
@@ -128,20 +154,17 @@ const SimpleForm = ({ handleClose }) => {
                             name="creditCard"
                             label="Engineer Number"
                             onChange={handleChange}
-                            value={creditCard || ""}
-                            errorMessages={["this field is required"]}
+                            value={creditCard}
+                            errorMessages={["This field is required"]}
                             validators={["required", "maxStringLength: 10"]}
                         />
                     </Grid>
-
                 </Grid>
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <Button color="secondary" variant="outlined" sx={{ mr: 2 }} onClick={handleClose}>
-                        {/* <Icon>send</Icon> */}
                         <Span sx={{ textTransform: 'none' }}>Cancel</Span>
                     </Button>
                     <Button color="primary" variant="outlined" type="submit">
-                        {/* <Icon>send</Icon> */}
                         <Span sx={{ textTransform: 'none' }}>Submit</Span>
                     </Button>
                 </div>
