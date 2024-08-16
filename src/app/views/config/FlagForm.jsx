@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Box, TextField, Button, Typography, Card, CardContent, CardHeader, Grid, MenuItem, Select, Snackbar, Alert} from '@mui/material';
+import { Box, TextField, Button, Typography, Card, CardContent, CardHeader, Grid, MenuItem, Select, Snackbar, Alert } from '@mui/material';
 import axios from 'axios';
 
 function SimpleForm() {
   const [formData, setFormData] = useState({});
   const [formFields, setFormFields] = useState([]);
   const [errors, setErrors] = useState({});
-
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [alertSeverity, setAlertSeverity] = useState('success'); // 'success' | 'error'
@@ -14,8 +13,21 @@ function SimpleForm() {
   const handleAlertClose = () => {
     setAlertOpen(false); // Close the alert
   };
+
   // Fields to be excluded
   const excludedFields = ['_id', 'created_time', 'modified_time'];
+
+  // Function to format datetime values to 'YYYY-MM-DD HH:MM:SS'
+  const formatDateTime = (value) => {
+    const date = new Date(value);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  };
 
   // Fetch data on page load
   useEffect(() => {
@@ -23,14 +35,14 @@ function SimpleForm() {
       .then(response => {
         if (response.data.success) {
           const data = response.data.status[0]; // Pick the first object from the status array
-          
+
           // Create form fields based on the keys of the data object, excluding specified fields
           const fields = Object.keys(data)
             .filter(key => !excludedFields.includes(key))
             .map(key => ({
               label: key,
-              value: data[key],
-              type: typeof data[key] === 'number' && Number.isInteger(data[key]) ? 'integer' : typeof data[key],
+              value: key === 'instanceExpiry' ? formatDateTime(data[key]) : data[key],
+              type: key.toLowerCase().includes('email') ? 'email' : (key === 'instanceExpiry' ? 'datetime-local' : typeof data[key]),
             }));
 
           setFormFields(fields);
@@ -83,21 +95,27 @@ function SimpleForm() {
       return;
     }
 
+    // Convert instanceExpiry back to the original format before submitting
+    const submissionData = { ...formData };
+    if (submissionData.instanceExpiry) {
+      submissionData.instanceExpiry = formatDateTime(submissionData.instanceExpiry);
+    }
+
     // Call API to update the values
-    axios.post(`${process.env.REACT_APP_API_URL}/api/updateFlag`, formData)
-    .then(response => {
-      console.log('Data updated successfully:', response.data);
-      setAlertMessage('Data Updated successfully!');
-      setAlertSeverity('success');
-    })
-    .catch(error => {
-      console.error('There was an error updating the data!', error);
-      setAlertMessage(error.response?.data?.msg || 'Something Went Wrong');
-      setAlertSeverity('error');
-    })
-    .finally(() => {
-      setAlertOpen(true); // Show the alert after API response
-    });
+    axios.post(`${process.env.REACT_APP_API_URL}/api/updateFlag`, submissionData)
+      .then(response => {
+        console.log('Data updated successfully:', response.data);
+        setAlertMessage('Data Updated successfully!');
+        setAlertSeverity('success');
+      })
+      .catch(error => {
+        console.error('There was an error updating the data!', error);
+        setAlertMessage(error.response?.data?.msg || 'Something Went Wrong');
+        setAlertSeverity('error');
+      })
+      .finally(() => {
+        setAlertOpen(true); // Show the alert after API response
+      });
   };
 
   return (
@@ -133,7 +151,7 @@ function SimpleForm() {
                     name={field.label}
                     value={formData[field.label] || ''}
                     onChange={handleChange}
-                    type={field.label.toLowerCase().includes('email') ? 'email' : field.type === 'integer' ? 'number' : 'text'}
+                    type={field.type === 'email' ? 'email' : field.type === 'integer' ? 'number' : field.type === 'datetime-local' ? 'datetime-local' : 'text'}
                     error={!!errors[field.label]}
                     helperText={errors[field.label]}
                   />
@@ -151,13 +169,13 @@ function SimpleForm() {
       </CardContent>
 
       <Snackbar
-                open={alertOpen}
-                autoHideDuration={6000} // Adjust the duration as needed
-                onClose={handleAlertClose}
-            >
-                <Alert onClose={handleAlertClose} severity={alertSeverity}>
-                    {alertMessage}
-                </Alert>
+        open={alertOpen}
+        autoHideDuration={6000} // Adjust the duration as needed
+        onClose={handleAlertClose}
+      >
+        <Alert onClose={handleAlertClose} severity={alertSeverity}>
+          {alertMessage}
+        </Alert>
       </Snackbar>
 
     </Card>
