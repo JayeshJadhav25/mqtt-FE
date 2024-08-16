@@ -93,7 +93,8 @@ import {
       setDeviceId(''); // Clear the value of the TextField
       setDeviceName('');
       setLogType('');
-      setMacId('')
+      setMacId('');
+      getData();
   };
   
     useEffect(() => {

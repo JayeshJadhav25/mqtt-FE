@@ -77,7 +77,9 @@ const Main = () => {
         setDeviceId(''); // Clear the value of the TextField
         setDeviceName('');
         setLogType('');
-        setMacId('')
+        setMacId('');
+        fetchData();
+
     };
 
     const fetchData = async () => {
