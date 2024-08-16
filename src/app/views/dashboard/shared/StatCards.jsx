@@ -80,20 +80,40 @@ const StatCards = () => {
       
       {deviceData.map((data, index) => (
         <Grid item xs={12} md={6} key={index}>
-          <StyledCard elevation={6}>
+          <StyledCard elevation={12}>
             <ContentBox>
-              <Icon className="icon">{data.logType === 'POWER' ? 'power' : 'wifi'}</Icon>
+              <Icon className="icon">{
+                  (data.logType && data.logType.toLowerCase() === 'power') ? 'power' : (data.logType && data.logType.toLowerCase() === 'wifi') ? 'wifi' : 'devices'
+              }
+                
+              </Icon>
               <Box ml="12px">
                 <Typography variant="body2" color="textSecondary">Log Type</Typography>
-                <Heading>{data.logType}</Heading>
+                <Heading>{data.logType || "N/A"}</Heading>
               </Box>
               <Box ml="12px">
                 <Typography variant="body2" color="textSecondary">Count</Typography>
-                <Heading>{data.count}</Heading>
+                <Heading>{data.count || "N/A"}</Heading>
               </Box>
               <Box ml="12px">
                 <Typography variant="body2" color="textSecondary">Date</Typography>
-                <Heading>{data.date}</Heading>
+                <Heading>{data.date || "N/A"}</Heading>
+              </Box>
+              <Box ml="12px">
+                <Typography variant="body2" color="textSecondary">Name</Typography>
+                <Heading>{data.device_name || "N/A"}</Heading>
+              </Box>
+              <Box ml="12px">
+                <Typography variant="body2" color="textSecondary">Desc</Typography>
+                <Heading>{data.log_desc || "N/A"}</Heading>
+              </Box>
+              <Box ml="12px">
+                <Typography variant="body2" color="textSecondary">Line</Typography>
+                <Heading>{data.log_line_count || "N/A"}</Heading>
+              </Box>
+              <Box ml="12px">
+                <Typography variant="body2" color="textSecondary">Battery</Typography>
+                <Heading>{data.battery_level || "N/A"}</Heading>
               </Box>
             </ContentBox>
 
