@@ -4,7 +4,9 @@ import {
     MenuItem,
     InputLabel,
     Box,
-    Select
+    Select,
+    Snackbar,
+    Alert
 } from "@mui/material";
 import { Span } from "app/components/Typography";
 import { useEffect, useState } from "react";
@@ -18,28 +20,40 @@ const TextField = styled(TextValidator)(() => ({
     marginBottom: "16px",
 }));
 
-const SimpleForm = ({ handleClose }) => {
+const SimpleForm = ({ handleClose, fetchData }) => {
     const [state, setState] = useState({
         date: new Date(),
-        dropdown: [], // Initialize as an array for multi-selection
-        dropdownOptions: [], // State to hold dropdown options
+        dropdown: [],
+        dropdownOptions: [],
         firstName: '',
-        creditCard: ''
+        creditCard: '',
+        startDate: '',
+        startTime: '',
+        endDate: '', // State for end date
+        endTime: '', // State for end time
     });
 
+    const [alertOpen, setAlertOpen] = useState(false);
+    const [alertMessage, setAlertMessage] = useState('');
+    const [alertSeverity, setAlertSeverity] = useState('success'); // 'success' | 'error'
+
+    const handleAlertClose = () => {
+        setAlertOpen(false); // Close the alert
+    };
+
+
     useEffect(() => {
-        // Fetch dropdown options from API
         axios.post(`${process.env.REACT_APP_API_URL}/api/getMQTTDevice`)
             .then(response => {
                 const options = response.data.status.map(item => ({
-                    id: item.id, // ID of the device
-                    value: item.deviceName, // Device name
-                    label: item.deviceName // Device name
+                    id: item.id,
+                    value: item.deviceName,
+                    label: item.deviceName
                 }));
                 setState(prevState => ({
                     ...prevState,
                     dropdownOptions: options,
-                    dropdown: [options[0]?.id] // Set default value to the id of the first option, if available
+                    dropdown: [options[0]?.id]
                 }));
             })
             .catch(error => {
@@ -47,7 +61,7 @@ const SimpleForm = ({ handleClose }) => {
             });
 
         ValidatorForm.addValidationRule("isDropdownSelected", (value) => {
-            if (value.length === 0) return false; // Require at least one selection
+            if (value.length === 0) return false;
             return true;
         });
 
@@ -57,32 +71,35 @@ const SimpleForm = ({ handleClose }) => {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        // Prepare the request body
         const requestBody = {
             id: uuid(),
-            devices: state.dropdown, // Use selected dropdown IDs
+            devices: state.dropdown,
             engineerName: state.firstName,
             engineerContact: state.creditCard,
-            "startTime": "2024-07-06 16:25:00",
-            "endTime": "2024-07-08 16:25:00"
+            startTime: `${state.startDate} ${state.startTime}`,
+            endTime: `${state.endDate} ${state.endTime}`
         };
 
         axios.post(`${process.env.REACT_APP_API_URL}/api/createMaintainenceRequest`, requestBody)
             .then(response => {
                 console.log("Success:", response.data);
-                // Handle successful response
+                setAlertMessage('Device created successfully!');
+                setAlertSeverity('success');
+                fetchData();
                 handleClose();
             })
             .catch(error => {
+                setAlertMessage(error.response.data.msg || 'Something Went Wrong');
+                setAlertSeverity('error');
                 console.error("Error creating maintenance request:", error);
-                // Handle error response
-            });
+            })
+            .finally(() => {
+                setAlertOpen(true); // Show the alert after API response
+            })
     };
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-
-        // Update state based on the input field name
         setState(prevState => ({
             ...prevState,
             [name]: value
@@ -101,7 +118,11 @@ const SimpleForm = ({ handleClose }) => {
         firstName,
         creditCard,
         dropdown,
-        dropdownOptions
+        dropdownOptions,
+        startDate,
+        startTime,
+        endDate,
+        endTime
     } = state;
 
     return (
@@ -109,8 +130,7 @@ const SimpleForm = ({ handleClose }) => {
             <ValidatorForm onSubmit={handleSubmit} onError={() => null}>
                 <Grid container spacing={6}>
                     <Grid item lg={12} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
-                        <Box mb={2}> {/* Adds margin-bottom */}
-
+                        <Box mb={2}>
                             <InputLabel id="dropdown-label">Device List</InputLabel>
 
                             <Select
@@ -158,6 +178,61 @@ const SimpleForm = ({ handleClose }) => {
                             errorMessages={["This field is required"]}
                             validators={["required", "maxStringLength: 10"]}
                         />
+
+                        <Grid container spacing={2}>
+                            {/* Start Date and Time */}
+                            <Grid item xs={6}>
+                                <InputLabel id="start-date-label">Start Date</InputLabel>
+                                <input
+                                    type="date"
+                                    id="start-date"
+                                    name="startDate"
+                                    value={startDate}
+                                    onChange={handleChange}
+                                    required
+                                    style={{ width: "100%", marginBottom: "16px", padding: "8px", boxSizing: "border-box" }}
+                                />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <InputLabel id="start-time-label">Start Time</InputLabel>
+                                <input
+                                    type="time"
+                                    id="start-time"
+                                    name="startTime"
+                                    value={startTime}
+                                    onChange={handleChange}
+                                    required
+                                    style={{ width: "100%", marginBottom: "16px", padding: "8px", boxSizing: "border-box" }}
+                                />
+                            </Grid>
+
+                            {/* End Date and Time */}
+                            <Grid item xs={6}>
+                                <InputLabel id="end-date-label">End Date</InputLabel>
+                                <input
+                                    type="date"
+                                    id="end-date"
+                                    name="endDate"
+                                    value={endDate}
+                                    onChange={handleChange}
+                                    required
+                                    style={{ width: "100%", marginBottom: "16px", padding: "8px", boxSizing: "border-box" }}
+                                />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <InputLabel id="end-time-label">End Time</InputLabel>
+                                <input
+                                    type="time"
+                                    id="end-time"
+                                    name="endTime"
+                                    value={endTime}
+                                    onChange={handleChange}
+                                    required
+                                    style={{ width: "100%", marginBottom: "16px", padding: "8px", boxSizing: "border-box" }}
+                                />
+                            </Grid>
+                        </Grid>
+
                     </Grid>
                 </Grid>
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -169,6 +244,16 @@ const SimpleForm = ({ handleClose }) => {
                     </Button>
                 </div>
             </ValidatorForm>
+
+            <Snackbar
+                open={alertOpen}
+                autoHideDuration={6000} // Adjust the duration as needed
+                onClose={handleAlertClose}
+            >
+                <Alert onClose={handleAlertClose} severity={alertSeverity}>
+                    {alertMessage}
+                </Alert>
+            </Snackbar>
         </div>
     );
 };

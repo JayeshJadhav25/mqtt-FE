@@ -29,10 +29,9 @@ const StyledTable = styled(Table)(() => ({
   },
 }));
 
-const PaginationTable = () => {
+const PaginationTable = ({maintenanceData, fetchData}) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [maintenanceData, setMaintenanceData] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
 
@@ -73,19 +72,6 @@ const PaginationTable = () => {
       setAlertOpen(true); // Show the alert after API response
   }
   };
-  
-  const fetchData = async () => {
-    try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/getMaintainenceRequest`);
-      setMaintenanceData(response.data.status);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   const handleEditClick = (data) => {
     setSelectedData(data);
