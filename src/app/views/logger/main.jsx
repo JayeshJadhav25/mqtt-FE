@@ -181,6 +181,7 @@ import {
                   <TableCell align="center">Log Line Count</TableCell>
                   <TableCell align="center">Battery Level</TableCell>
                   <TableCell align="center">Mac Id</TableCell>
+                  <TableCell align="center">Timestamp</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -195,6 +196,7 @@ import {
                       <TableCell align="center">{dataList.log_line_count}</TableCell>
                       <TableCell align="center">{dataList.battery_level}</TableCell>
                       <TableCell align="center">{dataList.mac_id}</TableCell>
+                      <TableCell align="center">{dataList.timestamp}</TableCell>
                     </TableRow>
                   ))}
               </TableBody>

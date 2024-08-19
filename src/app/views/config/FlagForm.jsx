@@ -120,7 +120,7 @@ function SimpleForm() {
 
   return (
     <Card sx={{ maxWidth: 700, margin: '0 auto' }}>
-      <CardHeader title="MQTT Flag" />
+      <CardHeader title="LogSense" />
       <CardContent>
         <Box component="form" onSubmit={handleSubmit}>
           {formFields.map((field, index) => (

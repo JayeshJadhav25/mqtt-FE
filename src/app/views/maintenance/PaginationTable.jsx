@@ -93,6 +93,7 @@ const PaginationTable = ({maintenanceData, fetchData}) => {
             <TableCell align="center">Start Time</TableCell>
             <TableCell align="center">End Time</TableCell>
             <TableCell align="center">Status</TableCell>
+            <TableCell align="center">Devices</TableCell>
             <TableCell align="center">Action</TableCell>
           </TableRow>
         </TableHead>
@@ -106,6 +107,7 @@ const PaginationTable = ({maintenanceData, fetchData}) => {
                 <TableCell align="center">{request.startTime}</TableCell>
                 <TableCell align="center">{request.endTime}</TableCell>
                 <TableCell align="center">{request.status}</TableCell>
+                <TableCell align="center">{request.devices}</TableCell>
                 <TableCell align="center">
                 {(accessLevel == 1 || accessLevel == 2) && (
                       <>

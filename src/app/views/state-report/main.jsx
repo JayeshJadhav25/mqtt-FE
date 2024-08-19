@@ -173,6 +173,8 @@ const Main = () => {
                     <TableCell align="center">Log Line Count</TableCell>
                     <TableCell align="center">Battery Level</TableCell>
                     <TableCell align="center">Mac Id</TableCell>
+                    <TableCell align="center">Timestamp</TableCell>
+                    <TableCell align="center">State</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -187,6 +189,8 @@ const Main = () => {
                         <TableCell align="center">{dataList.log_line_count}</TableCell>
                         <TableCell align="center">{dataList.battery_level}</TableCell>
                         <TableCell align="center">{dataList.mac_id}</TableCell>
+                        <TableCell align="center">{dataList.timestamp}</TableCell>
+                        <TableCell align="center">{dataList.state}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
