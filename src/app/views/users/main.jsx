@@ -1,0 +1,54 @@
+import CreateForm from './CreateForm';
+import { useState, useEffect } from "react";
+import axios from 'axios'
+import {
+    Box,
+    styled,
+  } from '@mui/material';
+
+import { Breadcrumb, SimpleCard } from 'app/components';
+import PaginationTable from './PaginationTable';
+
+const Container = styled('div')(({ theme }) => ({
+    margin: '30px',
+    [theme.breakpoints.down('sm')]: { margin: '16px' },
+    '& .breadcrumb': {
+      marginBottom: '30px',
+      [theme.breakpoints.down('sm')]: { marginBottom: '16px' },
+    },
+  }));
+
+
+
+
+const Main = () => {
+
+  const [data, setData] = useState([]);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/getUser`);
+      setData(response.data.status);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+    return (
+        <Container>
+        <Box className="breadcrumb">
+            <CreateForm fetchData={fetchData}/>
+        </Box>
+        <SimpleCard title="Users">
+            <PaginationTable data ={data} fetchData={fetchData} setData={setData}/>
+
+        </SimpleCard>
+        </Container>
+    )
+}
+
+export default Main;

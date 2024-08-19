@@ -1,215 +1,123 @@
-import { Box, Icon, Autocomplete, styled } from '@mui/material';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import TextField from '@mui/material/TextField';
-import React from 'react';
-import { Formik } from 'formik';
+import React, { useState } from 'react';
+import { TextField, Button, Grid, Snackbar, Alert, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import axios from 'axios';
-import uuid from 'react-uuid';
 
-export default function EditForm({ dataList, getData }) {
-  const [open, setOpen] = React.useState(false);
-  const [data, setData] = React.useState({});
-  const [value, setValue] = React.useState(dataList.status);
+const EditForm = ({ data, onClose, fetchData }) => {
 
-  function handleClickOpen() {
-    setOpen(true);
-  }
+    const [formData, setFormData] = useState({
+        ...data,
+    });
 
-  function handleClose() {
-    setOpen(false);
-  }
+    const [alertOpen, setAlertOpen] = useState(false);
+    const [alertMessage, setAlertMessage] = useState('');
+    const [alertSeverity, setAlertSeverity] = useState('success'); // 'success' | 'error'
 
-  const suggestions = [
-    { label: 'Active' },
-    { label: 'InActive' },
-  ]
+    const handleAlertClose = () => {
+        setAlertOpen(false); // Close the alert
+    };
 
-  async function handleFormSubmit(values) {
-    try {
-      if (values.name) {
-        let obj = {
-          id: dataList.id,
-          name:values.name,
-          userName: values.userName,
-          status: value || values.status,
-          accesslevel: 3,
-          email: values.email,
-          password: values.password,
-        };
-        const result = await axios.post('http://127.0.0.1:4330/api/updateUser', obj);
-        getData();
-      }
-    } catch (error) {
-      console.log('erorr', error);
-    }
-    setOpen(false);
-  }
-  const initialValues = {
-    name:dataList.name || "",
-    userName: dataList.userName || "",
-    status: dataList.status || "",
-    accesslevel: dataList.accesslevel || "",
-    email:dataList.email || "",
-    password: dataList.password || "",
-  };
+    const handleChange = (event) => {
+        setFormData({ ...formData, [event.target.name]: event.target.value });
+    };
 
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        try {
+            const updatedData = {
+                ...formData,
+            };
 
-  const AutoComplete = styled(Autocomplete)(() => ({
-    width: 540,
-    // marginBottom: '16px',
-  }));
+            // Make API call to update data
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/updateUser`, updatedData);
 
-  const handleChangeDrop = (_, newValue) => {
-    setValue(newValue.label)
-  }
+            console.log("Update successful:", response.data);
+            setAlertMessage('User Updated successfully!');
+            setAlertSeverity('success');
+            fetchData();
+            onClose(); // Close the dialog on successful update
 
-  return (
-    <Box>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        <Icon>edit</Icon> Edit
-      </Button>
-      <Formik onSubmit={handleFormSubmit} initialValues={initialValues}>
-        {({ values, errors, touched, handleChange, handleBlur, handleSubmit }) => (
-          <Dialog
-            open={open}
-            onClose={handleClose}
-            maxWidth="sm"
-            fullWidth="fullWidth"
-            aria-labelledby="max-width-dialog-title"
-          >
+        } catch (error) {
+            setAlertMessage(error.response?.data?.msg || 'Something Went Wrong');
+            setAlertSeverity('error');
+            console.error("Error updating data:", error);
+        } finally {
+            setAlertOpen(true); // Show the alert after API response
+        }
+    };
+
+    return (
+        <div>
             <form onSubmit={handleSubmit}>
-              <DialogTitle id="form-dialog-title">Update</DialogTitle>
-              <DialogContent>
-                {/* <DialogContentText>
-            To subscribe to this website, please enter your email address here. We will send updates
-            occasionally.
-          </DialogContentText> */}
-
                 <TextField
-                  autoFocus
-                  margin="dense"
-                  id="name"
-                  label="Name"
-                  type="text"
-                  name="name"
-                  value={values.name}
-                  onChange={handleChange}
-                  fullWidth
-                />
-                <TextField
-                  margin="dense"
-                  id="name"
-                  label="User Name"
-                  type="text"
-                  name="userName"
-                  value={values.userName}
-                  onChange={handleChange}
-                  fullWidth
-                />     
-                <TextField
-                  margin="dense"
-                  id="accesslevel"
-                  label="Access Level"
-                  type="text"
-                  name="accesslevel"
-                  value={values.accesslevel == 1 ? 'SuperAdmin' : values.accesslevel == 2 ? 'Admin' : values.accesslevel == 3 ? 'Supervisor' : values.accesslevel }
-                  disabled
-                  onChange={handleChange}
-                  fullWidth
-                />                           
-                <AutoComplete
-                // value={value}
-                options={suggestions}
-                defaultValue={{label:value}}
-                onChange={handleChangeDrop}
-                // getOptionLabel={(option) => {
-                //   console.log('option',option)
-                //   // if(option.label != values.status) {
-                //     return  option.label;
-                //   // }
-                // }}
-                renderInput={(params) => (
-                  <TextField 
-                    {...params} 
-                    margin="dense" 
-                    label="Status" 
-                    variant="outlined" 
-                    // name="status"
-                    // value={values.status}
-                    fullWidth />
-                )}
-              />
-                                <TextField
-                  margin="dense"
-                  id="name"
-                  label="Email"
-                  type="text"
-                  name="email"
-                  value={values.email}
-                  onChange={handleChange}
-                  fullWidth
-                />
-                {/* <TextField
-                  margin="dense"
-                  id="name"
-                  label="Password"
-                  type="text"
-                  name="password"
-                  value={values.password}
-                  onChange={handleChange}
-                  fullWidth
-                /> */}
-                {/* <TextField
-                  margin="dense"
-                  id="name"
-                  label="Status"
-                  type="text"
-                  name="status"
-                  value={values.status}
-                  onChange={handleChange}
-                  fullWidth
-                /> */}
-                <AutoComplete
-                  // value={value}
-                  options={suggestions}
-                  defaultValue={{label:value}}
-                  onChange={handleChangeDrop}
-                  // getOptionLabel={(option) => {
-                  //   console.log('option',option)
-                  //   // if(option.label != values.status) {
-                  //     return  option.label;
-                  //   // }
-                  // }}
-                  renderInput={(params) => (
-                    <TextField 
-                      {...params} 
-                      margin="dense" 
-                      label="Status" 
-                      variant="outlined" 
-                      // name="status"
-                      // value={values.status}
-                      fullWidth />
-                  )}
+                    name="name"
+                    label="Name"
+                    value={formData.name || ''}
+                    onChange={handleChange}
+                    fullWidth
+                    margin="normal"
                 />
 
-              </DialogContent>
-              <DialogActions>
-                <Button variant="outlined" color="secondary" onClick={handleClose}>
-                  Cancel
+                <TextField
+                    name="userName"
+                    label="UserName"
+                    value={formData.userName || ''}
+                    onChange={handleChange}
+                    fullWidth
+                    margin="normal"
+                />
+
+                <TextField
+                    name="email"
+                    label="Email"
+                    value={formData.email || ''}
+                    onChange={handleChange}
+                    fullWidth
+                    margin="normal"
+                />
+
+                <TextField
+                    name="accesslevel"
+                    label="Access Level"
+                    value={formData.accesslevel === 3 ? "Supervisor" : "Admin"}
+                    onChange={handleChange}
+                    fullWidth
+                    disabled
+                    margin="normal"
+                />
+
+                {/* Status Dropdown */}
+                <FormControl fullWidth variant="filled" sx={{ mb: 2 }}>
+                    <InputLabel>Status</InputLabel>
+                    <Select
+                        name="status"
+                        value={formData.status || ''}
+                        onChange={handleChange}
+                        fullWidth
+                    >
+                        <MenuItem value="Active">Active</MenuItem>
+                        <MenuItem value="Inactive">Inactive</MenuItem>
+                    </Select>
+                </FormControl>
+
+                <Button type="submit" color="primary" variant="contained" sx={{ mt: 2 }}>
+                    Update
                 </Button>
-                <Button type="submit" onClick={handleFormSubmit} color="primary">
-                  Update
+                <Button color="secondary" onClick={onClose} sx={{ mt: 2, ml: 2 }}>
+                    Cancel
                 </Button>
-              </DialogActions>
             </form>
-          </Dialog>
-        )}
-      </Formik>
-    </Box>
-  );
+
+            <Snackbar
+                open={alertOpen}
+                autoHideDuration={6000} // Adjust the duration as needed
+                onClose={handleAlertClose}
+            >
+                <Alert onClose={handleAlertClose} severity={alertSeverity}>
+                    {alertMessage}
+                </Alert>
+            </Snackbar>
+        </div>
+    );
 }
+
+export default EditForm;
