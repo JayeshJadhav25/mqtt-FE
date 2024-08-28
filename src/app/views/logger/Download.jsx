@@ -8,7 +8,7 @@ export default function Download() {
     async function handleDownload() {
         console.log('downoading...')
         try {
-            const result = await axios.post('http://127.0.0.1:4330/api/downloadLogger');
+            const result = await axios.post(`${process.env.REACT_APP_API_URL}/api/downloadLogger`);
             console.log('result',result);
             // getData();
             if(result && result.data && result.data.download) {

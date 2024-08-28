@@ -31,7 +31,7 @@ export default function DeviceConfigForm({ getData }) {
         deviceId: values.deviceid,
         logType: values.logtype,
       };
-      const result = await axios.post('http://127.0.0.1:4330/api/createMQTTLoggerType', obj);
+      const result = await axios.post(`${process.env.REACT_APP_API_URL}/api/createMQTTLoggerType`, obj);
       getData();
     } catch (error) {
       console.log('erorr', error);

@@ -55,7 +55,7 @@ const Main = () => {
 
   const handleDelete = async (id) => {
     try {
-      const result = await axios.post('http://127.0.0.1:4330/api/deleteUser', { id });
+      const result = await axios.post(`${process.env.REACT_APP_API_URL}/api/deleteUser`, { id });
       getData();
     } catch (error) {
       console.log('error', error);
@@ -64,7 +64,7 @@ const Main = () => {
 
   const getData = async () => {
     axios
-      .post('http://127.0.0.1:4330/api/getUser')
+      .post(`${process.env.REACT_APP_API_URL}/api/getUser`)
       .then((res) => {
         console.log('response=>', res.data.status);
         setData({ list: res.data.status });
@@ -82,7 +82,7 @@ const Main = () => {
     if(filterData.accessLevel) filter.accessLevel = filterData.accessLevel ? filterData.accessLevel.label : "";
 
     axios
-    .post('http://127.0.0.1:4330/api/getUser',filter)
+    .post(`${process.env.REACT_APP_API_URL}/api/getUser`,filter)
     .then((res) => {
       console.log('response=>', res.data.status);
       setData({ list: res.data.status });

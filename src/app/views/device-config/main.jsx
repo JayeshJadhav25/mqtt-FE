@@ -57,7 +57,7 @@ const Main = () => {
 
   const handleDelete = async (id) => {
     try {
-      const result = await axios.post('http://127.0.0.1:4330/api/deleteMQTTDevice', { id });
+      const result = await axios.post(`${process.env.REACT_APP_API_URL}/api/deleteMQTTDevice`, { id });
       getData();
     } catch (error) {
       console.log('error', error);
@@ -70,7 +70,7 @@ const Main = () => {
 
   const getData = async () => {
     axios
-      .post('http://127.0.0.1:4330/api/getMQTTDevice')
+      .post(`${process.env.REACT_APP_API_URL}/api/getMQTTDevice`)
       .then((res) => {
         console.log('response= device>', res.data.status);
         setData({ list: res.data.status });

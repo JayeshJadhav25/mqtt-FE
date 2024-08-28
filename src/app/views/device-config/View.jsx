@@ -89,7 +89,7 @@ export default function ViewDetail({deviceConfigId='',deviceId=''}) {
             "receipeName": values.receipeName,
             "receipeStatus":values.receipeStatus
         };
-          const result = await axios.post('http://127.0.0.1:4330/api/createReceipeData', obj);
+          const result = await axios.post(`${process.env.REACT_APP_API_URL}/api/createReceipeData`, obj);
           getDeviceConfigDetails();
         } catch (error) {
           console.log('erorr', error);
@@ -103,7 +103,7 @@ export default function ViewDetail({deviceConfigId='',deviceId=''}) {
         deviceId: deviceId,
     };
     axios
-    .post('http://127.0.0.1:4330/api/getReceipeData',obj)
+    .post(`${process.env.REACT_APP_API_URL}/api/getReceipeData`,obj)
     .then((res) => {
       setData({ list: res.data.status });
     })

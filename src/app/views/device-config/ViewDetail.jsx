@@ -77,7 +77,7 @@ export default function ViewDetail({deviceConfigId='',deviceId=''}) {
             logCount:(data.list.length + 1).toString(),
             sendingTopic:values.sendingTopic
           };
-          const result = await axios.post('http://127.0.0.1:4330/api/createMQTTDeviceConfig', obj);
+          const result = await axios.post(`${process.env.REACT_APP_API_URL}/api/createMQTTDeviceConfig`, obj);
           getDeviceConfigDetails();
         } catch (error) {
           console.log('erorr', error);
@@ -91,7 +91,7 @@ export default function ViewDetail({deviceConfigId='',deviceId=''}) {
       id: deviceConfigId,
     };
     axios
-    .post('http://127.0.0.1:4330/api/getMQTTDeviceConfig',obj)
+    .post(`${process.env.REACT_APP_API_URL}/api/getMQTTDeviceConfig`,obj)
     .then((res) => {
       setData({ list: res.data.status });
     })

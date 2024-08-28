@@ -63,7 +63,7 @@ const Logs = () => {
   const handleDelete = async (id) => {
     console.log('handle delete called', id);
     try {
-      const result = await axios.post('http://127.0.0.1:4330/api/deleteMQTTLoggerType', { id });
+      const result = await axios.post(`${process.env.REACT_APP_API_URL}/api/deleteMQTTLoggerType`, { id });
       getLogTypes();
     } catch (error) {
       console.log('error', error);
@@ -72,7 +72,7 @@ const Logs = () => {
 
   const getLogTypes = async () => {
     axios
-      .post('http://127.0.0.1:4330/api/getMQTTLoggerType')
+      .post(`${process.env.REACT_APP_API_URL}/api/getMQTTLoggerType`)
       .then((res) => {
         console.log('response=>', res.data.status);
         setLogTypes({ LogTypes: res.data.status });

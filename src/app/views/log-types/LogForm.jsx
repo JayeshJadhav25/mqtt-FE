@@ -40,7 +40,7 @@ export default function LogForm({ getLogTypes }) {
         deviceId: value && value.label ? value.label : "",
         logType: values.logtype,
       };
-      const result = await axios.post('http://127.0.0.1:4330/api/createMQTTLoggerType', obj);
+      const result = await axios.post(`${process.env.REACT_APP_API_URL}/api/createMQTTLoggerType`, obj);
       getLogTypes();
     } catch (error) {
       console.log('erorr', error);
@@ -67,7 +67,7 @@ export default function LogForm({ getLogTypes }) {
 
   const getDevices = async () => {
     axios
-      .post('http://127.0.0.1:4330/api/getMQTTDevice')
+      .post(`${process.env.REACT_APP_API_URL}/api/getMQTTDevice`)
       .then((res) => {
         console.log('response=>', res.data.status);
         let devices = [];

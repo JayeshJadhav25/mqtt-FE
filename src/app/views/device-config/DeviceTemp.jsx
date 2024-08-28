@@ -78,7 +78,7 @@ export default function DeviceTemp({deviceConfigId='',deviceId='', receipeId=''}
             receipeId:receipeId,
             sendingTopic:values.sendingTopic
           };
-          const result = await axios.post('http://127.0.0.1:4330/api/createMQTTDeviceConfig', obj);
+          const result = await axios.post(`${process.env.REACT_APP_API_URL}/api/createMQTTDeviceConfig`, obj);
           getDeviceConfigDetails();
         } catch (error) {
           console.log('erorr', error);
@@ -93,7 +93,7 @@ export default function DeviceTemp({deviceConfigId='',deviceId='', receipeId=''}
       receipeId:receipeId,
     };
     axios
-    .post('http://127.0.0.1:4330/api/getReceipeCommand',obj)
+    .post(`${process.env.REACT_APP_API_URL}/api/getReceipeCommand`,obj)
     .then((res) => {
       setData({ list: res.data.status });
     })
