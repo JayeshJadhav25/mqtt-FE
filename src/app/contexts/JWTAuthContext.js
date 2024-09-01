@@ -106,11 +106,21 @@ export const AuthProvider = ({ children }) => {
     //     user,
     //   },
     // });
+    const emailPattern = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/;
 
-    const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/login`, {
+    let obj = {
       userName: email,
-      password,
-    });
+      password
+    };
+
+    if (emailPattern.test(email)) {
+      obj = {
+        email: email,
+        password
+      }
+    }
+
+    const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/login`, obj);
     console.log('response.data', response.data);
     const { token: accessToken, userData } = response.data;
     let user = {

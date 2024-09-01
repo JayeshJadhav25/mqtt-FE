@@ -77,9 +77,10 @@ const Main = () => {
                 <TableHead>
                     <TableRow>
                     <TableCell align="center">Module Name</TableCell>
+                    <TableCell align="center">Operation</TableCell>
                     <TableCell align="center">Modified User Name</TableCell>
+                    <TableCell align="center">Message</TableCell>
                     <TableCell align="center">Modified Time</TableCell>
-                    <TableCell align="center">Log</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -88,9 +89,10 @@ const Main = () => {
                     .map((dataList, index) => (
                         <TableRow key={index}>
                         <TableCell align="center">{dataList.moduleName}</TableCell>
+                        <TableCell align="center">{dataList.operation}</TableCell>
                         <TableCell align="center">{dataList.modified_user_name}</TableCell>
+                        <TableCell align="center">{dataList.message}</TableCell>
                         <TableCell align="center">{dataList.modified_time}</TableCell>
-                        <TableCell align="center">{dataList.log}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

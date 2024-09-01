@@ -29,24 +29,23 @@ const SimpleForm = ({ handleClose, fetchData }) => {
         creditCard: '',
         startDate: '',
         startTime: '',
-        endDate: '', // State for end date
-        endTime: '', // State for end time
+        endDate: '',
+        endTime: '',
     });
 
     const [alertOpen, setAlertOpen] = useState(false);
     const [alertMessage, setAlertMessage] = useState('');
-    const [alertSeverity, setAlertSeverity] = useState('success'); // 'success' | 'error'
+    const [alertSeverity, setAlertSeverity] = useState('success');
 
     const handleAlertClose = () => {
-        setAlertOpen(false); // Close the alert
+        setAlertOpen(false);
     };
-
 
     useEffect(() => {
         axios.post(`${process.env.REACT_APP_API_URL}/api/getMQTTDevice`)
             .then(response => {
                 const options = response.data.status.map(item => ({
-                    id: item.id,
+                    id: item.deviceId,  // Use deviceId here
                     value: item.deviceName,
                     label: item.deviceName
                 }));
@@ -73,7 +72,7 @@ const SimpleForm = ({ handleClose, fetchData }) => {
 
         const requestBody = {
             id: uuid(),
-            devices: state.dropdown,
+            devices: state.dropdown, // This now contains deviceIds
             engineerName: state.firstName,
             engineerContact: state.creditCard,
             startTime: `${state.startDate} ${state.startTime}`,
@@ -82,7 +81,6 @@ const SimpleForm = ({ handleClose, fetchData }) => {
 
         axios.post(`${process.env.REACT_APP_API_URL}/api/createMaintainenceRequest`, requestBody)
             .then(response => {
-                console.log("Success:", response.data);
                 setAlertMessage('Device created successfully!');
                 setAlertSeverity('success');
                 fetchData();
@@ -94,7 +92,7 @@ const SimpleForm = ({ handleClose, fetchData }) => {
                 console.error("Error creating maintenance request:", error);
             })
             .finally(() => {
-                setAlertOpen(true); // Show the alert after API response
+                setAlertOpen(true);
             })
     };
 
@@ -132,7 +130,6 @@ const SimpleForm = ({ handleClose, fetchData }) => {
                     <Grid item lg={12} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
                         <Box mb={2}>
                             <InputLabel id="dropdown-label">Device List</InputLabel>
-
                             <Select
                                 labelId="dropdown-label"
                                 name="dropdown"
@@ -180,7 +177,6 @@ const SimpleForm = ({ handleClose, fetchData }) => {
                         />
 
                         <Grid container spacing={2}>
-                            {/* Start Date and Time */}
                             <Grid item xs={6}>
                                 <InputLabel id="start-date-label">Start Date</InputLabel>
                                 <input
@@ -205,8 +201,6 @@ const SimpleForm = ({ handleClose, fetchData }) => {
                                     style={{ width: "100%", marginBottom: "16px", padding: "8px", boxSizing: "border-box" }}
                                 />
                             </Grid>
-
-                            {/* End Date and Time */}
                             <Grid item xs={6}>
                                 <InputLabel id="end-date-label">End Date</InputLabel>
                                 <input
@@ -232,7 +226,6 @@ const SimpleForm = ({ handleClose, fetchData }) => {
                                 />
                             </Grid>
                         </Grid>
-
                     </Grid>
                 </Grid>
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -247,7 +240,7 @@ const SimpleForm = ({ handleClose, fetchData }) => {
 
             <Snackbar
                 open={alertOpen}
-                autoHideDuration={6000} // Adjust the duration as needed
+                autoHideDuration={6000}
                 onClose={handleAlertClose}
             >
                 <Alert onClose={handleAlertClose} severity={alertSeverity}>

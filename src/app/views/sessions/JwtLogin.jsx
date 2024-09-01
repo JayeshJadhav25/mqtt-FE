@@ -45,7 +45,7 @@ const validationSchema = Yup.object().shape({
   password: Yup.string()
     .min(6, 'Password must be 6 character length')
     .required('Password is required!'),
-  email: Yup.string().email('Invalid Email address').required('Email is required!'),
+  email: Yup.string().required('Username or Email is required!'),
 });
 
 const JwtLogin = () => {
@@ -119,9 +119,9 @@ const JwtLogin = () => {
                     <TextField
                       fullWidth
                       size="small"
-                      type="email"
+                      type="text"
                       name="email"
-                      label="Email"
+                      label="Username or Email"
                       variant="outlined"
                       onBlur={handleBlur}
                       value={values.email}
