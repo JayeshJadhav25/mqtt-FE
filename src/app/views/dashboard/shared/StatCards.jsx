@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Card, Grid, Icon, styled, Typography, Divider, Fab } from '@mui/material';
+import { Box, Card, Grid, Icon, styled, Typography, Divider, Fab, useTheme } from '@mui/material';
 import axios from 'axios';
+import DoughnutChartV2 from './DoughnutChart';
 
 // Custom styled components for improved UI
 const StyledCard = styled(Card)(({ theme }) => ({
@@ -74,10 +75,9 @@ const IconBox = styled('div')(() => ({
 
 const StatCards = () => {
   const [deviceData, setDeviceData] = useState([]);
+  const theme = useTheme();
 
   useEffect(() => {
-    // Fetch log count
-
     // Fetch device data
     axios.post(`${process.env.REACT_APP_API_URL}/api/getMQTTDevice`)
       .then(response => {
@@ -93,56 +93,35 @@ const StatCards = () => {
   return (
     <Grid container spacing={3} sx={{ mb: '24px' }}>
       <Grid item xs={12} md={4}>
-
-      <Card elevation={6} sx={{ p: 2 }}>
+        <Card elevation={6} sx={{ p: 2 }}>
           <ContentBox>
             <FabIcon size="medium" sx={{ background: 'rgba(9, 182, 109, 0.15)' }}>
               <Icon sx={{ color: '#08ad6c' }}>trending_up</Icon>
             </FabIcon>
             <H3 textcolor={'#08ad6c'}>Total Devices</H3>
           </ContentBox>
-
           <ContentBox sx={{ pt: 2 }}>
             <H1>{deviceData.length}</H1>
-            {/* <IconBox sx={{ background: 'rgba(9, 182, 109, 0.15)' }}> */}
-              {/* <Icon className="icon">expand_less</Icon> */}
-            {/* </IconBox> */}
-            {/* <Span textcolor={'#08ad6c'}>(+21%)</Span> */}
           </ContentBox>
         </Card>
-
-
-        {/* <StyledCard elevation={6}>
-          <ContentBox>
-            <Icon className="icon">devices</Icon>
-            <Box mt="12px">
-              <Typography variant="body2" color="textSecondary">Total Devices</Typography>
-              <Heading>{deviceData.length}</Heading>
-            </Box>
-          </ContentBox>
-        </StyledCard> */}
       </Grid>
       <Grid item xs={12}>
         <Divider />
       </Grid>
-
       {deviceData.map((data, index) => (
         <Grid item xs={12} md={4} key={index}>
           <StyledCard elevation={12}>
             <ContentBox>
               <Icon className="icon">
-                {/* Conditional icon based on mqttRelayState */}
                 {data.mqttStatusDetails.mqttRelayState ? 'power' : 'power_off'}
               </Icon>
               <Box mt="12px">
                 <Heading>{data.deviceName || "N/A"}</Heading>
                 <Grid item xs={12}>
-        <Divider />
-      </Grid>
-                {/* Dynamically render all key-value pairs of mqttStatusDetails */}
+                  <Divider />
+                </Grid>
                 {Object.entries(data.mqttStatusDetails).map(([key, value]) => (
                   <Box key={key} mb="8px">
-                    {/* Check if the key is 'mqttRelayState' and if the value is a boolean */}
                     {key === 'mqttRelayState' && typeof value === 'boolean' ? (
                       <Heading>{key.toUpperCase()} :: {value ? 'ON' : 'OFF'}</Heading>
                     ) : (
@@ -155,6 +134,20 @@ const StatCards = () => {
           </StyledCard>
         </Grid>
       ))}
+      {/* Adding the DoughnutChart component after the device data */}
+      <Grid item xs={12}>
+        <Divider />
+      </Grid>
+      {/* <Grid item xs={12} md={12}>
+        <DoughnutChartV2
+          height="350px"
+          color={[
+            theme.palette.primary.dark,
+            theme.palette.primary.main,
+            theme.palette.primary.light,
+          ]}
+        />
+      </Grid> */}
     </Grid>
   );
 };
