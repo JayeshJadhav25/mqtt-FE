@@ -26,6 +26,7 @@ const SimpleForm = ({ handleClose, fetchData }) => {
         userName: '',
         email: '',
         password: '',
+        confirmPassword: '',
         status: '',
         accesslevel: ''
     });
@@ -68,15 +69,11 @@ const SimpleForm = ({ handleClose, fetchData }) => {
           return !htmlTagPattern.test(value);
         });
 
-        // ValidatorForm.addValidationRule("noRestrictedKeywords", (value) => {
-        //     return !restrictedKeywords.some((keyword) => value.toLowerCase().includes(keyword));
-        // });
-
         ValidatorForm.addValidationRule("maxEmailLength", (value) => {
             return value.length <= 100; // Max length set to 100 characters
           });
         
-          // Custom validation for email domain length
+        // Custom validation for email domain length
         ValidatorForm.addValidationRule("maxDomainLength", (value) => {
           const domain = value.split("@")[1]; // Get domain part after "@"
           return domain && domain.length <= 50; // Max domain length set to 50 characters
@@ -94,13 +91,18 @@ const SimpleForm = ({ handleClose, fetchData }) => {
           return value.trim() === value; // Check if trimmed value is the same
         });
 
-          // Custom validation for required character formats (e.g., one uppercase, one lowercase, one digit, one special character)
+        // Custom validation for required character formats (e.g., one uppercase, one lowercase, one digit, one special character)
         ValidatorForm.addValidationRule("requiredCharFormat", (value) => {
           const charFormatPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]+$/;
           return charFormatPattern.test(value);
         });
 
-      }, []);
+        // Custom validation to match password with confirm password
+        ValidatorForm.addValidationRule("isPasswordMatch", (value) => {
+          return value === state.password;
+        });
+
+    }, [state.password]);
 
     const handleAlertClose = () => {
         setAlertOpen(false); // Close the alert
@@ -150,6 +152,7 @@ const SimpleForm = ({ handleClose, fetchData }) => {
         userName,
         email,
         password,
+        confirmPassword,
         status,
         accesslevel,
     } = state;
@@ -259,6 +262,23 @@ const SimpleForm = ({ handleClose, fetchData }) => {
                                 "Password should not contain spaces",
                                 "Password should not contain emojis", 
                                 "Password must contain uppercase, lowercase, digit, and special character", 
+                            ]}
+                        />
+
+                        <TextField
+                            sx={{ mb: 2 }}
+                            type="text"
+                            name="confirmPassword"
+                            label="Confirm Password *"
+                            onChange={handleChange}
+                            value={confirmPassword}
+                            validators={[
+                                "required",
+                                "isPasswordMatch"
+                            ]}
+                            errorMessages={[
+                                "This field is required",
+                                "Passwords do not match"
                             ]}
                         />
 
