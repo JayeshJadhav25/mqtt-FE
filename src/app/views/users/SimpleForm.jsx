@@ -34,6 +34,74 @@ const SimpleForm = ({ handleClose, fetchData }) => {
     const [alertMessage, setAlertMessage] = useState('');
     const [alertSeverity, setAlertSeverity] = useState('success'); // 'success' | 'error'
 
+    useEffect(() => {
+        // Custom validation for no numbers
+        ValidatorForm.addValidationRule("isNameValid", (value) => {
+          const noNumbers = /^[A-Za-z\s]+$/;
+          return noNumbers.test(value);
+        });
+    
+        // Custom validation to prevent only special characters
+        ValidatorForm.addValidationRule("noSpecialCharsOnly", (value) => {
+          const noSpecialCharsOnly = /[A-Za-z0-9]/;
+          return noSpecialCharsOnly.test(value);
+        });
+    
+        // Custom validation for no leading/trailing spaces
+        ValidatorForm.addValidationRule("noLeadingOrTrailingSpaces", (value) => {
+          return value.trim() === value;
+        });
+    
+        // Custom validation to prevent emojis
+        ValidatorForm.addValidationRule("noEmojis", (value) => {
+          const emojiPattern =
+            /[\u{1F600}-\u{1F6FF}|\u{2600}-\u{26FF}|\u{2700}-\u{27BF}|\u{1F900}-\u{1F9FF}]/u;
+          return !emojiPattern.test(value);
+        });
+
+        ValidatorForm.addValidationRule("noSpaces", (value) => {
+            return !/\s/.test(value); // Check if the value contains any spaces
+          });
+
+        ValidatorForm.addValidationRule("noHTMLTags", (value) => {
+          const htmlTagPattern = /<\/?[a-z][\s\S]*>/i; // Regex pattern to check for HTML tags
+          return !htmlTagPattern.test(value);
+        });
+
+        // ValidatorForm.addValidationRule("noRestrictedKeywords", (value) => {
+        //     return !restrictedKeywords.some((keyword) => value.toLowerCase().includes(keyword));
+        // });
+
+        ValidatorForm.addValidationRule("maxEmailLength", (value) => {
+            return value.length <= 100; // Max length set to 100 characters
+          });
+        
+          // Custom validation for email domain length
+        ValidatorForm.addValidationRule("maxDomainLength", (value) => {
+          const domain = value.split("@")[1]; // Get domain part after "@"
+          return domain && domain.length <= 50; // Max domain length set to 50 characters
+        });
+
+         // Custom validation for valid domain
+        ValidatorForm.addValidationRule("validDomain", (value) => {
+          const domainPattern = /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/; // Regex to check valid domain format
+          const domain = value.split("@")[1];
+          return domain && domainPattern.test(domain); 
+        });
+
+     // Custom validation for no spaces as prefix or suffix in email
+        ValidatorForm.addValidationRule("noPrefixSuffixSpaces", (value) => {
+          return value.trim() === value; // Check if trimmed value is the same
+        });
+
+          // Custom validation for required character formats (e.g., one uppercase, one lowercase, one digit, one special character)
+        ValidatorForm.addValidationRule("requiredCharFormat", (value) => {
+          const charFormatPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]+$/;
+          return charFormatPattern.test(value);
+        });
+
+      }, []);
+
     const handleAlertClose = () => {
         setAlertOpen(false); // Close the alert
     };
@@ -99,8 +167,22 @@ const SimpleForm = ({ handleClose, fetchData }) => {
                             label="Name *"
                             onChange={handleChange}
                             value={name}
-                            validators={["required"]}
-                            errorMessages={["This field is required"]}
+                            validators={[
+                                "required", "minStringLength:3", "maxStringLength:50",
+                                "isNameValid",
+                                "noSpecialCharsOnly",
+                                "noLeadingOrTrailingSpaces",
+                                "noEmojis",
+                            ]}
+                            errorMessages={[
+                                "This field is required",
+                                "Minimum 3 characters", 
+                                "Maximum 50 characters",
+                                "Name should not contain numbers",
+                                "Name should not contain only special characters",
+                                "No leading or trailing spaces allowed",
+                                "Name should not contain emojis",
+                            ]}
                         />
 
                         <TextField
@@ -110,8 +192,24 @@ const SimpleForm = ({ handleClose, fetchData }) => {
                             label="UserName *"
                             onChange={handleChange}
                             value={userName}
-                            validators={["required"]}
-                            errorMessages={["This field is required"]}
+                            validators={[
+                                "required",
+                                "minStringLength:3", 
+                                "maxStringLength:50",
+                                "noSpaces",
+                                "noHTMLTags",
+                                "noEmojis",
+                                // "noRestrictedKeywords"
+                            ]}
+                            errorMessages={[
+                                "This field is required",
+                                "Minimum 3 characters", 
+                                "Maximum 50 characters",
+                                "Username should not contain any spaces",
+                                "Username should not contain HTML tags",
+                                "Username should not contain emojis",
+                                // "Username contains restricted keywords",
+                            ]}
                         />
 
                         <TextField
@@ -121,8 +219,22 @@ const SimpleForm = ({ handleClose, fetchData }) => {
                             label="Email *"
                             onChange={handleChange}
                             value={email}
-                            validators={["required", "isEmail"]}
-                            errorMessages={["This field is required", "Email is not valid"]}
+                            validators={[   
+                                "required", 
+                                "isEmail",
+                                "maxEmailLength", 
+                                "maxDomainLength", 
+                                "validDomain", 
+                                "noPrefixSuffixSpaces"
+                            ]}
+                            errorMessages={[
+                                "This field is required", 
+                                "Email is not valid",
+                                "Email is too long", 
+                                "Email domain is too long", 
+                                "Email domain is invalid",
+                                "Email cannot have leading or trailing spaces"
+                            ]}
                         />
 
                         <TextField
@@ -132,8 +244,22 @@ const SimpleForm = ({ handleClose, fetchData }) => {
                             label="Password *"
                             onChange={handleChange}
                             value={password}
-                            validators={["required"]}
-                            errorMessages={["This field is required"]}
+                            validators={[
+                                "required",
+                                "minStringLength:8", 
+                                "maxStringLength:15",
+                                "noSpaces",
+                                "noEmojis", 
+                                "requiredCharFormat", 
+                            ]}
+                            errorMessages={[
+                                "This field is required",
+                                "Minimum 8 characters", 
+                                "Maximum 15 characters",
+                                "Password should not contain spaces",
+                                "Password should not contain emojis", 
+                                "Password must contain uppercase, lowercase, digit, and special character", 
+                            ]}
                         />
 
                         <FormControl fullWidth variant="filled" sx={{ mb: 2 }}>

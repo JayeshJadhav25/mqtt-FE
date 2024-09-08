@@ -19,6 +19,9 @@ const Container = styled('div')(({ theme }) => ({
     },
   }));
 
+const accessLevel = window.localStorage.getItem('accessLevel');
+
+
 const Main = () => {
     const [data, setData] = useState([]);
 
@@ -38,9 +41,12 @@ const Main = () => {
 
     return (
         <Container>
-            <Box className="breadcrumb">
-                <CreateForm fetchData={fetchData}/>
-            </Box>
+            {(accessLevel == 1 || accessLevel == 2) && (
+
+              <Box className="breadcrumb">
+                  <CreateForm fetchData={fetchData}/>
+              </Box>
+            )}
             <SimpleCard title="Devices">
                 <PaginationTable data ={data} fetchData={fetchData}/>
             </SimpleCard>

@@ -102,7 +102,7 @@ const Main = () => {
                 <Download/>
             </Box>
 
-            <SimpleCard title="Logger Report">
+            <SimpleCard title="State Report">
             <Box width="100%" overflow="auto">
 
             <Box display="flex" justifyContent="space-between" mb={2} mt={1} alignItems="center">

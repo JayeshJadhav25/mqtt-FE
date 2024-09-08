@@ -66,7 +66,7 @@ else if (accessLevel == 2) {
   accessLevelNavigation = [
     { name: 'Dashboard', path: '/dashboard/default', icon: 'dashboard' },
     { name: 'Users', path: '/users', icon: 'account_circle' },
-    { name: 'Log Types', path: '/logtypes', icon: 'note' },
+    // { name: 'Log Types', path: '/logtypes', icon: 'note' },
     {
       name: 'Devices',
       icon: 'cloud',
@@ -81,7 +81,7 @@ else if (accessLevel == 2) {
       name: 'Reports',
       icon: 'security',
       children: [
-        { name: 'Logger Report', iconText: 'FP', path: '/logger' },
+        // { name: 'Logger Report', iconText: 'FP', path: '/logger' },
         { name: 'Door Report', iconText: 'SU', path: '/report/door' },
         { name: 'State Report', iconText: '404', path: '/report/state' },
       ],
@@ -139,7 +139,7 @@ else if (accessLevel == 2) {
       name: 'Reports',
       icon: 'security',
       children: [
-        { name: 'Logger Report', iconText: 'FP', path: '/logger' },
+        // { name: 'Logger Report', iconText: 'FP', path: '/logger' },
         { name: 'Door Report', iconText: 'SU', path: '/report/door' },
         { name: 'State Report', iconText: '404', path: '/report/state' },
       ],

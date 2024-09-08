@@ -94,7 +94,10 @@ const PaginationTable = ({maintenanceData, fetchData}) => {
             <TableCell align="center">End Time</TableCell>
             <TableCell align="center">Status</TableCell>
             <TableCell align="center">Devices</TableCell>
-            <TableCell align="center">Action</TableCell>
+            {(accessLevel == 1 || accessLevel == 2) && (
+
+              <TableCell align="center">Action</TableCell>
+            )}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -108,8 +111,8 @@ const PaginationTable = ({maintenanceData, fetchData}) => {
                 <TableCell align="center">{request.endTime}</TableCell>
                 <TableCell align="center">{request.status}</TableCell>
                 <TableCell align="center">{request.devices}</TableCell>
-                <TableCell align="center">
                 {(accessLevel == 1 || accessLevel == 2) && (
+                <TableCell align="center">
                       <>
                         <Tooltip title='Reject'>
                           <IconButton onClick={() => handleApproveReject(request.id, false)}>
@@ -122,7 +125,6 @@ const PaginationTable = ({maintenanceData, fetchData}) => {
                           </IconButton>
                         </Tooltip>
                       </>
-                  )}
                   <Tooltip title='Edit'>
                     <IconButton 
                         onClick={() => handleEditClick(request)}
@@ -132,7 +134,10 @@ const PaginationTable = ({maintenanceData, fetchData}) => {
                       <Icon fontSize="small">edit</Icon>
                     </IconButton>
                   </Tooltip>
+
                 </TableCell>
+                                  )}
+
               </TableRow>
             ))}
         </TableBody>

@@ -20,6 +20,7 @@ const Container = styled('div')(({ theme }) => ({
     },
   }));
 
+const accessLevel = window.localStorage.getItem('accessLevel');
 
 
 const Main = () => {
@@ -41,15 +42,18 @@ const Main = () => {
 
     return (
         <Container>
-        <Box className="breadcrumb">
-            {/* <SimpleForm /> */}
-            <CreateForm fetchData={fetchData}/>
+        {accessLevel != 3 && (
+            <Box className="breadcrumb">
+                {/* <SimpleForm /> */}
+                <CreateForm fetchData={fetchData}/>
 
-        {/* <Breadcrumb routeSegments={[{ name: "Material", path: "/material" }, { name: "Table" }]} /> */}
-        </Box>
+            </Box>
+          )}
+
         <Box className="breadcrumb">
                 <Download/>
             </Box>
+
 
         <SimpleCard title="Maintenance">
 
