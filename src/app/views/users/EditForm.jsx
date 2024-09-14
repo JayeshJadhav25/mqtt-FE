@@ -64,6 +64,7 @@ const EditForm = ({ data, onClose, fetchData }) => {
                     onChange={handleChange}
                     fullWidth
                     margin="normal"
+                    disabled
                 />
 
                 <TextField
@@ -73,6 +74,7 @@ const EditForm = ({ data, onClose, fetchData }) => {
                     onChange={handleChange}
                     fullWidth
                     margin="normal"
+                    disabled
                 />
 
                 <TextField

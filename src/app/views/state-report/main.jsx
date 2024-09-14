@@ -96,6 +96,20 @@ const Main = () => {
         fetchData();
     }, []);
 
+    const formatDateTime = (dateString) => {
+      const dateObj = new Date(dateString);
+  
+      const day = String(dateObj.getDate()).padStart(2, "0"); // Get day and add leading 0 if necessary
+      const month = String(dateObj.getMonth() + 1).padStart(2, "0"); // Get month (0-based, so +1) and add leading 0
+      const year = String(dateObj.getFullYear()).slice(2); // Get last two digits of the year
+  
+      const hours = String(dateObj.getHours()).padStart(2, "0"); // Get hours and add leading 0
+      const minutes = String(dateObj.getMinutes()).padStart(2, "0"); // Get minutes and add leading 0
+      const seconds = String(dateObj.getSeconds()).padStart(2, "0"); // Get seconds and add leading 0
+  
+      return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
+    };
+
     return (
         <Container>
             <Box className="breadcrumb">
@@ -166,15 +180,15 @@ const Main = () => {
                 <StyledTable>
                 <TableHead>
                     <TableRow>
-                    <TableCell align="center">Device Name</TableCell>
-                    <TableCell align="center">Device Id</TableCell>
-                    <TableCell align="center">Log Type</TableCell>
-                    <TableCell align="center">Log Desc</TableCell>
-                    <TableCell align="center">Log Line Count</TableCell>
-                    <TableCell align="center">Battery Level</TableCell>
-                    <TableCell align="center">Mac Id</TableCell>
                     <TableCell align="center">Timestamp</TableCell>
-                    <TableCell align="center">State</TableCell>
+                    <TableCell align="center">DeviceId</TableCell>
+                    <TableCell align="center">DeviceName</TableCell>
+                    {/* <TableCell align="center">Log Type</TableCell> */}
+                    {/* <TableCell align="center">Log Desc</TableCell> */}
+                    {/* <TableCell align="center">Log Line Count</TableCell> */}
+                    {/* <TableCell align="center">Battery Level</TableCell> */}
+                    {/* <TableCell align="center">Mac Id</TableCell> */}
+                    <TableCell align="center">DeviceState</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -182,14 +196,14 @@ const Main = () => {
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((dataList, index) => (
                         <TableRow key={index}>
-                        <TableCell align="center">{dataList.device_name}</TableCell>
+                        <TableCell align="center">{formatDateTime(dataList.timestamp)}</TableCell>
                         <TableCell align="center">{dataList.device_id}</TableCell>
-                        <TableCell align="center">{dataList.log_type}</TableCell>
-                        <TableCell align="center">{dataList.log_desc}</TableCell>
-                        <TableCell align="center">{dataList.log_line_count}</TableCell>
-                        <TableCell align="center">{dataList.battery_level}</TableCell>
-                        <TableCell align="center">{dataList.mac_id}</TableCell>
-                        <TableCell align="center">{dataList.timestamp}</TableCell>
+                        <TableCell align="center">{dataList.device_name}</TableCell>
+                        {/* <TableCell align="center">{dataList.log_type}</TableCell> */}
+                        {/* <TableCell align="center">{dataList.log_desc}</TableCell> */}
+                        {/* <TableCell align="center">{dataList.log_line_count}</TableCell> */}
+                        {/* <TableCell align="center">{dataList.battery_level}</TableCell> */}
+                        {/* <TableCell align="center">{dataList.mac_id}</TableCell> */}
                         <TableCell align="center">{dataList.state}</TableCell>
                         </TableRow>
                     ))}

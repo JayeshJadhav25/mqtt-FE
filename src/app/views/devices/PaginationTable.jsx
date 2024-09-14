@@ -263,7 +263,7 @@ const PaginationTable = ({ data, fetchData }) => {
               onRowsPerPageChange={handleChangeRowsPerPage}
           />
 
-          <Dialog open={openDialog} onClose={handleCloseDialog}>
+          <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth>
               <DialogTitle>Assign User</DialogTitle>
               <DialogContent>
                   <FormControl fullWidth>

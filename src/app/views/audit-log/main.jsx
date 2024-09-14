@@ -76,11 +76,12 @@ const Main = () => {
                 <StyledTable>
                 <TableHead>
                     <TableRow>
-                    <TableCell align="center">Module Name</TableCell>
+                    <TableCell align="center">Timestamp</TableCell>
+                    <TableCell align="center">ModifiedUserName</TableCell>
+                    <TableCell align="center">Role</TableCell>
                     <TableCell align="center">Operation</TableCell>
-                    <TableCell align="center">Modified User Name</TableCell>
                     <TableCell align="center">Message</TableCell>
-                    <TableCell align="center">Modified Time</TableCell>
+                    <TableCell align="center">ModuleName</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -88,11 +89,12 @@ const Main = () => {
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((dataList, index) => (
                         <TableRow key={index}>
-                        <TableCell align="center">{dataList.moduleName}</TableCell>
-                        <TableCell align="center">{dataList.operation}</TableCell>
-                        <TableCell align="center">{dataList.modified_user_name}</TableCell>
-                        <TableCell align="center">{dataList.message}</TableCell>
                         <TableCell align="center">{dataList.modified_time}</TableCell>
+                        <TableCell align="center">{dataList.modified_user_name}</TableCell>
+                        <TableCell align="center">{dataList.role}</TableCell>
+                        <TableCell align="center">{dataList.operation}</TableCell>
+                        <TableCell align="center">{dataList.message}</TableCell>
+                        <TableCell align="center">{dataList.moduleName}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
