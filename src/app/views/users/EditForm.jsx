@@ -34,7 +34,9 @@ const EditForm = ({ data, onClose, fetchData }) => {
             setAlertMessage('User Updated successfully!');
             setAlertSeverity('success');
             fetchData();
-            onClose(); // Close the dialog on successful update
+            setTimeout(() => {
+                onClose(); // Close the dialog on successful update
+            },1000)
 
         } catch (error) {
             setAlertMessage(error.response?.data?.msg || 'Something Went Wrong');

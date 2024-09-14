@@ -127,7 +127,9 @@ const SimpleForm = ({ handleClose, fetchData }) => {
                 setAlertMessage('User created successfully!');
                 setAlertSeverity('success');
                 fetchData();
-                handleClose();
+                setTimeout(() => {
+                    handleClose()
+                },1000)
             })
             .catch(error => {
                 setAlertMessage(error.response.data.msg || 'Something Went Wrong');
