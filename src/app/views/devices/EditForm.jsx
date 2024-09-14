@@ -95,8 +95,8 @@ const EditForm = ({ fetchData, dataList }) => {
             <Button variant="outlined" color="primary" onClick={handleClickOpen}>
             <Icon>edit</Icon>
         </Button>
-        <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" fullWidth={true} maxWidth="xs">
-        <DialogTitle id="form-dialog-title">Create Device</DialogTitle>
+        <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" fullWidth={true} maxWidth="sm">
+        <DialogTitle id="form-dialog-title">Edit Device</DialogTitle>
         <DialogContent>
             <ValidatorForm onSubmit={handleSubmit} onError={() => null}>
                 <Grid container spacing={6}>

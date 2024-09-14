@@ -29,7 +29,7 @@ export default function FormDialog({fetchData}) {
       <Icon>add</Icon>Create
       </Button>
 
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" fullWidth={true} maxWidth="xs">
+      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" fullWidth={true} maxWidth="sm">
         <DialogTitle id="form-dialog-title">Create Device</DialogTitle>
         <DialogContent>
           {/* <DialogContentText>
