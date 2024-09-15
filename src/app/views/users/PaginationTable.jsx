@@ -10,7 +10,7 @@ import {
   TablePagination,
   TableRow,
   Tooltip,
-  Snackbar, 
+  Snackbar,
   Alert,
   TextField,
   FormControl,
@@ -34,12 +34,12 @@ const StyledTable = styled(Table)(() => ({
   },
 }));
 
-const PaginationTable = ({data, fetchData, setData}) => {
+const PaginationTable = ({ data, fetchData, setData }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
-  
+
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [alertSeverity, setAlertSeverity] = useState('success'); // 'success' | 'error'
@@ -77,12 +77,28 @@ const PaginationTable = ({data, fetchData, setData}) => {
 
   const handleFilter = async () => {
     try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/getUser`, {
-        email: email,
-        userName: userName,
-        status: status,
-        accesslevel: accessLevel === "Admin" ? 2 : 3
-      });
+
+      let data = {
+
+      }
+
+      if (email) {
+        data.email = email
+      }
+
+
+      if (userName) {
+        data.userName = userName
+      }
+
+      if (status) {
+        data.status = status
+      }
+
+      if (accessLevel) {
+        data.accessLevel = parseInt(accessLevel)
+      }
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/getUser`, data);
       setData(response.data.status);
       console.log('Filter results:', response.data);
     } catch (error) {
@@ -181,7 +197,7 @@ const PaginationTable = ({data, fetchData, setData}) => {
           >
             Clear
           </Button>
-          
+
           <Button
             variant="contained"
             color="primary"
@@ -216,10 +232,10 @@ const PaginationTable = ({data, fetchData, setData}) => {
                   {request.accesslevel === 1
                     ? 'SuperAdmin'
                     : request.accesslevel === 2
-                    ? 'Admin'
-                    : request.accesslevel === 3
-                    ? 'Supervisor'
-                    : request.accesslevel}
+                      ? 'Admin'
+                      : request.accesslevel === 3
+                        ? 'Supervisor'
+                        : request.accesslevel}
                 </TableCell>
                 <TableCell align="center">{request.email}</TableCell>
                 <TableCell align="center">
@@ -258,11 +274,11 @@ const PaginationTable = ({data, fetchData, setData}) => {
         <DialogContent>
           {selectedData && <EditForm data={selectedData} fetchData={fetchData} onClose={handleCloseDialog} />}
         </DialogContent>
-        <DialogActions>
+        {/* <DialogActions>
           <Button onClick={handleCloseDialog} color="primary">
             Close
           </Button>
-        </DialogActions>
+        </DialogActions> */}
       </Dialog>
 
       <Dialog

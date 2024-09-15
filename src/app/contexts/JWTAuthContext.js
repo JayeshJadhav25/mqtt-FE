@@ -23,10 +23,17 @@ const setSession = (accessToken, accessLevel) => {
   if (accessToken) {
     localStorage.setItem('accessToken', accessToken);
     localStorage.setItem('accessLevel', accessLevel);
+    let pageReloaded = window.localStorage.getItem('pageReloaded');
+    if (pageReloaded != 'true') {
+      localStorage.setItem('refreshDashboard', true);
+    }
+
     axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
   } else {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('accessLevel');
+    localStorage.removeItem('refreshDashboard');
+    localStorage.removeItem('pageReloaded');
     delete axios.defaults.headers.common.Authorization;
   }
 };

@@ -1,5 +1,5 @@
 import { Card, Grid, styled, useTheme } from '@mui/material';
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
 import Campaigns from './shared/Campaigns';
 import DoughnutChart from './shared/Doughnut';
 import RowCards from './shared/RowCards';
@@ -35,6 +35,20 @@ const H4 = styled('h4')(({ theme }) => ({
 
 const Analytics = () => {
   const { palette } = useTheme();
+
+  useEffect(() => {
+    const refreshDashboard = window.localStorage.getItem('refreshDashboard');
+
+    // Check if the refreshDashboard flag is true
+    if (refreshDashboard === 'true') {
+      // Reload the page
+            window.localStorage.setItem('refreshDashboard', 'false');
+            window.localStorage.setItem('pageReloaded','true');
+            window.location.reload();
+
+      // Reset the refreshDashboard flag to prevent continuous reloads
+    }
+  }, []);
 
   return (
     <Fragment>

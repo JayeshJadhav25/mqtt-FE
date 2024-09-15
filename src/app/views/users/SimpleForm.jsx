@@ -38,68 +38,68 @@ const SimpleForm = ({ handleClose, fetchData }) => {
     useEffect(() => {
         // Custom validation for no numbers
         ValidatorForm.addValidationRule("isNameValid", (value) => {
-          const noNumbers = /^[A-Za-z\s]+$/;
-          return noNumbers.test(value);
+            const noNumbers = /^[A-Za-z\s]+$/;
+            return noNumbers.test(value);
         });
-    
+
         // Custom validation to prevent only special characters
         ValidatorForm.addValidationRule("noSpecialCharsOnly", (value) => {
-          const noSpecialCharsOnly = /[A-Za-z0-9]/;
-          return noSpecialCharsOnly.test(value);
+            const noSpecialCharsOnly = /[A-Za-z0-9]/;
+            return noSpecialCharsOnly.test(value);
         });
-    
+
         // Custom validation for no leading/trailing spaces
         ValidatorForm.addValidationRule("noLeadingOrTrailingSpaces", (value) => {
-          return value.trim() === value;
+            return value.trim() === value;
         });
-    
+
         // Custom validation to prevent emojis
         ValidatorForm.addValidationRule("noEmojis", (value) => {
-          const emojiPattern =
-            /[\u{1F600}-\u{1F6FF}|\u{2600}-\u{26FF}|\u{2700}-\u{27BF}|\u{1F900}-\u{1F9FF}]/u;
-          return !emojiPattern.test(value);
+            const emojiPattern =
+                /[\u{1F600}-\u{1F6FF}|\u{2600}-\u{26FF}|\u{2700}-\u{27BF}|\u{1F900}-\u{1F9FF}]/u;
+            return !emojiPattern.test(value);
         });
 
         ValidatorForm.addValidationRule("noSpaces", (value) => {
             return !/\s/.test(value); // Check if the value contains any spaces
-          });
+        });
 
         ValidatorForm.addValidationRule("noHTMLTags", (value) => {
-          const htmlTagPattern = /<\/?[a-z][\s\S]*>/i; // Regex pattern to check for HTML tags
-          return !htmlTagPattern.test(value);
+            const htmlTagPattern = /<\/?[a-z][\s\S]*>/i; // Regex pattern to check for HTML tags
+            return !htmlTagPattern.test(value);
         });
 
         ValidatorForm.addValidationRule("maxEmailLength", (value) => {
             return value.length <= 100; // Max length set to 100 characters
-          });
-        
+        });
+
         // Custom validation for email domain length
         ValidatorForm.addValidationRule("maxDomainLength", (value) => {
-          const domain = value.split("@")[1]; // Get domain part after "@"
-          return domain && domain.length <= 50; // Max domain length set to 50 characters
+            const domain = value.split("@")[1]; // Get domain part after "@"
+            return domain && domain.length <= 50; // Max domain length set to 50 characters
         });
 
-         // Custom validation for valid domain
+        // Custom validation for valid domain
         ValidatorForm.addValidationRule("validDomain", (value) => {
-          const domainPattern = /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/; // Regex to check valid domain format
-          const domain = value.split("@")[1];
-          return domain && domainPattern.test(domain); 
+            const domainPattern = /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/; // Regex to check valid domain format
+            const domain = value.split("@")[1];
+            return domain && domainPattern.test(domain);
         });
 
-     // Custom validation for no spaces as prefix or suffix in email
+        // Custom validation for no spaces as prefix or suffix in email
         ValidatorForm.addValidationRule("noPrefixSuffixSpaces", (value) => {
-          return value.trim() === value; // Check if trimmed value is the same
+            return value.trim() === value; // Check if trimmed value is the same
         });
 
         // Custom validation for required character formats (e.g., one uppercase, one lowercase, one digit, one special character)
         ValidatorForm.addValidationRule("requiredCharFormat", (value) => {
-          const charFormatPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]+$/;
-          return charFormatPattern.test(value);
+            const charFormatPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]+$/;
+            return charFormatPattern.test(value);
         });
 
         // Custom validation to match password with confirm password
         ValidatorForm.addValidationRule("isPasswordMatch", (value) => {
-          return value === state.password;
+            return value === state.password;
         });
 
     }, [state.password]);
@@ -129,7 +129,7 @@ const SimpleForm = ({ handleClose, fetchData }) => {
                 fetchData();
                 setTimeout(() => {
                     handleClose()
-                },1000)
+                }, 1000)
             })
             .catch(error => {
                 setAlertMessage(error.response.data.msg || 'Something Went Wrong');
@@ -164,7 +164,7 @@ const SimpleForm = ({ handleClose, fetchData }) => {
             <ValidatorForm onSubmit={handleSubmit} onError={() => null}>
                 <Grid container spacing={6}>
                     <Grid item lg={12} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
-                        
+
                         <TextField
                             sx={{ mb: 2 }}
                             type="text"
@@ -181,7 +181,7 @@ const SimpleForm = ({ handleClose, fetchData }) => {
                             ]}
                             errorMessages={[
                                 "This field is required",
-                                "Minimum 3 characters", 
+                                "Minimum 3 characters",
                                 "Maximum 50 characters",
                                 "Name should not contain numbers",
                                 "Name should not contain only special characters",
@@ -199,7 +199,7 @@ const SimpleForm = ({ handleClose, fetchData }) => {
                             value={userName}
                             validators={[
                                 "required",
-                                "minStringLength:3", 
+                                "minStringLength:3",
                                 "maxStringLength:50",
                                 "noSpaces",
                                 "noHTMLTags",
@@ -208,7 +208,7 @@ const SimpleForm = ({ handleClose, fetchData }) => {
                             ]}
                             errorMessages={[
                                 "This field is required",
-                                "Minimum 3 characters", 
+                                "Minimum 3 characters",
                                 "Maximum 50 characters",
                                 "Username should not contain any spaces",
                                 "Username should not contain HTML tags",
@@ -224,21 +224,22 @@ const SimpleForm = ({ handleClose, fetchData }) => {
                             label="Email *"
                             onChange={handleChange}
                             value={email}
-                            validators={[   
-                                "required", 
+                            validators={[
+                                "required",
                                 "isEmail",
-                                "maxEmailLength", 
-                                "maxDomainLength", 
-                                "validDomain", 
-                                "noPrefixSuffixSpaces"
+                                "noSpaces",  // Custom validator to check for spaces
+                                "maxEmailLength",
+                                "maxDomainLength",
+                                "validDomain",
                             ]}
                             errorMessages={[
-                                "This field is required", 
+                                "This field is required",
                                 "Email is not valid",
-                                "Email is too long", 
-                                "Email domain is too long", 
+                                "Email cannot contain spaces",  // Error message for spaces
+                                "Email is too long",
+                                "Email domain is too long",
                                 "Email domain is invalid",
-                                "Email cannot have leading or trailing spaces"
+                                // "Email cannot have leading or trailing spaces"
                             ]}
                         />
 
@@ -251,19 +252,19 @@ const SimpleForm = ({ handleClose, fetchData }) => {
                             value={password}
                             validators={[
                                 "required",
-                                "minStringLength:8", 
+                                "minStringLength:8",
                                 "maxStringLength:15",
                                 "noSpaces",
-                                "noEmojis", 
-                                "requiredCharFormat", 
+                                "noEmojis",
+                                "requiredCharFormat",
                             ]}
                             errorMessages={[
                                 "This field is required",
-                                "Minimum 8 characters", 
+                                "Minimum 8 characters",
                                 "Maximum 15 characters",
                                 "Password should not contain spaces",
-                                "Password should not contain emojis", 
-                                "Password must contain uppercase, lowercase, digit, and special character", 
+                                "Password should not contain emojis",
+                                "Password must contain uppercase, lowercase, digit, and special character",
                             ]}
                         />
 
