@@ -49,6 +49,8 @@ const Main = () => {
   const [deviceName, setDeviceName] = useState('');
   const [macId, setMacId] = useState('');
   const [logType, setLogType] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
 
   const handleChangePage = (_, newPage) => {
     setPage(newPage);
@@ -89,6 +91,14 @@ const Main = () => {
         data.log_type = logType
       }
 
+      if (startDate) {
+        data.startDate = startDate;
+      }
+
+      if (endDate) {
+        data.endDate = endDate
+      }
+
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/getDeviceLogger`, data);
       setData(response.data.status);
       // Handle the API response here
@@ -104,6 +114,8 @@ const Main = () => {
     setDeviceName('');
     setLogType('');
     setMacId('');
+    setStartDate('');
+    setEndDate('');
     getData();
   };
 
@@ -136,27 +148,51 @@ const Main = () => {
         {/* <Breadcrumb routeSegments={[{ name: "Material", path: "/material" }, { name: "Table" }]} /> */}
       </Box>
       <SimpleCard title="Logger Report">
-        <Box width="100%" overflow="auto">
+        {/* <Box width="100%" overflow="auto"> */}
 
-          <Box display="flex" justifyContent="space-between" mb={2} mt={1} alignItems="center">
-            <TextField
-              label="Device ID"
-              value={deviceId}
-              onChange={(e) => setDeviceId(e.target.value)}
-              variant="outlined"
-              size="small" // Smaller input size
-              sx={{ marginRight: 2 }} // Add space between inputs
-            />
-            <TextField
-              label="Device Name"
-              value={deviceName}
-              onChange={(e) => setDeviceName(e.target.value)}
-              variant="outlined"
-              size="small" // Smaller input size
-              sx={{ marginRight: 2 }} // Add space between inputs
-            />
+        <Box display="flex" justifyContent="space-between" mb={2} mt={1} alignItems="center">
+          <TextField
+            label="Start Date"
+            variant="outlined"
+            type="date"
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+            size="small"
+            InputLabelProps={{ shrink: true }}
+            // sx={{ width: '17%' }}
+            sx={{ marginRight: 2 }} // Add space between inputs
 
-            {/* <TextField
+          />
+          <TextField
+            label="End Date"
+            variant="outlined"
+            type="date"
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)}
+            size="small"
+            InputLabelProps={{ shrink: true }}
+            // sx={{ width: '17%' }}
+            sx={{ marginRight: 2 }} // Add space between inputs
+
+          />
+          <TextField
+            label="Device ID"
+            value={deviceId}
+            onChange={(e) => setDeviceId(e.target.value)}
+            variant="outlined"
+            size="small" // Smaller input size
+            sx={{ marginRight: 2 }} // Add space between inputs
+          />
+          <TextField
+            label="Device Name"
+            value={deviceName}
+            onChange={(e) => setDeviceName(e.target.value)}
+            variant="outlined"
+            size="small" // Smaller input size
+            sx={{ marginRight: 2 }} // Add space between inputs
+          />
+
+          {/* <TextField
               label="Mac Id"
               value={macId}
               onChange={(e) => setMacId(e.target.value)}
@@ -165,80 +201,82 @@ const Main = () => {
               sx={{ marginRight: 2 }} // Add space between inputs
             /> */}
 
-            <TextField
-              label="Log Type"
-              value={logType}
-              onChange={(e) => setLogType(e.target.value)}
-              variant="outlined"
-              size="small" // Smaller input size
-              sx={{ marginRight: 2 }} // Add space between inputs
-            />
-
-            <Box display="flex" gap={1}>
-              <Button
-                variant="outlined"
-                color="secondary"
-                onClick={handleClear} // Clear the TextField value
-              >
-                Clear
-              </Button>
-
-              <Button
-                variant="contained"
-                color="primary"
-                size="small"
-                onClick={handleFilter}
-              >
-                Filter
-              </Button>
-            </Box>
-          </Box>
-
-          <Divider sx={{ marginBottom: 2 }} />
-          <StyledTable>
-            <TableHead>
-              <TableRow>
-                <TableCell align="center">Date / Time</TableCell>
-                <TableCell align="center">DeviceId</TableCell>
-                <TableCell align="center">DeviceName</TableCell>
-                <TableCell align="center">LogType</TableCell>
-                <TableCell align="center">LogDesc</TableCell>
-                {/* <TableCell align="center">Log Line Count</TableCell> */}
-                <TableCell align="center">BatteryLevel</TableCell>
-                {/* <TableCell align="center">Mac Id</TableCell> */}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {data
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((dataList, index) => (
-                  <TableRow key={index}>
-                    <TableCell align="center">{dataList.timestamp}</TableCell>
-                    <TableCell align="center">{dataList.device_id}</TableCell>
-                    <TableCell align="center">{dataList.device_name}</TableCell>
-                    <TableCell align="center">{dataList.log_type}</TableCell>
-                    <TableCell align="center">{dataList.log_desc}</TableCell>
-                    {/* <TableCell align="center">{dataList.log_line_count}</TableCell> */}
-                    <TableCell align="center">{dataList.battery_level}</TableCell>
-                    {/* <TableCell align="center">{dataList.mac_id}</TableCell> */}
-                  </TableRow>
-                ))}
-            </TableBody>
-          </StyledTable>
-
-          <TablePagination
-            sx={{ px: 2 }}
-            page={page}
-            component="div"
-            rowsPerPage={rowsPerPage}
-            count={data.length}
-            onPageChange={handleChangePage}
-            rowsPerPageOptions={[5, 10, 25]}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-            nextIconButtonProps={{ 'aria-label': 'Next Page' }}
-            backIconButtonProps={{ 'aria-label': 'Previous Page' }}
+          <TextField
+            label="Log Type"
+            value={logType}
+            onChange={(e) => setLogType(e.target.value)}
+            variant="outlined"
+            size="small" // Smaller input size
+            sx={{ marginRight: 2 }} // Add space between inputs
           />
         </Box>
+
+        <Box display="flex" justifyContent="flex-end" mb={2}>
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={handleClear} // Clear the TextField 
+            sx={{ mr: 2 }}
+
+          >
+            Clear
+          </Button>
+
+          <Button
+            variant="contained"
+            color="primary"
+            size="small"
+            onClick={handleFilter}
+          >
+            Filter
+          </Button>
+        </Box>
+
+        <Divider sx={{ marginBottom: 2 }} />
+        <StyledTable>
+          <TableHead>
+            <TableRow>
+              <TableCell align="center">Date / Time</TableCell>
+              <TableCell align="center">DeviceId</TableCell>
+              <TableCell align="center">DeviceName</TableCell>
+              <TableCell align="center">LogType</TableCell>
+              <TableCell align="center">LogDesc</TableCell>
+              {/* <TableCell align="center">Log Line Count</TableCell> */}
+              <TableCell align="center">BatteryLevel</TableCell>
+              {/* <TableCell align="center">Mac Id</TableCell> */}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {data
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((dataList, index) => (
+                <TableRow key={index}>
+                  <TableCell align="center">{dataList.timestamp}</TableCell>
+                  <TableCell align="center">{dataList.device_id}</TableCell>
+                  <TableCell align="center">{dataList.device_name}</TableCell>
+                  <TableCell align="center">{dataList.log_type}</TableCell>
+                  <TableCell align="center">{dataList.log_desc}</TableCell>
+                  {/* <TableCell align="center">{dataList.log_line_count}</TableCell> */}
+                  <TableCell align="center">{dataList.battery_level}</TableCell>
+                  {/* <TableCell align="center">{dataList.mac_id}</TableCell> */}
+                </TableRow>
+              ))}
+          </TableBody>
+        </StyledTable>
+
+        <TablePagination
+          sx={{ px: 2 }}
+          page={page}
+          component="div"
+          rowsPerPage={rowsPerPage}
+          count={data.length}
+          onPageChange={handleChangePage}
+          rowsPerPageOptions={[5, 10, 25]}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+          nextIconButtonProps={{ 'aria-label': 'Next Page' }}
+          backIconButtonProps={{ 'aria-label': 'Previous Page' }}
+        />
+        {/* </Box> */}
       </SimpleCard>
     </Container>
   );

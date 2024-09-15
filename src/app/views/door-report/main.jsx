@@ -1,21 +1,9 @@
-
-import {
-  Box,
-  Icon,
-  IconButton,
-  styled,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TablePagination,
-  TableRow,
-} from '@mui/material';
-
+import { Box, styled, Table, TableBody, TableCell, TableHead, TablePagination, TableRow, Divider } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { SimpleCard } from 'app/components';
 import axios from 'axios';
 import Download from './Download';
+import FilterSection from './FilterSection';
 
 const StyledTable = styled(Table)(() => ({
   whiteSpace: 'pre',
@@ -36,10 +24,15 @@ const Container = styled('div')(({ theme }) => ({
 }));
 
 const Main = () => {
-
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [data, setData] = useState([]);
+  const [filters, setFilters] = useState({
+    deviceId: '',
+    action: '',
+    startDate: '',
+    endDate: '',
+  });
 
   const handleChangePage = (_, newPage) => {
     setPage(newPage);
@@ -50,30 +43,31 @@ const Main = () => {
     setPage(0);
   };
 
-  const fetchData = async () => {
+  const fetchData = async (filterParams = {}) => {
     try {
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/getDeviceLogger`, {
-        log_type: 'Door'
+        log_type: 'Door',
+        ...filterParams,
       });
       setData(response.data.status);
     } catch (error) {
       console.error('Error fetching data:', error);
-
     }
   };
 
-  const formatDateTime = (dateString) => {
-    const dateObj = new Date(dateString);
+  const handleFilter = (filters) => {
+    setFilters(filters);
+    fetchData(filters);
+  };
 
-    const day = String(dateObj.getDate()).padStart(2, "0"); // Get day and add leading 0 if necessary
-    const month = String(dateObj.getMonth() + 1).padStart(2, "0"); // Get month (0-based, so +1) and add leading 0
-    const year = String(dateObj.getFullYear()).slice(2); // Get last two digits of the year
-
-    const hours = String(dateObj.getHours()).padStart(2, "0"); // Get hours and add leading 0
-    const minutes = String(dateObj.getMinutes()).padStart(2, "0"); // Get minutes and add leading 0
-    const seconds = String(dateObj.getSeconds()).padStart(2, "0"); // Get seconds and add leading 0
-
-    return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
+  const handleClear = () => {
+    setFilters({
+      deviceId: '',
+      action: '',
+      startDate: '',
+      endDate: '',
+    });
+    fetchData();
   };
 
   useEffect(() => {
@@ -87,6 +81,9 @@ const Main = () => {
       </Box>
 
       <SimpleCard title="Door Report">
+        <FilterSection onFilter={handleFilter} onClear={handleClear} />
+        <Divider sx={{ mb: 2 }} />
+
         <Box width="100%" overflow="auto">
           <StyledTable>
             <TableHead>
@@ -94,11 +91,7 @@ const Main = () => {
                 <TableCell align="center">Date / Time</TableCell>
                 <TableCell align="center">DeviceId</TableCell>
                 <TableCell align="center">DeviceName</TableCell>
-                {/* <TableCell align="center">DoorType</TableCell> */}
                 <TableCell align="center">Action</TableCell>
-                {/* <TableCell align="center">Log Line Count</TableCell> */}
-                {/* <TableCell align="center">Battery Level</TableCell> */}
-                {/* <TableCell align="center">Mac Id</TableCell> */}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -109,11 +102,7 @@ const Main = () => {
                     <TableCell align="center">{dataList.timestamp}</TableCell>
                     <TableCell align="center">{dataList.device_id}</TableCell>
                     <TableCell align="center">{dataList.device_name}</TableCell>
-                    {/* <TableCell align="center">{dataList.log_type}</TableCell> */}
                     <TableCell align="center">{dataList.log_desc}</TableCell>
-                    {/* <TableCell align="center">{dataList.log_line_count}</TableCell> */}
-                    {/* <TableCell align="center">{dataList.battery_level}</TableCell> */}
-                    {/* <TableCell align="center">{dataList.mac_id}</TableCell> */}
                   </TableRow>
                 ))}
             </TableBody>
@@ -128,13 +117,11 @@ const Main = () => {
             onPageChange={handleChangePage}
             rowsPerPageOptions={[5, 10, 25]}
             onRowsPerPageChange={handleChangeRowsPerPage}
-            nextIconButtonProps={{ 'aria-label': 'Next Page' }}
-            backIconButtonProps={{ 'aria-label': 'Previous Page' }}
           />
         </Box>
       </SimpleCard>
     </Container>
-  )
-}
+  );
+};
 
-export default Main
+export default Main;

@@ -45,7 +45,8 @@ const Main = () => {
   const [deviceName, setDeviceName] = useState('');
   const [macId, setMacId] = useState('');
   const [logType, setLogType] = useState('');
-
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
 
   const handleChangePage = (_, newPage) => {
     setPage(newPage);
@@ -73,6 +74,14 @@ const Main = () => {
         data.state = logType
       }
 
+      if (startDate) {
+        data.startDate = startDate;
+      }
+
+      if (endDate) {
+        data.endDate = endDate
+      }
+
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/getStateLogger`, data);
       setData(response.data.status);
       // Handle the API response here
@@ -88,6 +97,8 @@ const Main = () => {
     setDeviceName('');
     setLogType('');
     setMacId('');
+    setStartDate('');
+    setEndDate('');
     fetchData();
 
   };
@@ -131,6 +142,30 @@ const Main = () => {
 
           <Box display="flex" justifyContent="space-between" mb={2} mt={1} alignItems="center">
             <TextField
+              label="Start Date"
+              variant="outlined"
+              type="date"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              size="small"
+              InputLabelProps={{ shrink: true }}
+              // sx={{ width: '17%' }}
+              sx={{ marginRight: 2 }} // Add space between inputs
+
+            />
+            <TextField
+              label="End Date"
+              variant="outlined"
+              type="date"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+              size="small"
+              InputLabelProps={{ shrink: true }}
+              // sx={{ width: '17%' }}
+              sx={{ marginRight: 2 }} // Add space between inputs
+
+            />
+            <TextField
               label="Device ID"
               value={deviceId}
               onChange={(e) => setDeviceId(e.target.value)}
@@ -164,25 +199,28 @@ const Main = () => {
               size="small" // Smaller input size
               sx={{ marginRight: 2 }} // Add space between inputs
             />
+          </Box>
 
-            <Box display="flex" gap={1}>
-              <Button
-                variant="outlined"
-                color="secondary"
-                onClick={handleClear} // Clear the TextField value
-              >
-                Clear
-              </Button>
 
-              <Button
-                variant="contained"
-                color="primary"
-                size="small"
-                onClick={handleFilter}
-              >
-                Filter
-              </Button>
-            </Box>
+          <Box display="flex" justifyContent="flex-end" mb={2}>
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={handleClear} // Clear the TextField value
+              sx={{ mr: 2 }}
+
+            >
+              Clear
+            </Button>
+
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              onClick={handleFilter}
+            >
+              Filter
+            </Button>
           </Box>
 
           <Divider sx={{ marginBottom: 2 }} />
