@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TextField, Button, Grid } from '@mui/material';
+import { TextField, Button, Grid, Snackbar, Alert } from '@mui/material';
 import axios from 'axios';
 
 const EditForm = ({ data, onClose, fetchData }) => {
@@ -10,6 +10,10 @@ const EditForm = ({ data, onClose, fetchData }) => {
     endDate: data.endTime?.split(' ')[0] || '',
     endTime: data.endTime?.split(' ')[1] || ''
   });
+
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertSeverity, setAlertSeverity] = useState('success'); // 'success' | 'error'
 
   useEffect(() => {
     setFormData({
@@ -25,6 +29,10 @@ const EditForm = ({ data, onClose, fetchData }) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
+  const handleAlertClose = () => {
+    setAlertOpen(false); // Close the alert
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -36,13 +44,22 @@ const EditForm = ({ data, onClose, fetchData }) => {
 
       // Make API call to update data
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/updateMaintainenceRequest`, updatedData);
-      
+
       console.log("Update successful:", response.data);
       fetchData();
-      onClose(); // Close the dialog on successful update
+      setAlertMessage('Maintainence Updated successfully!');
+      setAlertSeverity('success');
+      fetchData();
+      setTimeout(() => {
+        onClose(); // Close the dialog on successful update
+      }, 1000)
 
     } catch (error) {
+      setAlertMessage(error.response?.data?.msg || 'Something Went Wrong');
+      setAlertSeverity('error');
       console.error("Error updating data:", error);
+    } finally {
+      setAlertOpen(true); // Show the alert after API response
     }
   };
 
@@ -126,6 +143,16 @@ const EditForm = ({ data, onClose, fetchData }) => {
       <Button color="secondary" onClick={onClose} sx={{ mt: 2, ml: 2 }}>
         Cancel
       </Button>
+
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={6000} // Adjust the duration as needed
+        onClose={handleAlertClose}
+      >
+        <Alert onClose={handleAlertClose} severity={alertSeverity}>
+          {alertMessage}
+        </Alert>
+      </Snackbar>
     </form>
   );
 };

@@ -84,7 +84,9 @@ const SimpleForm = ({ handleClose, fetchData }) => {
                 setAlertMessage('Device created successfully!');
                 setAlertSeverity('success');
                 fetchData();
-                handleClose();
+                setTimeout(() => {
+                    handleClose();
+                }, 1000)
             })
             .catch(error => {
                 setAlertMessage(error.response.data.msg || 'Something Went Wrong');

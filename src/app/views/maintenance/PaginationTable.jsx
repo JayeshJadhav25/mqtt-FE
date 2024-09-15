@@ -10,11 +10,11 @@ import {
   TablePagination,
   TableRow,
   Tooltip,
-  Snackbar, 
+  Snackbar,
   Alert,
-  Dialog, DialogActions, DialogContent, DialogTitle, Button
+  Dialog, DialogActions, DialogContent, DialogTitle, Button, DialogContentText
 } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from 'axios';
 import EditForm from './EditForm';
 const accessLevel = window.localStorage.getItem('accessLevel');
@@ -29,7 +29,7 @@ const StyledTable = styled(Table)(() => ({
   },
 }));
 
-const PaginationTable = ({maintenanceData, fetchData}) => {
+const PaginationTable = ({ maintenanceData, fetchData }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [openDialog, setOpenDialog] = useState(false);
@@ -37,11 +37,16 @@ const PaginationTable = ({maintenanceData, fetchData}) => {
 
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
-  const [alertSeverity, setAlertSeverity] = useState('success'); // 'success' | 'error'
+  const [alertSeverity, setAlertSeverity] = useState('success');
+
+  // New state for the confirm dialog
+  const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
+  const [confirmMessage, setConfirmMessage] = useState('');
+  const [confirmAction, setConfirmAction] = useState(null); // Stores the action for approval or rejection
 
   const handleAlertClose = () => {
-      setAlertOpen(false); // Close the alert
-    };
+    setAlertOpen(false);
+  };
 
   const handleChangePage = (_, newPage) => {
     setPage(newPage);
@@ -56,21 +61,20 @@ const PaginationTable = ({maintenanceData, fetchData}) => {
     try {
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/submitMaintainenceRequest`, { id, isApproved });
       console.log("Approval successful:", response.data);
-      if(isApproved) {
-        setAlertMessage('Request Approved Succesfully');
+      if (isApproved) {
+        setAlertMessage('Request Approved Successfully');
         setAlertSeverity('success');
       } else {
-        setAlertMessage('Request Rejected Succesfully!');
+        setAlertMessage('Request Rejected Successfully!');
         setAlertSeverity('success');
       }
-
     } catch (error) {
       console.error('Error:', error);
-      setAlertMessage(error.response.data.msg || 'Something Went Wrong');
+      setAlertMessage(error.response?.data?.msg || 'Something Went Wrong');
       setAlertSeverity('error');
-  } finally {
+    } finally {
       setAlertOpen(true); // Show the alert after API response
-  }
+    }
   };
 
   const handleEditClick = (data) => {
@@ -81,6 +85,23 @@ const PaginationTable = ({maintenanceData, fetchData}) => {
   const handleCloseDialog = () => {
     setOpenDialog(false);
     setSelectedData(null);
+  };
+
+  // Function to open confirm dialog
+  const openConfirmDialog = (id, isApproved) => {
+    const actionText = isApproved ? 'approve' : 'reject';
+    setConfirmMessage(`Are you sure you want to ${actionText} this request?`);
+    setConfirmAction(() => () => handleApproveReject(id, isApproved)); // Set the action
+    setConfirmDialogOpen(true); // Open confirmation dialog
+  };
+
+  const handleConfirmClose = () => {
+    setConfirmDialogOpen(false);
+  };
+
+  const handleConfirm = () => {
+    if (confirmAction) confirmAction(); // Execute the stored action (approve/reject)
+    setConfirmDialogOpen(false); // Close confirmation dialog
   };
 
   return (
@@ -95,7 +116,6 @@ const PaginationTable = ({maintenanceData, fetchData}) => {
             <TableCell align="center">Status</TableCell>
             <TableCell align="center">Devices</TableCell>
             {(accessLevel == 1 || accessLevel == 2) && (
-
               <TableCell align="center">Action</TableCell>
             )}
           </TableRow>
@@ -104,7 +124,7 @@ const PaginationTable = ({maintenanceData, fetchData}) => {
           {maintenanceData
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             .map((request, index) => (
-              <TableRow key={request.id}> {/* Use a unique key */}
+              <TableRow key={request.id}>
                 <TableCell align="center">{request.engineerName}</TableCell>
                 <TableCell align="center">{request.engineerContact}</TableCell>
                 <TableCell align="center">{request.startTime}</TableCell>
@@ -112,32 +132,30 @@ const PaginationTable = ({maintenanceData, fetchData}) => {
                 <TableCell align="center">{request.status}</TableCell>
                 <TableCell align="center">{request.devices}</TableCell>
                 {(accessLevel == 1 || accessLevel == 2) && (
-                <TableCell align="center">
-                      <>
-                        <Tooltip title='Reject'>
-                          <IconButton onClick={() => handleApproveReject(request.id, false)}>
-                            <Icon fontSize="small" color="error">close</Icon>
-                          </IconButton>
-                        </Tooltip>
-                        <Tooltip title='Approve'>
-                          <IconButton onClick={() => handleApproveReject(request.id, true)}>
-                            <Icon fontSize="small">check</Icon>
-                          </IconButton>
-                        </Tooltip>
-                      </>
-                  <Tooltip title='Edit'>
-                    <IconButton 
+                  <TableCell align="center">
+                    <>
+                      <Tooltip title="Reject">
+                        <IconButton onClick={() => openConfirmDialog(request.id, false)}>
+                          <Icon fontSize="small" color="error">close</Icon>
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="Approve">
+                        <IconButton onClick={() => openConfirmDialog(request.id, true)}>
+                          <Icon fontSize="small">check</Icon>
+                        </IconButton>
+                      </Tooltip>
+                    </>
+                    <Tooltip title="Edit">
+                      <IconButton
                         onClick={() => handleEditClick(request)}
-                        disabled={!request.isEditable} // Disable button if not editable
+                        disabled={!request.isEditable}
                         color={request.isEditable ? "primary" : "default"}
-                    >
-                      <Icon fontSize="small">edit</Icon>
-                    </IconButton>
-                  </Tooltip>
-
-                </TableCell>
-                                  )}
-
+                      >
+                        <Icon fontSize="small">edit</Icon>
+                      </IconButton>
+                    </Tooltip>
+                  </TableCell>
+                )}
               </TableRow>
             ))}
         </TableBody>
@@ -156,27 +174,37 @@ const PaginationTable = ({maintenanceData, fetchData}) => {
         backIconButtonProps={{ "aria-label": "Previous Page" }}
       />
 
-        <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth>
-          <DialogTitle>Edit Maintenance Request</DialogTitle>
-                <DialogContent>
-                  {selectedData && <EditForm data={selectedData} fetchData={fetchData} onClose={handleCloseDialog} />}
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={handleCloseDialog} color="primary">
-                    Close
-                  </Button>
-                </DialogActions>
-        </Dialog>
+      <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth>
+        <DialogTitle>Edit Maintenance Request</DialogTitle>
+        <DialogContent>
+          {selectedData && <EditForm data={selectedData} fetchData={fetchData} onClose={handleCloseDialog} />}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog} color="primary">Close</Button>
+        </DialogActions>
+      </Dialog>
 
-        <Snackbar
-                open={alertOpen}
-                autoHideDuration={6000} // Adjust the duration as needed
-                onClose={handleAlertClose}
-            >
-                <Alert onClose={handleAlertClose} severity={alertSeverity}>
-                    {alertMessage}
-                </Alert>
-            </Snackbar>
+      {/* Confirmation Dialog */}
+      <Dialog open={confirmDialogOpen} onClose={handleConfirmClose} fullWidth>
+        <DialogTitle>Confirm Action</DialogTitle>
+        <DialogContent>
+          <DialogContentText>{confirmMessage}</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleConfirmClose} color="primary">Cancel</Button>
+          <Button onClick={handleConfirm} color="primary" autoFocus>Confirm</Button>
+        </DialogActions>
+      </Dialog>
+
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={6000}
+        onClose={handleAlertClose}
+      >
+        <Alert onClose={handleAlertClose} severity={alertSeverity}>
+          {alertMessage}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

@@ -294,7 +294,7 @@ const PaginationTable = ({ data, fetchData }) => {
                             onChange={handleUserChange}
                         >
                             {users.map((user, index) => (
-                                <MenuItem key={index} value={user.id}>{user.username}</MenuItem>
+                                <MenuItem key={index} value={user.id}>{user.userName}</MenuItem>
                             ))}
                         </Select>
                     </FormControl>

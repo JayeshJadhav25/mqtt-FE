@@ -91,7 +91,7 @@ const Main = () => {
           <StyledTable>
             <TableHead>
               <TableRow>
-                <TableCell align="center">Timestamp </TableCell>
+                <TableCell align="center">Date / Time</TableCell>
                 <TableCell align="center">DeviceId</TableCell>
                 <TableCell align="center">DeviceName</TableCell>
                 {/* <TableCell align="center">DoorType</TableCell> */}
