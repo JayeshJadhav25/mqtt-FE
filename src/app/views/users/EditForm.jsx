@@ -36,7 +36,7 @@ const EditForm = ({ data, onClose, fetchData }) => {
             fetchData();
             setTimeout(() => {
                 onClose(); // Close the dialog on successful update
-            },1000)
+            }, 1000)
 
         } catch (error) {
             setAlertMessage(error.response?.data?.msg || 'Something Went Wrong');
@@ -115,6 +115,7 @@ const EditForm = ({ data, onClose, fetchData }) => {
                 open={alertOpen}
                 autoHideDuration={6000} // Adjust the duration as needed
                 onClose={handleAlertClose}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
             >
                 <Alert onClose={handleAlertClose} severity={alertSeverity}>
                     {alertMessage}

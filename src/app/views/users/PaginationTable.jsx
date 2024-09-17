@@ -17,7 +17,7 @@ import {
   Select,
   MenuItem,
   InputLabel,
-  Dialog, DialogActions, DialogContent, DialogTitle, Button
+  Dialog, DialogActions, DialogContent, DialogTitle, Button, Divider
 } from "@mui/material";
 import { useState, useEffect } from "react";
 import axios from 'axios';
@@ -150,8 +150,8 @@ const PaginationTable = ({ data, fetchData, setData }) => {
           value={userName}
           onChange={(e) => setUserName(e.target.value)}
           variant="outlined"
-          size="small" // Smaller input size
-          sx={{ marginRight: 2 }} // Add space between inputs
+          size="small"
+          sx={{ width: '25%', marginRight: 2 }} // Set uniform width
         />
 
         <TextField
@@ -159,11 +159,11 @@ const PaginationTable = ({ data, fetchData, setData }) => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           variant="outlined"
-          size="small" // Smaller input size
-          sx={{ marginRight: 2 }} // Add space between inputs
+          size="small"
+          sx={{ width: '25%', marginRight: 2 }} // Set uniform width
         />
 
-        <FormControl variant="outlined" size="small" sx={{ marginRight: 2, flex: 1 }}>
+        <FormControl variant="outlined" size="small" sx={{ width: '25%', marginRight: 2 }}>
           <InputLabel>Status</InputLabel>
           <Select
             name="status"
@@ -176,8 +176,8 @@ const PaginationTable = ({ data, fetchData, setData }) => {
           </Select>
         </FormControl>
 
-        <FormControl variant="outlined" size="small" sx={{ marginRight: 2, flex: 1 }}>
-          <InputLabel>AccessLevel</InputLabel>
+        <FormControl variant="outlined" size="small" sx={{ width: '25%', marginRight: 2 }}>
+          <InputLabel>Access Level</InputLabel>
           <Select
             name="accessLevel"
             value={accessLevel}
@@ -188,26 +188,33 @@ const PaginationTable = ({ data, fetchData, setData }) => {
             <MenuItem value="3">Supervisor</MenuItem>
           </Select>
         </FormControl>
-
-        <Box display="flex" gap={1}>
-          <Button
-            variant="outlined"
-            color="secondary"
-            onClick={handleClear}
-          >
-            Clear
-          </Button>
-
-          <Button
-            variant="contained"
-            color="primary"
-            size="small"
-            onClick={handleFilter}
-          >
-            Filter
-          </Button>
-        </Box>
       </Box>
+
+      <Box display="flex" justifyContent="flex-end" mb={2}>
+
+        <Button
+          variant="contained"
+          color="primary"
+          size="small"
+          onClick={handleFilter}
+          sx={{ mr: 2 }}
+        >
+          Filter
+        </Button>
+
+        <Button
+          variant="outlined"
+          color="secondary"
+          onClick={handleClear}
+          sx={{ height: '100%' }}  // Ensure button matches field height
+        >
+          Clear
+        </Button>
+
+
+      </Box>
+
+      <Divider sx={{ marginBottom: 2 }} />
 
       <StyledTable>
         <TableHead>
@@ -308,6 +315,7 @@ const PaginationTable = ({ data, fetchData, setData }) => {
         open={alertOpen}
         autoHideDuration={6000}
         onClose={handleAlertClose}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
       >
         <Alert onClose={handleAlertClose} severity={alertSeverity}>
           {alertMessage}

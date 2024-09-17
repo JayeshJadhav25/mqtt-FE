@@ -148,6 +148,8 @@ const EditForm = ({ data, onClose, fetchData }) => {
         open={alertOpen}
         autoHideDuration={6000} // Adjust the duration as needed
         onClose={handleAlertClose}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+
       >
         <Alert onClose={handleAlertClose} severity={alertSeverity}>
           {alertMessage}

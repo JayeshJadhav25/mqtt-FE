@@ -244,6 +244,8 @@ const SimpleForm = ({ handleClose, fetchData }) => {
                 open={alertOpen}
                 autoHideDuration={6000}
                 onClose={handleAlertClose}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+
             >
                 <Alert onClose={handleAlertClose} severity={alertSeverity}>
                     {alertMessage}

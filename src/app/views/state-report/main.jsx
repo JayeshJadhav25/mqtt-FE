@@ -149,9 +149,7 @@ const Main = () => {
               onChange={(e) => setStartDate(e.target.value)}
               size="small"
               InputLabelProps={{ shrink: true }}
-              // sx={{ width: '17%' }}
-              sx={{ marginRight: 2 }} // Add space between inputs
-
+              sx={{ width: '20%', marginRight: 2 }} // Set uniform width
             />
             <TextField
               label="End Date"
@@ -161,66 +159,57 @@ const Main = () => {
               onChange={(e) => setEndDate(e.target.value)}
               size="small"
               InputLabelProps={{ shrink: true }}
-              // sx={{ width: '17%' }}
-              sx={{ marginRight: 2 }} // Add space between inputs
-
+              sx={{ width: '20%', marginRight: 2 }} // Set uniform width
             />
             <TextField
               label="Device ID"
               value={deviceId}
               onChange={(e) => setDeviceId(e.target.value)}
               variant="outlined"
-              size="small" // Smaller input size
-              sx={{ marginRight: 2 }} // Add space between inputs
+              size="small"
+              sx={{ width: '20%', marginRight: 2 }} // Set uniform width
             />
             <TextField
               label="Device Name"
               value={deviceName}
               onChange={(e) => setDeviceName(e.target.value)}
               variant="outlined"
-              size="small" // Smaller input size
-              sx={{ marginRight: 2 }} // Add space between inputs
+              size="small"
+              sx={{ width: '20%', marginRight: 2 }} // Set uniform width
             />
-
-            {/* <TextField
-              label="Mac Id"
-              value={macId}
-              onChange={(e) => setMacId(e.target.value)}
-              variant="outlined"
-              size="small" // Smaller input size
-              sx={{ marginRight: 2 }} // Add space between inputs
-            /> */}
-
             <TextField
               label="Device State"
               value={logType}
               onChange={(e) => setLogType(e.target.value)}
               variant="outlined"
-              size="small" // Smaller input size
-              sx={{ marginRight: 2 }} // Add space between inputs
+              size="small"
+              sx={{ width: '20%' }} // Set uniform width, no margin needed on the last item
             />
           </Box>
 
 
+
           <Box display="flex" justifyContent="flex-end" mb={2}>
-            <Button
-              variant="outlined"
-              color="secondary"
-              onClick={handleClear} // Clear the TextField value
-              sx={{ mr: 2 }}
-
-            >
-              Clear
-            </Button>
-
             <Button
               variant="contained"
               color="primary"
               size="small"
               onClick={handleFilter}
+              sx={{ mr: 2 }}
             >
               Filter
             </Button>
+
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={handleClear} // Clear the TextField value
+
+            >
+              Clear
+            </Button>
+
+
           </Box>
 
           <Divider sx={{ marginBottom: 2 }} />

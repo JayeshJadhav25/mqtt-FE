@@ -144,6 +144,7 @@ const PaginationTable = ({ data, fetchData }) => {
     };
 
     const handleUserChange = (event) => {
+        console.log('event.target.value', event.target.value)
         setSelectedUser(event.target.value);
     };
 
@@ -239,7 +240,7 @@ const PaginationTable = ({ data, fetchData }) => {
                                 <TableCell align="center">{dataList.status}</TableCell>
                                 <TableCell align="center">{dataList.mqttPort}</TableCell>
                                 {(accessLevel == 1 || accessLevel == 2) &&
-                                    <TableCell align="left">
+                                    <TableCell align="center">
                                         {accessLevel == 1 &&
                                             <Tooltip title='Delete User'>
                                                 <IconButton onClick={() => handleDelete(dataList.id)} color="error">
@@ -258,7 +259,7 @@ const PaginationTable = ({ data, fetchData }) => {
                                     </TableCell>
                                 }
                                 {accessLevel == 1 &&
-                                    <TableCell align="right">
+                                    <TableCell align="center">
                                         <Switch
                                             checked={toggleStates[dataList.id] || false}
                                             onChange={handleToggleChange(dataList.id)}
@@ -294,7 +295,7 @@ const PaginationTable = ({ data, fetchData }) => {
                             onChange={handleUserChange}
                         >
                             {users.map((user, index) => (
-                                <MenuItem key={index} value={user.id}>{user.userName}</MenuItem>
+                                <MenuItem key={user._id} value={user._id}>{user.userName}</MenuItem>
                             ))}
                         </Select>
                     </FormControl>
@@ -345,7 +346,7 @@ const PaginationTable = ({ data, fetchData }) => {
                     {alertMessage}
                 </Alert>
             </Snackbar>
-        </Box>
+        </Box >
     );
 };
 

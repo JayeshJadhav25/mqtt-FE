@@ -3,7 +3,7 @@ import {
     Grid,
     styled,
     MenuItem,
-    Snackbar, 
+    Snackbar,
     Alert
 } from "@mui/material";
 import { Span } from "app/components/Typography";
@@ -17,7 +17,7 @@ const TextField = styled(TextValidator)(() => ({
     marginBottom: "16px",
 }));
 
-const SimpleForm = ({ handleClose,fetchData }) => {
+const SimpleForm = ({ handleClose, fetchData }) => {
     const [state, setState] = useState({
         // date: new Date(),
         // dropdown: [], // Initialize as an array for multi-selection
@@ -30,7 +30,7 @@ const SimpleForm = ({ handleClose,fetchData }) => {
 
     const handleAlertClose = () => {
         setAlertOpen(false); // Close the alert
-      };
+    };
     const handleSubmit = async (event) => {
         console.log("submitted");
         event.preventDefault();
@@ -39,14 +39,14 @@ const SimpleForm = ({ handleClose,fetchData }) => {
                 ...state,
                 id: uuid(),
                 mqttTopic: state.mqttTopic ? [state.mqttTopic] : [],
-              };
+            };
             const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/createMQTTDevice`, updatedFormData);
             setAlertMessage('Device created successfully!');
             setAlertSeverity('success');
             fetchData()
             setTimeout(() => {
                 handleClose()
-            },1000)
+            }, 1000)
             // console.log('Success:', response.data);
         } catch (error) {
             console.error('Error:', error);
@@ -110,8 +110,8 @@ const SimpleForm = ({ handleClose,fetchData }) => {
                             validators={["required"]}
                             errorMessages={["this field is required"]}
                         />
-                                                
-                                                
+
+
                         <TextField
                             type="text"
                             name="mqttUserName"
@@ -121,7 +121,7 @@ const SimpleForm = ({ handleClose,fetchData }) => {
                             validators={["required"]}
                             errorMessages={["this field is required"]}
                         />
-                                                                        
+
                         <TextField
                             type="text"
                             name="mqttPassword"
@@ -132,7 +132,7 @@ const SimpleForm = ({ handleClose,fetchData }) => {
                             errorMessages={["this field is required"]}
                         />
 
-                        
+
                         <TextField
                             type="text"
                             name="mqttTopic"
@@ -143,7 +143,7 @@ const SimpleForm = ({ handleClose,fetchData }) => {
                             errorMessages={["this field is required"]}
                         />
 
-                        
+
                         {/* <TextField
                             type="text"
                             name="mqttUrl"
@@ -173,9 +173,9 @@ const SimpleForm = ({ handleClose,fetchData }) => {
                             errorMessages={['This field is required']}
                             sx={{ mb: 2, width: '100%' }}
                         >
-                        {/* <MenuItem value=""> */}
+                            {/* <MenuItem value=""> */}
                             {/* <em>None</em> */}
-                        {/* </MenuItem> */}
+                            {/* </MenuItem> */}
                             <MenuItem value="Active">Active</MenuItem>
                             <MenuItem value="InActive">InActive</MenuItem>
                         </SelectValidator>
@@ -207,6 +207,8 @@ const SimpleForm = ({ handleClose,fetchData }) => {
                 open={alertOpen}
                 autoHideDuration={6000} // Adjust the duration as needed
                 onClose={handleAlertClose}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+
             >
                 <Alert onClose={handleAlertClose} severity={alertSeverity}>
                     {alertMessage}

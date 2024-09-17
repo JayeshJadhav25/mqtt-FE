@@ -3,7 +3,7 @@ import {
     Grid,
     styled,
     MenuItem,
-    Snackbar, 
+    Snackbar,
     Alert,
     Box,
     Icon
@@ -29,11 +29,11 @@ const EditForm = ({ fetchData, dataList }) => {
     const [open, setOpen] = React.useState(false);
 
     function handleClickOpen() {
-      setOpen(true);
+        setOpen(true);
     }
-  
+
     function handleClose() {
-      setOpen(false);
+        setOpen(false);
     }
 
     const [state, setState] = useState(dataList);
@@ -44,7 +44,7 @@ const EditForm = ({ fetchData, dataList }) => {
 
     const handleAlertClose = () => {
         setAlertOpen(false); // Close the alert
-      };
+    };
     const handleSubmit = async (event) => {
         console.log("submitted");
         event.preventDefault();
@@ -53,14 +53,14 @@ const EditForm = ({ fetchData, dataList }) => {
                 ...state,
                 // id: uuid(),
                 mqttTopic: state.mqttTopic ? [state.mqttTopic] : [],
-              };
+            };
             const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/updateMQTTDevice`, updatedFormData);
             setAlertMessage('Device updated successfully!');
             setAlertSeverity('success');
             fetchData()
             setTimeout(() => {
                 handleClose()
-            },1000)
+            }, 1000)
             // console.log('Success:', response.data);
         } catch (error) {
             console.error('Error:', error);
@@ -93,79 +93,79 @@ const EditForm = ({ fetchData, dataList }) => {
         // <div>
         <Box>
             <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-            <Icon>edit</Icon>
-        </Button>
-        <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" fullWidth={true} maxWidth="sm">
-        <DialogTitle id="form-dialog-title">Edit Device</DialogTitle>
-        <DialogContent>
-            <ValidatorForm onSubmit={handleSubmit} onError={() => null}>
-                <Grid container spacing={6}>
-                    <Grid item lg={12} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
-                        <TextField
-                            type="text"
-                            name="deviceId"
-                            id="standard-basic"
-                            value={deviceId || ""}
-                            onChange={handleChange}
-                            errorMessages={["this field is required"]}
-                            label="Device Id *"
-                            validators={["required"]}
-                        />
+                <Icon>edit</Icon>
+            </Button>
+            <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" fullWidth={true} maxWidth="sm">
+                <DialogTitle id="form-dialog-title">Edit Device</DialogTitle>
+                <DialogContent>
+                    <ValidatorForm onSubmit={handleSubmit} onError={() => null}>
+                        <Grid container spacing={6}>
+                            <Grid item lg={12} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
+                                <TextField
+                                    type="text"
+                                    name="deviceId"
+                                    id="standard-basic"
+                                    value={deviceId || ""}
+                                    onChange={handleChange}
+                                    errorMessages={["this field is required"]}
+                                    label="Device Id *"
+                                    validators={["required"]}
+                                />
 
-                        <TextField
-                            type="text"
-                            name="deviceName"
-                            label="Device Name *"
-                            onChange={handleChange}
-                            value={deviceName || ""}
-                            validators={["required"]}
-                            errorMessages={["this field is required"]}
-                        />
+                                <TextField
+                                    type="text"
+                                    name="deviceName"
+                                    label="Device Name *"
+                                    onChange={handleChange}
+                                    value={deviceName || ""}
+                                    validators={["required"]}
+                                    errorMessages={["this field is required"]}
+                                />
 
-                        <TextField
-                            type="text"
-                            name="mqttIP"
-                            label="MQTT IP *"
-                            onChange={handleChange}
-                            value={mqttIP || ""}
-                            validators={["required"]}
-                            errorMessages={["this field is required"]}
-                        />
-                                                
-                                                
-                        <TextField
-                            type="text"
-                            name="mqttUserName"
-                            label="MQTT User Name *"
-                            onChange={handleChange}
-                            value={mqttUserName || ""}
-                            validators={["required"]}
-                            errorMessages={["this field is required"]}
-                        />
-                                                                        
-                        <TextField
-                            type="text"
-                            name="mqttPassword"
-                            label="MQTT Username Password *"
-                            onChange={handleChange}
-                            value={mqttPassword || ""}
-                            validators={["required"]}
-                            errorMessages={["this field is required"]}
-                        />
+                                <TextField
+                                    type="text"
+                                    name="mqttIP"
+                                    label="MQTT IP *"
+                                    onChange={handleChange}
+                                    value={mqttIP || ""}
+                                    validators={["required"]}
+                                    errorMessages={["this field is required"]}
+                                />
 
-                        
-                        <TextField
-                            type="text"
-                            name="mqttTopic"
-                            label="MQTT Topic *"
-                            onChange={handleChange}
-                            value={mqttTopic || ""}
-                            validators={["required"]}
-                            errorMessages={["this field is required"]}
-                        />
 
-                        
-                        {/* <TextField
+                                <TextField
+                                    type="text"
+                                    name="mqttUserName"
+                                    label="MQTT User Name *"
+                                    onChange={handleChange}
+                                    value={mqttUserName || ""}
+                                    validators={["required"]}
+                                    errorMessages={["this field is required"]}
+                                />
+
+                                <TextField
+                                    type="text"
+                                    name="mqttPassword"
+                                    label="MQTT Username Password *"
+                                    onChange={handleChange}
+                                    value={mqttPassword || ""}
+                                    validators={["required"]}
+                                    errorMessages={["this field is required"]}
+                                />
+
+
+                                <TextField
+                                    type="text"
+                                    name="mqttTopic"
+                                    label="MQTT Topic *"
+                                    onChange={handleChange}
+                                    value={mqttTopic || ""}
+                                    validators={["required"]}
+                                    errorMessages={["this field is required"]}
+                                />
+
+
+                                {/* <TextField
                             type="text"
                             name="mqttUrl"
                             label="MQTT Url *"
@@ -175,60 +175,61 @@ const EditForm = ({ fetchData, dataList }) => {
                             errorMessages={["this field is required"]}
                         /> */}
 
-                        <TextField
-                            type="text"
-                            name="mqttMacId"
-                            label="MQTT Mac Id *"
-                            onChange={handleChange}
-                            value={mqttMacId || ""}
-                            validators={["required"]}
-                            errorMessages={["this field is required"]}
-                        />
+                                <TextField
+                                    type="text"
+                                    name="mqttMacId"
+                                    label="MQTT Mac Id *"
+                                    onChange={handleChange}
+                                    value={mqttMacId || ""}
+                                    validators={["required"]}
+                                    errorMessages={["this field is required"]}
+                                />
 
-                        <SelectValidator
-                            name="status"
-                            label="Status"
-                            value={status}
-                            onChange={handleChange}
-                            validators={['required']}
-                            errorMessages={['This field is required']}
-                            sx={{ mb: 2, width: '100%' }}
-                        >
-                        {/* <MenuItem value=""> */}
-                            {/* <em>None</em> */}
-                        {/* </MenuItem> */}
-                            <MenuItem value="Active">Active</MenuItem>
-                            <MenuItem value="InActive">InActive</MenuItem>
-                        </SelectValidator>
+                                <SelectValidator
+                                    name="status"
+                                    label="Status"
+                                    value={status}
+                                    onChange={handleChange}
+                                    validators={['required']}
+                                    errorMessages={['This field is required']}
+                                    sx={{ mb: 2, width: '100%' }}
+                                >
+                                    {/* <MenuItem value=""> */}
+                                    {/* <em>None</em> */}
+                                    {/* </MenuItem> */}
+                                    <MenuItem value="Active">Active</MenuItem>
+                                    <MenuItem value="InActive">InActive</MenuItem>
+                                </SelectValidator>
 
-                        <TextField
-                            type="text"
-                            name="mqttPort"
-                            label="MQTT Port *"
-                            onChange={handleChange}
-                            value={mqttPort || ""}
-                            validators={["required"]}
-                            errorMessages={["this field is required"]}
-                        />
-                    </Grid>
-                </Grid>
-                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <Button color="secondary" variant="outlined" sx={{ mr: 2 }} onClick={handleClose}>
-                        {/* <Icon>send</Icon> */}
-                        <Span sx={{ textTransform: 'none' }}>Cancel</Span>
-                    </Button>
-                    <Button color="primary" variant="outlined" type="submit">
-                        {/* <Icon>send</Icon> */}
-                        <Span sx={{ textTransform: 'none' }}>Update</Span>
-                    </Button>
-                </div>
-            </ValidatorForm>
-        </DialogContent>
-        </Dialog>
+                                <TextField
+                                    type="text"
+                                    name="mqttPort"
+                                    label="MQTT Port *"
+                                    onChange={handleChange}
+                                    value={mqttPort || ""}
+                                    validators={["required"]}
+                                    errorMessages={["this field is required"]}
+                                />
+                            </Grid>
+                        </Grid>
+                        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                            <Button color="secondary" variant="outlined" sx={{ mr: 2 }} onClick={handleClose}>
+                                {/* <Icon>send</Icon> */}
+                                <Span sx={{ textTransform: 'none' }}>Cancel</Span>
+                            </Button>
+                            <Button color="primary" variant="outlined" type="submit">
+                                {/* <Icon>send</Icon> */}
+                                <Span sx={{ textTransform: 'none' }}>Update</Span>
+                            </Button>
+                        </div>
+                    </ValidatorForm>
+                </DialogContent>
+            </Dialog>
             <Snackbar
                 open={alertOpen}
                 autoHideDuration={6000} // Adjust the duration as needed
                 onClose={handleAlertClose}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
             >
                 <Alert onClose={handleAlertClose} severity={alertSeverity}>
                     {alertMessage}

@@ -39,7 +39,7 @@ const FilterSection = ({ onFilter, onClear }) => {
     };
 
     return (
-        <Box display="flex" alignItems="center" justifyContent="space-between" mb={2}>
+        <Box display="flex" justifyContent="space-between" mb={2} mt={1} alignItems="center">
             <Box display="flex" gap={2}>
                 <TextField
                     label="DeviceId"
@@ -47,6 +47,7 @@ const FilterSection = ({ onFilter, onClear }) => {
                     value={filters.deviceId}
                     size="small"
                     onChange={handleInputChange}
+                    sx={{ width: '25%' }}  // Set uniform width
                 />
                 <TextField
                     label="Action"
@@ -54,6 +55,7 @@ const FilterSection = ({ onFilter, onClear }) => {
                     value={filters.action}
                     size="small"
                     onChange={handleInputChange}
+                    sx={{ width: '25%' }}  // Set uniform width
                 />
                 <TextField
                     label="Start Date"
@@ -63,6 +65,7 @@ const FilterSection = ({ onFilter, onClear }) => {
                     value={filters.startDate}
                     size="small"
                     onChange={handleInputChange}
+                    sx={{ width: '25%' }}  // Set uniform width
                 />
                 <TextField
                     label="End Date"
@@ -72,8 +75,10 @@ const FilterSection = ({ onFilter, onClear }) => {
                     value={filters.endDate}
                     size="small"
                     onChange={handleInputChange}
+                    sx={{ width: '25%' }}  // Set uniform width
                 />
             </Box>
+
             <Box>
                 <Button variant="contained" color="primary" onClick={handleFilter} sx={{ mr: 2 }}>
                     Filter
