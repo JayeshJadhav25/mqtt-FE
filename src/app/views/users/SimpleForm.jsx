@@ -6,8 +6,11 @@ import {
     Select,
     MenuItem,
     InputLabel,
-    FormControl
+    FormControl,
+    IconButton,
+    InputAdornment
 } from "@mui/material";
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Span } from "app/components/Typography";
 import { useEffect, useState } from "react";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
@@ -34,6 +37,9 @@ const SimpleForm = ({ handleClose, fetchData }) => {
     const [alertOpen, setAlertOpen] = useState(false);
     const [alertMessage, setAlertMessage] = useState('');
     const [alertSeverity, setAlertSeverity] = useState('success'); // 'success' | 'error'
+
+    const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false); // State to toggle confirm password visibility
 
     useEffect(() => {
         // Custom validation for no numbers
@@ -104,6 +110,7 @@ const SimpleForm = ({ handleClose, fetchData }) => {
 
     }, [state.password]);
 
+
     const handleAlertClose = () => {
         setAlertOpen(false); // Close the alert
     };
@@ -149,6 +156,14 @@ const SimpleForm = ({ handleClose, fetchData }) => {
         }));
     };
 
+    const handleClickShowPassword = () => {
+        setShowPassword(!showPassword); // Toggle password visibility
+    };
+
+    const handleClickShowConfirmPassword = () => {
+        setShowConfirmPassword(!showConfirmPassword); // Toggle confirm password visibility
+    };
+
     const {
         name,
         userName,
@@ -165,6 +180,7 @@ const SimpleForm = ({ handleClose, fetchData }) => {
                 <Grid container spacing={6}>
                     <Grid item lg={12} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
 
+                        {/* Name Field */}
                         <TextField
                             sx={{ mb: 2 }}
                             type="text"
@@ -190,6 +206,7 @@ const SimpleForm = ({ handleClose, fetchData }) => {
                             ]}
                         />
 
+                        {/* Username Field */}
                         <TextField
                             sx={{ mb: 2 }}
                             type="text"
@@ -204,7 +221,6 @@ const SimpleForm = ({ handleClose, fetchData }) => {
                                 "noSpaces",
                                 "noHTMLTags",
                                 "noEmojis",
-                                // "noRestrictedKeywords"
                             ]}
                             errorMessages={[
                                 "This field is required",
@@ -213,21 +229,22 @@ const SimpleForm = ({ handleClose, fetchData }) => {
                                 "Username should not contain any spaces",
                                 "Username should not contain HTML tags",
                                 "Username should not contain emojis",
-                                // "Username contains restricted keywords",
                             ]}
                         />
 
+                        {/* Email Field */}
                         <TextField
                             sx={{ mb: 2 }}
                             type="email"
                             name="email"
                             label="Email *"
+                            autoComplete="off"
                             onChange={handleChange}
                             value={email}
                             validators={[
                                 "required",
                                 "isEmail",
-                                "noSpaces",  // Custom validator to check for spaces
+                                "noSpaces",
                                 "maxEmailLength",
                                 "maxDomainLength",
                                 "validDomain",
@@ -235,19 +252,20 @@ const SimpleForm = ({ handleClose, fetchData }) => {
                             errorMessages={[
                                 "This field is required",
                                 "Email is not valid",
-                                "Email cannot contain spaces",  // Error message for spaces
+                                "Email cannot contain spaces",
                                 "Email is too long",
                                 "Email domain is too long",
                                 "Email domain is invalid",
-                                // "Email cannot have leading or trailing spaces"
                             ]}
                         />
 
+                        {/* Password Field with Toggle Visibility */}
                         <TextField
                             sx={{ mb: 2 }}
-                            type="text"
+                            type={showPassword ? "text" : "password"}
                             name="password"
                             label="Password *"
+                            autoComplete="new-password"  // Prevent browser autofill
                             onChange={handleChange}
                             value={password}
                             validators={[
@@ -266,13 +284,28 @@ const SimpleForm = ({ handleClose, fetchData }) => {
                                 "Password should not contain emojis",
                                 "Password must contain uppercase, lowercase, digit, and special character",
                             ]}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleClickShowPassword}
+                                            edge="end"
+                                        >
+                                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                )
+                            }}
                         />
 
+                        {/* Confirm Password Field with Toggle Visibility */}
                         <TextField
                             sx={{ mb: 2 }}
-                            type="text"
+                            type={showConfirmPassword ? "text" : "password"}
                             name="confirmPassword"
                             label="Confirm Password *"
+                            autoComplete="new-password"  // Prevent browser autofill
                             onChange={handleChange}
                             value={confirmPassword}
                             validators={[
@@ -283,8 +316,22 @@ const SimpleForm = ({ handleClose, fetchData }) => {
                                 "This field is required",
                                 "Passwords do not match"
                             ]}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle confirm password visibility"
+                                            onClick={handleClickShowConfirmPassword}
+                                            edge="end"
+                                        >
+                                            {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                )
+                            }}
                         />
 
+                        {/* Status Field */}
                         <FormControl fullWidth variant="filled" sx={{ mb: 2 }}>
                             <InputLabel>Status *</InputLabel>
                             <Select
@@ -298,6 +345,7 @@ const SimpleForm = ({ handleClose, fetchData }) => {
                             </Select>
                         </FormControl>
 
+                        {/* Access Level Field */}
                         <FormControl fullWidth variant="filled" sx={{ mb: 2 }}>
                             <InputLabel>Access Level *</InputLabel>
                             <Select
@@ -325,10 +373,8 @@ const SimpleForm = ({ handleClose, fetchData }) => {
 
             <Snackbar
                 open={alertOpen}
-                autoHideDuration={6000} // Adjust the duration as needed
+                autoHideDuration={6000} // Adjust duration as needed
                 onClose={handleAlertClose}
-                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-
             >
                 <Alert onClose={handleAlertClose} severity={alertSeverity}>
                     {alertMessage}
