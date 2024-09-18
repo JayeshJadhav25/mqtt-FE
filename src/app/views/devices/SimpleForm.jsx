@@ -115,21 +115,21 @@ const SimpleForm = ({ handleClose, fetchData }) => {
                         <TextField
                             type="text"
                             name="mqttUserName"
-                            label="MQTT User Name *"
+                            label="MQTT UserName"
                             onChange={handleChange}
                             value={mqttUserName || ""}
-                            validators={["required"]}
-                            errorMessages={["this field is required"]}
+                        // validators={["required"]}
+                        // errorMessages={["this field is required"]}
                         />
 
                         <TextField
                             type="text"
                             name="mqttPassword"
-                            label="MQTT Username Password *"
+                            label="MQTT Password"
                             onChange={handleChange}
                             value={mqttPassword || ""}
-                            validators={["required"]}
-                            errorMessages={["this field is required"]}
+                        // validators={["required"]}
+                        // errorMessages={["this field is required"]}
                         />
 
 

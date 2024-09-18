@@ -27,7 +27,9 @@ import axios from 'axios';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import EditForm from './EditForm';
+import EditFormV2 from "./EditFormV2";
 import uuid from 'react-uuid';
+import EditIcon from '@mui/icons-material/Edit';
 
 const accessLevel = window.localStorage.getItem('accessLevel');
 
@@ -58,6 +60,9 @@ const PaginationTable = ({ data, fetchData }) => {
     const [deleteConfirmDialogOpen, setDeleteConfirmDialogOpen] = useState(false);
     const [deleteDeviceId, setDeleteDeviceId] = useState(null);
 
+    const [editDialogOpen, setEditDialogOpen] = useState(false);
+    const [editingDevice, setEditingDevice] = useState(null);
+
     useEffect(() => {
         // Initialize toggle states based on backend data
         const initialToggleStates = {};
@@ -71,6 +76,16 @@ const PaginationTable = ({ data, fetchData }) => {
         setCurrentRelayId(id);
         setCurrentRelayState(event.target.checked);
         setConfirmDialogOpen(true);
+    };
+
+    const handleEditClick = (device) => {
+        setEditingDevice(device); // Set the device to be edited
+        setEditDialogOpen(true);  // Open the edit dialog
+    };
+
+    const handleEditClose = () => {
+        setEditDialogOpen(false); // Close the edit dialog
+        setEditingDevice(null);   // Reset the editing device
     };
 
     const handleConfirmToggle = async () => {
@@ -181,6 +196,22 @@ const PaginationTable = ({ data, fetchData }) => {
         setDeleteConfirmDialogOpen(false);
     };
 
+
+    const handleEditSubmit = async (updatedDeviceData) => {
+        try {
+            const result = await axios.post(`${process.env.REACT_APP_API_URL}/api/updateMQTTDevice`, updatedDeviceData);
+            setAlertMessage('Device updated successfully!');
+            setAlertSeverity('success');
+            fetchData(); // Fetch updated data after the edit
+        } catch (error) {
+            setAlertMessage(error.response.data.msg || 'Something went wrong');
+            setAlertSeverity('error');
+        } finally {
+            setAlertOpen(true);
+        }
+        handleEditClose();
+    };
+
     const handleRelayOff = async (id) => {
         try {
             const result = await axios.post(`${process.env.REACT_APP_API_URL}/api/relayTriggerOffMQTTDevice`, { id });
@@ -253,9 +284,14 @@ const PaginationTable = ({ data, fetchData }) => {
                                                 <AssignmentIcon />
                                             </IconButton>
                                         </Tooltip>
-                                        <IconButton color="primary" >
+                                        <Tooltip title='Edit Device'>
+                                            <IconButton onClick={() => handleEditClick(dataList)} color="primary">
+                                                <EditIcon />
+                                            </IconButton>
+                                        </Tooltip>
+                                        {/* <IconButton color="primary" >
                                             <EditForm fetchData={fetchData} dataList={dataList} />
-                                        </IconButton>
+                                        </IconButton> */}
                                     </TableCell>
                                 }
                                 {accessLevel == 1 &&
@@ -334,6 +370,23 @@ const PaginationTable = ({ data, fetchData }) => {
                     <Button onClick={handleCancelDelete}>Cancel</Button>
                     <Button onClick={handleConfirmDelete} color="error">Confirm</Button>
                 </DialogActions>
+            </Dialog>
+
+            <Dialog open={editDialogOpen} onClose={handleEditClose} fullWidth>
+                <DialogTitle>Edit Device</DialogTitle>
+                <DialogContent>
+                    {editingDevice && (
+                        <EditFormV2
+                            data={editingDevice} // Pass the device data to the EditForm
+                            onClose={handleEditClose}
+                            fetchData={fetchData}
+
+                        />
+                    )}
+                </DialogContent>
+                {/* <DialogActions>
+                    <Button onClick={handleEditClose}>Cancel</Button>
+                </DialogActions> */}
             </Dialog>
 
             <Snackbar
