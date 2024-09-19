@@ -1,4 +1,3 @@
-
 import {
   Box,
   styled,
@@ -10,9 +9,13 @@ import {
   TableRow,
   TextField,
   Button,
-  Divider
+  Divider,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Typography
 } from '@mui/material';
-
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useState, useEffect } from 'react';
 import { SimpleCard } from 'app/components';
 import axios from 'axios';
@@ -59,19 +62,18 @@ const Main = () => {
 
   const handleFilter = async () => {
     try {
-
       let data = {};
 
       if (deviceId) {
-        data.device_id = deviceId
+        data.device_id = deviceId;
       }
 
       if (deviceName) {
-        data.device_name = deviceName
+        data.device_name = deviceName;
       }
 
       if (logType) {
-        data.state = logType
+        data.state = logType;
       }
 
       if (startDate) {
@@ -79,28 +81,25 @@ const Main = () => {
       }
 
       if (endDate) {
-        data.endDate = endDate
+        data.endDate = endDate;
       }
 
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/getStateLogger`, data);
       setData(response.data.status);
-      // Handle the API response here
       console.log('Filter results:', response.data);
     } catch (error) {
-      // Handle error here
       console.error('Error filtering data:', error);
     }
   }
 
   const handleClear = () => {
-    setDeviceId(''); // Clear the value of the TextField
+    setDeviceId('');
     setDeviceName('');
     setLogType('');
     setMacId('');
     setStartDate('');
     setEndDate('');
     fetchData();
-
   };
 
   const fetchData = async () => {
@@ -109,7 +108,6 @@ const Main = () => {
       setData(response.data.status);
     } catch (error) {
       console.error('Error fetching data:', error);
-
     }
   };
 
@@ -120,13 +118,13 @@ const Main = () => {
   const formatDateTime = (dateString) => {
     const dateObj = new Date(dateString);
 
-    const day = String(dateObj.getDate()).padStart(2, "0"); // Get day and add leading 0 if necessary
-    const month = String(dateObj.getMonth() + 1).padStart(2, "0"); // Get month (0-based, so +1) and add leading 0
-    const year = String(dateObj.getFullYear()).slice(2); // Get last two digits of the year
+    const day = String(dateObj.getDate()).padStart(2, "0");
+    const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+    const year = String(dateObj.getFullYear()).slice(2);
 
-    const hours = String(dateObj.getHours()).padStart(2, "0"); // Get hours and add leading 0
-    const minutes = String(dateObj.getMinutes()).padStart(2, "0"); // Get minutes and add leading 0
-    const seconds = String(dateObj.getSeconds()).padStart(2, "0"); // Get seconds and add leading 0
+    const hours = String(dateObj.getHours()).padStart(2, "0");
+    const minutes = String(dateObj.getMinutes()).padStart(2, "0");
+    const seconds = String(dateObj.getSeconds()).padStart(2, "0");
 
     return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
   };
@@ -139,78 +137,82 @@ const Main = () => {
 
       <SimpleCard title="State Report">
         <Box width="100%" overflow="auto">
+          {/* Expansion Panel for Filters */}
+          <Accordion>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography>Filters</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Box display="flex" flexDirection="column" mb={2}>
+                <Box display="flex" mb={2} alignItems="center">
+                  <TextField
+                    label="Start Date"
+                    variant="outlined"
+                    type="date"
+                    value={startDate}
+                    onChange={(e) => setStartDate(e.target.value)}
+                    size="small"
+                    InputLabelProps={{ shrink: true }}
+                    sx={{ width: '20%', marginRight: 2 }}
+                  />
+                  <TextField
+                    label="End Date"
+                    variant="outlined"
+                    type="date"
+                    value={endDate}
+                    onChange={(e) => setEndDate(e.target.value)}
+                    size="small"
+                    InputLabelProps={{ shrink: true }}
+                    sx={{ width: '20%', marginRight: 2 }}
+                  />
+                  <TextField
+                    label="Device ID"
+                    value={deviceId}
+                    onChange={(e) => setDeviceId(e.target.value)}
+                    variant="outlined"
+                    size="small"
+                    sx={{ width: '20%', marginRight: 2 }}
+                  />
+                  <TextField
+                    label="Device Name"
+                    value={deviceName}
+                    onChange={(e) => setDeviceName(e.target.value)}
+                    variant="outlined"
+                    size="small"
+                    sx={{ width: '20%', marginRight: 2 }}
+                  />
+                  <TextField
+                    label="Device State"
+                    value={logType}
+                    onChange={(e) => setLogType(e.target.value)}
+                    variant="outlined"
+                    size="small"
+                    sx={{ width: '20%' }}
+                  />
+                </Box>
 
-          <Box display="flex" justifyContent="space-between" mb={2} mt={1} alignItems="center">
-            <TextField
-              label="Start Date"
-              variant="outlined"
-              type="date"
-              value={startDate}
-              onChange={(e) => setStartDate(e.target.value)}
-              size="small"
-              InputLabelProps={{ shrink: true }}
-              sx={{ width: '20%', marginRight: 2 }} // Set uniform width
-            />
-            <TextField
-              label="End Date"
-              variant="outlined"
-              type="date"
-              value={endDate}
-              onChange={(e) => setEndDate(e.target.value)}
-              size="small"
-              InputLabelProps={{ shrink: true }}
-              sx={{ width: '20%', marginRight: 2 }} // Set uniform width
-            />
-            <TextField
-              label="Device ID"
-              value={deviceId}
-              onChange={(e) => setDeviceId(e.target.value)}
-              variant="outlined"
-              size="small"
-              sx={{ width: '20%', marginRight: 2 }} // Set uniform width
-            />
-            <TextField
-              label="Device Name"
-              value={deviceName}
-              onChange={(e) => setDeviceName(e.target.value)}
-              variant="outlined"
-              size="small"
-              sx={{ width: '20%', marginRight: 2 }} // Set uniform width
-            />
-            <TextField
-              label="Device State"
-              value={logType}
-              onChange={(e) => setLogType(e.target.value)}
-              variant="outlined"
-              size="small"
-              sx={{ width: '20%' }} // Set uniform width, no margin needed on the last item
-            />
-          </Box>
+                <Box display="flex" justifyContent="flex-end" mb={2}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    onClick={handleFilter}
+                    sx={{ mr: 2 }}
+                  >
+                    Filter
+                  </Button>
 
-
-
-          <Box display="flex" justifyContent="flex-end" mb={2}>
-            <Button
-              variant="contained"
-              color="primary"
-              size="small"
-              onClick={handleFilter}
-              sx={{ mr: 2 }}
-            >
-              Filter
-            </Button>
-
-            <Button
-              variant="outlined"
-              color="secondary"
-              onClick={handleClear} // Clear the TextField value
-
-            >
-              Clear
-            </Button>
-
-
-          </Box>
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={handleClear}
+                  >
+                    Clear
+                  </Button>
+                </Box>
+              </Box>
+            </AccordionDetails>
+          </Accordion>
 
           <Divider sx={{ marginBottom: 2 }} />
 
@@ -220,11 +222,6 @@ const Main = () => {
                 <TableCell align="center">Date / Time</TableCell>
                 <TableCell align="center">DeviceId</TableCell>
                 <TableCell align="center">DeviceName</TableCell>
-                {/* <TableCell align="center">Log Type</TableCell> */}
-                {/* <TableCell align="center">Log Desc</TableCell> */}
-                {/* <TableCell align="center">Log Line Count</TableCell> */}
-                {/* <TableCell align="center">Battery Level</TableCell> */}
-                {/* <TableCell align="center">Mac Id</TableCell> */}
                 <TableCell align="center">DeviceState</TableCell>
               </TableRow>
             </TableHead>
@@ -236,11 +233,6 @@ const Main = () => {
                     <TableCell align="center">{formatDateTime(dataList.timestamp)}</TableCell>
                     <TableCell align="center">{dataList.device_id}</TableCell>
                     <TableCell align="center">{dataList.device_name}</TableCell>
-                    {/* <TableCell align="center">{dataList.log_type}</TableCell> */}
-                    {/* <TableCell align="center">{dataList.log_desc}</TableCell> */}
-                    {/* <TableCell align="center">{dataList.log_line_count}</TableCell> */}
-                    {/* <TableCell align="center">{dataList.battery_level}</TableCell> */}
-                    {/* <TableCell align="center">{dataList.mac_id}</TableCell> */}
                     <TableCell align="center">{dataList.state}</TableCell>
                   </TableRow>
                 ))}
@@ -265,4 +257,4 @@ const Main = () => {
   )
 }
 
-export default Main
+export default Main;
