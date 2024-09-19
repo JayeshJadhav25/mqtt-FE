@@ -10,10 +10,14 @@ import {
   TextField,
   Button,
   Divider,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
 } from '@mui/material';
 
 import { useState, useEffect } from 'react';
 import { SimpleCard } from 'app/components';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import axios from 'axios';
 import Download from './Download';
 
@@ -104,76 +108,86 @@ const Main = () => {
       </Box>
 
       <SimpleCard title="Audit Log">
-        {/* Filter Section */}
-        <Box display="flex" justifyContent="space-between" mb={2}>
-          <TextField
-            label="Start Date"
-            variant="outlined"
-            type="date"
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-            size="small"
-            InputLabelProps={{ shrink: true }}
-            sx={{ width: '15%' }}
-          />
-          <TextField
-            label="End Date"
-            variant="outlined"
-            type="date"
-            value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
-            size="small"
-            InputLabelProps={{ shrink: true }}
-            sx={{ width: '15%' }}
-          />
-          <TextField
-            label="Username"
-            variant="outlined"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            size="small"
-            sx={{ width: '15%' }}
-          />
-          <TextField
-            label="Module Name"
-            variant="outlined"
-            value={moduleName}
-            onChange={(e) => setModuleName(e.target.value)}
-            size="small"
-            sx={{ width: '15%' }}
-          />
-          <TextField
-            label="Operation"
-            variant="outlined"
-            value={operation}
-            onChange={(e) => setOperation(e.target.value)}
-            size="small"
-            sx={{ width: '15%' }}
-          />
-          <TextField
-            label="Status"
-            variant="outlined"
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
-            size="small"
-            sx={{ width: '15%' }}
-          />
-        </Box>
-
-        {/* Filter and Clear Buttons */}
-        <Box display="flex" justifyContent="flex-end" mb={2}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleFilter}
-            sx={{ mr: 2 }}
+        {/* Accordion for Filter Section */}
+        <Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="filter-panel-content"
+            id="filter-panel-header"
           >
-            Filter
-          </Button>
-          <Button variant="outlined" color="secondary" onClick={handleClear}>
-            Clear
-          </Button>
-        </Box>
+            Filters
+          </AccordionSummary>
+          <AccordionDetails>
+            <Box display="flex" justifyContent="space-between" mb={2}>
+              <TextField
+                label="Start Date"
+                variant="outlined"
+                type="date"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+                size="small"
+                InputLabelProps={{ shrink: true }}
+                sx={{ width: '15%' }}
+              />
+              <TextField
+                label="End Date"
+                variant="outlined"
+                type="date"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+                size="small"
+                InputLabelProps={{ shrink: true }}
+                sx={{ width: '15%' }}
+              />
+              <TextField
+                label="Username"
+                variant="outlined"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                size="small"
+                sx={{ width: '15%' }}
+              />
+              <TextField
+                label="Module Name"
+                variant="outlined"
+                value={moduleName}
+                onChange={(e) => setModuleName(e.target.value)}
+                size="small"
+                sx={{ width: '15%' }}
+              />
+              <TextField
+                label="Operation"
+                variant="outlined"
+                value={operation}
+                onChange={(e) => setOperation(e.target.value)}
+                size="small"
+                sx={{ width: '15%' }}
+              />
+              <TextField
+                label="Status"
+                variant="outlined"
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
+                size="small"
+                sx={{ width: '15%' }}
+              />
+            </Box>
+
+            <Box display="flex" justifyContent="flex-end" mb={2}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleFilter}
+                sx={{ mr: 2 }}
+              >
+                Filter
+              </Button>
+              <Button variant="outlined" color="secondary" onClick={handleClear}>
+                Clear
+              </Button>
+            </Box>
+          </AccordionDetails>
+        </Accordion>
 
         <Divider sx={{ mb: 2 }} />
 
