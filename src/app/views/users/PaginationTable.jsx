@@ -17,9 +17,10 @@ import {
   Select,
   MenuItem,
   InputLabel,
-  Dialog, DialogActions, DialogContent, DialogTitle, Button, Divider
+  Dialog, DialogActions, DialogContent, DialogTitle, Button, Divider, Accordion, AccordionSummary, AccordionDetails, Typography
 } from "@mui/material";
-import { useState, useEffect } from "react";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { useState } from "react";
 import axios from 'axios';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditForm from './EditForm';
@@ -77,28 +78,14 @@ const PaginationTable = ({ data, fetchData, setData }) => {
 
   const handleFilter = async () => {
     try {
+      let filterData = {};
 
-      let data = {
+      if (email) filterData.email = email;
+      if (userName) filterData.userName = userName;
+      if (status) filterData.status = status;
+      if (accessLevel) filterData.accessLevel = parseInt(accessLevel);
 
-      }
-
-      if (email) {
-        data.email = email
-      }
-
-
-      if (userName) {
-        data.userName = userName
-      }
-
-      if (status) {
-        data.status = status
-      }
-
-      if (accessLevel) {
-        data.accessLevel = parseInt(accessLevel)
-      }
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/getUser`, data);
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/getUser`, filterData);
       setData(response.data.status);
       console.log('Filter results:', response.data);
     } catch (error) {
@@ -144,75 +131,75 @@ const PaginationTable = ({ data, fetchData, setData }) => {
 
   return (
     <Box width="100%" overflow="auto">
-      <Box display="flex" justifyContent="space-between" mb={2} mt={1} alignItems="center">
-        <TextField
-          label="UserName"
-          value={userName}
-          onChange={(e) => setUserName(e.target.value)}
-          variant="outlined"
-          size="small"
-          sx={{ width: '25%', marginRight: 2 }} // Set uniform width
-        />
-
-        <TextField
-          label="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          variant="outlined"
-          size="small"
-          sx={{ width: '25%', marginRight: 2 }} // Set uniform width
-        />
-
-        <FormControl variant="outlined" size="small" sx={{ width: '25%', marginRight: 2 }}>
-          <InputLabel>Status</InputLabel>
-          <Select
-            name="status"
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
-            label="Status"
-          >
-            <MenuItem value="Active">Active</MenuItem>
-            <MenuItem value="Inactive">Inactive</MenuItem>
-          </Select>
-        </FormControl>
-
-        <FormControl variant="outlined" size="small" sx={{ width: '25%', marginRight: 2 }}>
-          <InputLabel>Access Level</InputLabel>
-          <Select
-            name="accessLevel"
-            value={accessLevel}
-            onChange={(e) => setAccessLevel(e.target.value)}
-            label="Access Level"
-          >
-            <MenuItem value="2">Admin</MenuItem>
-            <MenuItem value="3">Supervisor</MenuItem>
-          </Select>
-        </FormControl>
-      </Box>
-
-      <Box display="flex" justifyContent="flex-end" mb={2}>
-
-        <Button
-          variant="contained"
-          color="primary"
-          size="small"
-          onClick={handleFilter}
-          sx={{ mr: 2 }}
-        >
-          Filter
-        </Button>
-
-        <Button
-          variant="outlined"
-          color="secondary"
-          onClick={handleClear}
-          sx={{ height: '100%' }}  // Ensure button matches field height
-        >
-          Clear
-        </Button>
-
-
-      </Box>
+      {/* Accordion for filters */}
+      <Accordion>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography>Filters</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Box display="flex" justifyContent="space-between" mb={2} mt={1} alignItems="center">
+            <TextField
+              label="UserName"
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
+              variant="outlined"
+              size="small"
+              sx={{ width: '25%', marginRight: 2 }}
+            />
+            <TextField
+              label="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              variant="outlined"
+              size="small"
+              sx={{ width: '25%', marginRight: 2 }}
+            />
+            <FormControl variant="outlined" size="small" sx={{ width: '25%', marginRight: 2 }}>
+              <InputLabel>Status</InputLabel>
+              <Select
+                name="status"
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
+                label="Status"
+              >
+                <MenuItem value="Active">Active</MenuItem>
+                <MenuItem value="Inactive">Inactive</MenuItem>
+              </Select>
+            </FormControl>
+            <FormControl variant="outlined" size="small" sx={{ width: '25%', marginRight: 2 }}>
+              <InputLabel>Access Level</InputLabel>
+              <Select
+                name="accessLevel"
+                value={accessLevel}
+                onChange={(e) => setAccessLevel(e.target.value)}
+                label="Access Level"
+              >
+                <MenuItem value="2">Admin</MenuItem>
+                <MenuItem value="3">Supervisor</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+          <Box display="flex" justifyContent="flex-end" mb={2}>
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              onClick={handleFilter}
+              sx={{ mr: 2 }}
+            >
+              Filter
+            </Button>
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={handleClear}
+              sx={{ height: '100%' }}
+            >
+              Clear
+            </Button>
+          </Box>
+        </AccordionDetails>
+      </Accordion>
 
       <Divider sx={{ marginBottom: 2 }} />
 
@@ -251,7 +238,6 @@ const PaginationTable = ({ data, fetchData, setData }) => {
                       <DeleteIcon />
                     </IconButton>
                   </Tooltip>
-
                   <Tooltip title='Edit'>
                     <IconButton onClick={() => handleEditClick(request)}>
                       <Icon fontSize="small">edit</Icon>
@@ -281,43 +267,34 @@ const PaginationTable = ({ data, fetchData, setData }) => {
         <DialogContent>
           {selectedData && <EditForm data={selectedData} fetchData={fetchData} onClose={handleCloseDialog} />}
         </DialogContent>
-        {/* <DialogActions>
-          <Button onClick={handleCloseDialog} color="primary">
-            Close
-          </Button>
-        </DialogActions> */}
+        <DialogActions>
+          <Button onClick={handleCloseDialog}>Close</Button>
+        </DialogActions>
       </Dialog>
 
-      <Dialog
-        open={openDeleteDialog}
-        onClose={handleCloseDeleteDialog}
-        aria-labelledby="confirm-delete-dialog-title"
-        aria-describedby="confirm-delete-dialog-description"
-        fullWidth
-      >
-        <DialogTitle id="confirm-delete-dialog-title">
-          {"Confirm Delete"}
-        </DialogTitle>
+      {/* Delete confirmation dialog */}
+      <Dialog open={openDeleteDialog} onClose={handleCloseDeleteDialog} fullWidth>
+        <DialogTitle>Delete Confirmation</DialogTitle>
         <DialogContent>
-          <Box id="confirm-delete-dialog-description">
-            Are you sure you want to delete this user?
-          </Box>
+          Are you sure you want to delete this user?
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDeleteDialog}>Cancel</Button>
-          <Button onClick={handleConfirmDelete} color="primary">
-            Delete
-          </Button>
+          <Button onClick={handleConfirmDelete} color="error">Delete</Button>
         </DialogActions>
       </Dialog>
 
       <Snackbar
         open={alertOpen}
-        autoHideDuration={6000}
+        autoHideDuration={4000}
         onClose={handleAlertClose}
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
       >
-        <Alert onClose={handleAlertClose} severity={alertSeverity}>
+        <Alert
+          onClose={handleAlertClose}
+          severity={alertSeverity}
+          sx={{ width: '100%' }}
+        >
           {alertMessage}
         </Alert>
       </Snackbar>
