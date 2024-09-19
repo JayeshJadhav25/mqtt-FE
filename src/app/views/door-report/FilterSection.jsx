@@ -1,4 +1,5 @@
-import { Box, TextField, Button } from '@mui/material';
+import { Box, Accordion, AccordionSummary, AccordionDetails, TextField, Button, Divider } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useState } from 'react';
 
 const FilterSection = ({ onFilter, onClear }) => {
@@ -39,55 +40,62 @@ const FilterSection = ({ onFilter, onClear }) => {
     };
 
     return (
-        <Box display="flex" justifyContent="space-between" mb={2} mt={1} alignItems="center">
-            <Box display="flex" gap={2}>
-                <TextField
-                    label="DeviceId"
-                    name="deviceId"
-                    value={filters.deviceId}
-                    size="small"
-                    onChange={handleInputChange}
-                    sx={{ width: '25%' }}  // Set uniform width
-                />
-                <TextField
-                    label="Action"
-                    name="action"
-                    value={filters.action}
-                    size="small"
-                    onChange={handleInputChange}
-                    sx={{ width: '25%' }}  // Set uniform width
-                />
-                <TextField
-                    label="Start Date"
-                    type="date"
-                    name="startDate"
-                    InputLabelProps={{ shrink: true }}
-                    value={filters.startDate}
-                    size="small"
-                    onChange={handleInputChange}
-                    sx={{ width: '25%' }}  // Set uniform width
-                />
-                <TextField
-                    label="End Date"
-                    type="date"
-                    name="endDate"
-                    InputLabelProps={{ shrink: true }}
-                    value={filters.endDate}
-                    size="small"
-                    onChange={handleInputChange}
-                    sx={{ width: '25%' }}  // Set uniform width
-                />
-            </Box>
+        <Accordion>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <Box fontWeight="bold">Filters</Box>
+            </AccordionSummary>
+            <AccordionDetails>
+                <Box display="flex" flexDirection="column" gap={2}>
+                    <Box display="flex" gap={2} mb={2}>
+                        <TextField
+                            label="DeviceId"
+                            name="deviceId"
+                            value={filters.deviceId}
+                            size="small"
+                            onChange={handleInputChange}
+                            sx={{ width: '25%' }}  // Set uniform width
+                        />
+                        <TextField
+                            label="Action"
+                            name="action"
+                            value={filters.action}
+                            size="small"
+                            onChange={handleInputChange}
+                            sx={{ width: '25%' }}  // Set uniform width
+                        />
+                        <TextField
+                            label="Start Date"
+                            type="date"
+                            name="startDate"
+                            InputLabelProps={{ shrink: true }}
+                            value={filters.startDate}
+                            size="small"
+                            onChange={handleInputChange}
+                            sx={{ width: '25%' }}  // Set uniform width
+                        />
+                        <TextField
+                            label="End Date"
+                            type="date"
+                            name="endDate"
+                            InputLabelProps={{ shrink: true }}
+                            value={filters.endDate}
+                            size="small"
+                            onChange={handleInputChange}
+                            sx={{ width: '25%' }}  // Set uniform width
+                        />
+                    </Box>
 
-            <Box>
-                <Button variant="contained" color="primary" onClick={handleFilter} sx={{ mr: 2 }}>
-                    Filter
-                </Button>
-                <Button variant="outlined" color="secondary" onClick={handleClear}>
-                    Clear
-                </Button>
-            </Box>
-        </Box>
+                    <Box display="flex" justifyContent="flex-end" gap={2}>
+                        <Button variant="contained" color="primary" onClick={handleFilter}>
+                            Filter
+                        </Button>
+                        <Button variant="outlined" color="secondary" onClick={handleClear}>
+                            Clear
+                        </Button>
+                    </Box>
+                </Box>
+            </AccordionDetails>
+        </Accordion>
     );
 };
 

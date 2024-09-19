@@ -115,7 +115,7 @@ const Main = () => {
             aria-controls="filter-panel-content"
             id="filter-panel-header"
           >
-            Filters
+            <Box fontWeight="bold">Filters</Box>
           </AccordionSummary>
           <AccordionDetails>
             <Box display="flex" justifyContent="space-between" mb={2}>

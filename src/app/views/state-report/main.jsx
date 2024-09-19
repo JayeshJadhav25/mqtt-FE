@@ -140,7 +140,7 @@ const Main = () => {
           {/* Expansion Panel for Filters */}
           <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography>Filters</Typography>
+              <Box fontWeight="bold">Filters</Box>
             </AccordionSummary>
             <AccordionDetails>
               <Box display="flex" flexDirection="column" mb={2}>

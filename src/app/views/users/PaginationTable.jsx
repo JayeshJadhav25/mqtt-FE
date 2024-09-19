@@ -134,7 +134,7 @@ const PaginationTable = ({ data, fetchData, setData }) => {
       {/* Accordion for filters */}
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography>Filters</Typography>
+          <Box fontWeight="bold">Filters</Box>
         </AccordionSummary>
         <AccordionDetails>
           <Box display="flex" justifyContent="space-between" mb={2} mt={1} alignItems="center">
