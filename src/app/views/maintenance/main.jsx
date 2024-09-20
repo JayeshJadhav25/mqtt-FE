@@ -5,20 +5,20 @@ import PaginationTable from './PaginationTable';
 import { useState, useEffect } from "react";
 import axios from 'axios'
 import {
-    Box,
-    styled,
-  } from '@mui/material';
+  Box,
+  styled,
+} from '@mui/material';
 
 import { Breadcrumb, SimpleCard } from 'app/components';
 
 const Container = styled('div')(({ theme }) => ({
-    margin: '30px',
-    [theme.breakpoints.down('sm')]: { margin: '16px' },
-    '& .breadcrumb': {
-      marginBottom: '30px',
-      [theme.breakpoints.down('sm')]: { marginBottom: '16px' },
-    },
-  }));
+  margin: '30px',
+  [theme.breakpoints.down('sm')]: { margin: '16px' },
+  '& .breadcrumb': {
+    marginBottom: '30px',
+    [theme.breakpoints.down('sm')]: { marginBottom: '16px' },
+  },
+}));
 
 const accessLevel = window.localStorage.getItem('accessLevel');
 
@@ -40,27 +40,21 @@ const Main = () => {
     fetchData();
   }, []);
 
-    return (
-        <Container>
-        {accessLevel != 3 && (
-            <Box className="breadcrumb">
-                {/* <SimpleForm /> */}
-                <CreateForm fetchData={fetchData}/>
+  return (
+    <Container>
+      {accessLevel != 3 && (
+        <Box display="flex" justifyContent="space-between" alignItems="center" className="breadcrumb">
+          {/* The SimpleForm is commented out */}
+          <CreateForm fetchData={fetchData} />
+          <Download />
+        </Box>
+      )}
 
-            </Box>
-          )}
-
-        <Box className="breadcrumb">
-                <Download/>
-            </Box>
-
-
-        <SimpleCard title="Maintenance">
-
-          <PaginationTable maintenanceData ={data} fetchData={fetchData}/>
-        </SimpleCard>
-        </Container>
-    )
+      <SimpleCard title="Maintenance">
+        <PaginationTable maintenanceData={data} fetchData={fetchData} />
+      </SimpleCard>
+    </Container>
+  );
 }
 
 export default Main;

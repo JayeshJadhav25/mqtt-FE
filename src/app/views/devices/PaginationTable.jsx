@@ -30,6 +30,7 @@ import EditForm from './EditForm';
 import EditFormV2 from "./EditFormV2";
 import uuid from 'react-uuid';
 import EditIcon from '@mui/icons-material/Edit';
+import { green, red } from '@mui/material/colors';
 
 const accessLevel = window.localStorage.getItem('accessLevel');
 
@@ -243,6 +244,7 @@ const PaginationTable = ({ data, fetchData }) => {
             <StyledTable>
                 <TableHead>
                     <TableRow>
+                        <TableCell align="center">Relay Status</TableCell>
                         <TableCell align="center">Device Name</TableCell>
                         <TableCell align="center">MQTT IP</TableCell>
                         <TableCell align="center">Username</TableCell>
@@ -263,6 +265,24 @@ const PaginationTable = ({ data, fetchData }) => {
                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         .map((dataList, index) => (
                             <TableRow key={index}>
+                                <TableCell align="center">
+                                    <Box
+                                        sx={{
+                                            display: 'flex',
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                        }}
+                                    >
+                                        <Box
+                                            sx={{
+                                                width: 18,    // Circle size
+                                                height: 18,   // Circle size
+                                                borderRadius: '50%',   // Circular shape
+                                                backgroundColor: (dataList.mqttStatusDetails && dataList.mqttStatusDetails.mqttRelayState) === true ? green[500] : red[500]
+                                            }}
+                                        />
+                                    </Box>
+                                </TableCell>
                                 <TableCell align="center">{dataList.deviceName}</TableCell>
                                 <TableCell align="center">{dataList.mqttIP}</TableCell>
                                 <TableCell align="center">{dataList.mqttUserName}</TableCell>

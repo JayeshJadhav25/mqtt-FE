@@ -174,8 +174,8 @@ const SimpleForm = ({ handleClose, fetchData }) => {
                             label="Engineer Contact Number"
                             onChange={handleChange}
                             value={creditCard}
-                            errorMessages={["This field is required"]}
-                            validators={["required", "maxStringLength: 10"]}
+                            errorMessages={["This field is required", "Phone Number Should be of 10 digit", "Phone Number Should be of 10 digit"]}
+                            validators={["required", "minStringLength: 10", "maxStringLength: 10"]}
                         />
 
                         <Grid container spacing={2}>

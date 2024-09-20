@@ -48,22 +48,6 @@ const FilterSection = ({ onFilter, onClear }) => {
                 <Box display="flex" flexDirection="column" gap={2}>
                     <Box display="flex" gap={2} mb={2}>
                         <TextField
-                            label="DeviceId"
-                            name="deviceId"
-                            value={filters.deviceId}
-                            size="small"
-                            onChange={handleInputChange}
-                            sx={{ width: '25%' }}  // Set uniform width
-                        />
-                        <TextField
-                            label="Action"
-                            name="action"
-                            value={filters.action}
-                            size="small"
-                            onChange={handleInputChange}
-                            sx={{ width: '25%' }}  // Set uniform width
-                        />
-                        <TextField
                             label="Start Date"
                             type="date"
                             name="startDate"
@@ -83,6 +67,23 @@ const FilterSection = ({ onFilter, onClear }) => {
                             onChange={handleInputChange}
                             sx={{ width: '25%' }}  // Set uniform width
                         />
+                        <TextField
+                            label="DeviceId"
+                            name="deviceId"
+                            value={filters.deviceId}
+                            size="small"
+                            onChange={handleInputChange}
+                            sx={{ width: '25%' }}  // Set uniform width
+                        />
+                        <TextField
+                            label="Action"
+                            name="action"
+                            value={filters.action}
+                            size="small"
+                            onChange={handleInputChange}
+                            sx={{ width: '25%' }}  // Set uniform width
+                        />
+
                     </Box>
 
                     <Box display="flex" justifyContent="flex-end" gap={2}>
