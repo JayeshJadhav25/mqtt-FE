@@ -77,11 +77,14 @@ const Main = () => {
   return (
     <Container>
       <Box className="breadcrumb" display="flex" justifyContent="flex-end">
-        <Download />
+        <Download deviceId={filters.deviceId}
+          action={filters.action}
+          startDate={filters.startDate}
+          endDate={filters.endDate} />
       </Box>
 
       <SimpleCard title="Door Report">
-        <FilterSection onFilter={handleFilter} onClear={handleClear} />
+        <FilterSection onFilter={handleFilter} onClear={handleClear} filters={filters} setFilters={setFilters} />
         <Divider sx={{ mb: 2 }} />
 
         <Box width="100%" overflow="auto">

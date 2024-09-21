@@ -131,7 +131,9 @@ const SimpleForm = ({ handleClose, fetchData }) => {
                 <Grid container spacing={6}>
                     <Grid item lg={12} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
                         <Box mb={2}>
-                            <InputLabel id="dropdown-label">Device List</InputLabel>
+                            <InputLabel id="dropdown-label">
+                                Device List <span style={{ color: 'red' }}>*</span>
+                            </InputLabel>
                             <Select
                                 labelId="dropdown-label"
                                 name="dropdown"
@@ -148,6 +150,8 @@ const SimpleForm = ({ handleClose, fetchData }) => {
                                     </div>
                                 )}
                                 fullWidth
+                                required
+                                error={dropdown.length === 0} // Optionally show error when nothing is selected
                             >
                                 {dropdownOptions.map(option => (
                                     <MenuItem key={option.id} value={option.id}>
@@ -155,7 +159,11 @@ const SimpleForm = ({ handleClose, fetchData }) => {
                                     </MenuItem>
                                 ))}
                             </Select>
+                            {dropdown.length === 0 && (
+                                <p style={{ color: 'red' }}>This field is required</p>
+                            )}
                         </Box>
+
 
                         <TextField
                             type="text"

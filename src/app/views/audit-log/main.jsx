@@ -104,7 +104,13 @@ const Main = () => {
     <Container>
 
       <Box className="breadcrumb" display="flex" justifyContent="flex-end">
-        <Download />
+        <Download username={username}
+          moduleName={moduleName}
+          startDate={startDate}
+          endDate={endDate}
+          operation={operation}
+          status={status}
+        />
       </Box>
 
       <SimpleCard title="Audit Log">

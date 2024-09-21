@@ -135,7 +135,11 @@ const Main = () => {
   return (
     <Container>
       <Box className="breadcrumb" display="flex" justifyContent="flex-end">
-        <Download />
+        <Download deviceId={deviceId}
+          deviceName={deviceName}
+          logType={logType}
+          startDate={startDate}
+          endDate={endDate} />
       </Box>
       <SimpleCard title="Logger Report">
 

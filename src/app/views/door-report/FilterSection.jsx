@@ -2,13 +2,13 @@ import { Box, Accordion, AccordionSummary, AccordionDetails, TextField, Button, 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useState } from 'react';
 
-const FilterSection = ({ onFilter, onClear }) => {
-    const [filters, setFilters] = useState({
-        deviceId: '',
-        action: '',
-        startDate: '',
-        endDate: '',
-    });
+const FilterSection = ({ onFilter, onClear, filters, setFilters }) => {
+    // const [filters, setFilters] = useState({
+    //     deviceId: '',
+    //     action: '',
+    //     startDate: '',
+    //     endDate: '',
+    // });
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
