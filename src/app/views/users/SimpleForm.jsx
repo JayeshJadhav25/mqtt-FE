@@ -17,6 +17,7 @@ import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import axios from 'axios';
 import { styled } from '@mui/material/styles';
 import uuid from 'react-uuid';
+import axiosInstance from '../../../axiosInterceptor';
 
 const TextField = styled(TextValidator)(() => ({
     width: "100%",
@@ -128,7 +129,7 @@ const SimpleForm = ({ handleClose, fetchData }) => {
             accesslevel: state.accesslevel
         };
 
-        axios.post(`${process.env.REACT_APP_API_URL}/api/createUser`, requestBody)
+        axiosInstance.post(`/createUser`, requestBody)
             .then(response => {
                 console.log("Success:", response.data);
                 setAlertMessage('User created successfully!');

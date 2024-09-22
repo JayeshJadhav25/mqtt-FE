@@ -24,6 +24,7 @@ import { useState } from "react";
 import axios from 'axios';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditForm from './EditForm';
+import axiosInstance from '../../../axiosInterceptor';
 
 const StyledTable = styled(Table)(() => ({
   whiteSpace: "pre",
@@ -85,7 +86,7 @@ const PaginationTable = ({ data, fetchData, setData }) => {
       if (status) filterData.status = status;
       if (accessLevel) filterData.accessLevel = parseInt(accessLevel);
 
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/getUser`, filterData);
+      const response = await axiosInstance.post(`/getUser`, filterData);
       setData(response.data.status);
       console.log('Filter results:', response.data);
     } catch (error) {
@@ -106,7 +107,7 @@ const PaginationTable = ({ data, fetchData, setData }) => {
   const handleConfirmDelete = async () => {
     if (deleteId) {
       try {
-        const result = await axios.post(`${process.env.REACT_APP_API_URL}/api/deleteUser`, { id: deleteId });
+        const result = await axiosInstance.post(`/deleteUser`, { id: deleteId });
         setAlertMessage('User Deleted successfully!');
         setAlertSeverity('success');
         fetchData();

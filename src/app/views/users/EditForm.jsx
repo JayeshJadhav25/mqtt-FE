@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { TextField, Button, Grid, Snackbar, Alert, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import axios from 'axios';
+import axiosInstance from '../../../axiosInterceptor';
 
 const EditForm = ({ data, onClose, fetchData }) => {
 
@@ -28,7 +29,7 @@ const EditForm = ({ data, onClose, fetchData }) => {
             };
 
             // Make API call to update data
-            const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/updateUser`, updatedData);
+            const response = await axiosInstance.post(`/updateUser`, updatedData);
 
             console.log("Update successful:", response.data);
             setAlertMessage('User Updated successfully!');
