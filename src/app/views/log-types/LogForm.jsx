@@ -1,4 +1,7 @@
-import { Box, Icon, Autocomplete, styled } from '@mui/material';
+import {
+  Box, Icon, Autocomplete, styled, Snackbar,
+  Alert
+} from '@mui/material';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -11,6 +14,7 @@ import { Formik } from 'formik';
 import axios from 'axios';
 import uuid from 'react-uuid';
 import { useEffect } from 'react';
+import axiosInstance from '../../../axiosInterceptor';
 
 export default function LogForm({ getLogTypes }) {
   const [open, setOpen] = React.useState(false);
@@ -20,9 +24,17 @@ export default function LogForm({ getLogTypes }) {
     devices: []
   });
 
+  const [alertOpen, setAlertOpen] = React.useState(false);
+  const [alertMessage, setAlertMessage] = React.useState('');
+  const [alertSeverity, setAlertSeverity] = React.useState('success'); // 'success' | 'error'
+
   function handleClickOpen() {
     setOpen(true);
   }
+
+  const handleAlertClose = () => {
+    setAlertOpen(false);
+  };
 
   function handleClose() {
     setOpen(false);
@@ -40,10 +52,16 @@ export default function LogForm({ getLogTypes }) {
         deviceId: value && value.label ? value.label : "",
         logType: values.logtype,
       };
-      const result = await axios.post(`${process.env.REACT_APP_API_URL}/api/createMQTTLoggerType`, obj);
+      const result = await axiosInstance.post(`/createMQTTLoggerType`, obj);
+      setAlertMessage('Log Type Created successfully!');
+      setAlertSeverity('success');
       getLogTypes();
     } catch (error) {
       console.log('erorr', error);
+      setAlertMessage(error.response.data.msg || 'Something Went Wrong');
+      setAlertSeverity('error');
+    } finally {
+      setAlertOpen(true);
     }
     setOpen(false);
   }
@@ -66,23 +84,19 @@ export default function LogForm({ getLogTypes }) {
   };
 
   const getDevices = async () => {
-    axios
-      .post(`${process.env.REACT_APP_API_URL}/api/getMQTTDevice`)
-      .then((res) => {
-        console.log('response=>', res.data.status);
-        let devices = [];
-        res.data.status.forEach(elem => {
-          devices.push({label:elem.deviceId});
-        })
-        setDeviceList({devices:devices});
+    try {
+      const res = await axiosInstance.post(`/getMQTTDevice`);
+      console.log('response=>', res.data.status);
 
-        // setDeviceList(res.data.status);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      const devices = res.data.status.map(elem => ({ label: elem.deviceId }));
+      setDeviceList({ devices });
+
+    } catch (error) {
+      console.log(error);
+    }
   };
-  
+
+
   useEffect(() => {
     getDevices();
   }, []);
@@ -127,15 +141,15 @@ export default function LogForm({ getLogTypes }) {
                   // defaultValue={{label:value}}
                   onChange={handleChangeDrop}
                   getOptionLabel={(option) => {
-                    console.log('option',option)
-                    return  option.label;
+                    console.log('option', option)
+                    return option.label;
                   }}
                   renderInput={(params) => (
-                    <TextField 
-                      {...params} 
-                      margin="dense" 
-                      label="Device Id" 
-                      variant="outlined" 
+                    <TextField
+                      {...params}
+                      margin="dense"
+                      label="Device Id"
+                      variant="outlined"
                       // name="status"
                       // value={values.status}
                       fullWidth />
@@ -161,6 +175,21 @@ export default function LogForm({ getLogTypes }) {
                 </Button>
               </DialogActions>
             </form>
+
+            <Snackbar
+              open={alertOpen}
+              autoHideDuration={4000}
+              onClose={handleAlertClose}
+              anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            >
+              <Alert
+                onClose={handleAlertClose}
+                severity={alertSeverity}
+                sx={{ width: '100%' }}
+              >
+                {alertMessage}
+              </Alert>
+            </Snackbar>
           </Dialog>
         )}
       </Formik>

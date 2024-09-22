@@ -241,7 +241,7 @@ const PaginationTable = ({ data, fetchData, setData }) => {
                   </Tooltip>
                   <Tooltip title='Edit'>
                     <IconButton onClick={() => handleEditClick(request)}>
-                      <Icon fontSize="small">edit</Icon>
+                      <Icon fontSize="small" color="primary">edit</Icon>
                     </IconButton>
                   </Tooltip>
                 </TableCell>

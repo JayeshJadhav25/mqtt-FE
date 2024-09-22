@@ -1,170 +1,100 @@
-import { Box, Icon, Autocomplete, styled } from '@mui/material';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import TextField from '@mui/material/TextField';
-import React from 'react';
-import { Formik } from 'formik';
-import axios from 'axios';
-import uuid from 'react-uuid';
-import { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import {
+  DialogActions,
+  DialogContent,
+  Button,
+  TextField,
+  Snackbar, Alert
+} from '@mui/material';
+import axiosInstance from '../../../axiosInterceptor';
 
-export default function EditForm({ logdata, getLogTypes }) {
-  const [open, setOpen] = React.useState(false);
-  const [data, setData] = React.useState({});
-  const [value, setValue] = React.useState(logdata.deviceId);
-  const [deviceList, setDeviceList] = React.useState({
-    devices: []
-  });
+const EditForm = ({ logdata, getLogTypes, onClose }) => {
+  const [formData, setFormData] = useState({ deviceId: '', logType: '' });
 
-  function handleClickOpen() {
-    setOpen(true);
-  }
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertSeverity, setAlertSeverity] = useState('success');
 
-  function handleClose() {
-    setOpen(false);
-  }
-
-  async function handleFormSubmit(values) {
-    try {
-      if (values.deviceid && values.logtype) {
-        let obj = {
-          id: logdata.id,
-          deviceId: values.deviceid,
-          logType: values.logtype,
-        };
-        const result = await axios.post(`${process.env.REACT_APP_API_URL}/api/updateMQTTLoggerType`, obj);
-        getLogTypes();
-      }
-    } catch (error) {
-      console.log('erorr', error);
-    }
-    setOpen(false);
-  }
-  const initialValues = {
-    deviceid: logdata.deviceId || '',
-    logtype: logdata.logType || '',
+  const handleAlertClose = () => {
+    setAlertOpen(false); // Close the alert
   };
 
-
-  const AutoComplete = styled(Autocomplete)(() => ({
-    width: 540,
-    // marginBottom: '16px',
-  }));
-
-  const handleChangeDrop = (_, newValue) => {
-    setValue(newValue.label)
-
-    // if (newValue && newValue.inputValue) {
-    //   setValue({ label: newValue.inputValue });
-    //   return;
-    // }
-    // setValue(newValue);
-  };
-
-  const getDevices = async () => {
-    axios
-      .post(`${process.env.REACT_APP_API_URL}/api/getMQTTDevice`)
-      .then((res) => {
-        console.log('response=>', res.data.status);
-        let devices = [];
-        res.data.status.forEach(elem => {
-          devices.push({label:elem.deviceId});
-        })
-        setDeviceList({devices:devices});
-
-        // setDeviceList(res.data.status);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-  
   useEffect(() => {
-    getDevices();
-  }, []);
+    if (logdata) {
+      setFormData({
+        deviceId: logdata.deviceId,
+        logType: logdata.logType,
+      });
+    }
+  }, [logdata]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axiosInstance.post(`/updateMQTTLoggerType`, { ...formData, id: logdata.id });
+      getLogTypes();
+      setAlertMessage('Log Type updated successfully!');
+      setAlertSeverity('success');
+      setTimeout(() => {
+        onClose(); // Close the dialog on successful update
+      }, 1000);
+    } catch (error) {
+      setAlertMessage(error.response?.data?.msg || 'Something Went Wrong');
+      setAlertSeverity('error');
+      console.error("Error updating device:", error);
+    } finally {
+      setAlertOpen(true); // Show the alert after API response
+    }
+  };
 
   return (
-    <Box>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        <Icon>edit</Icon> Edit
+    <form onSubmit={handleSubmit}>
+      <TextField
+        autoFocus
+        margin="dense"
+        name="deviceId"
+        label="Device Id"
+        type="text"
+        fullWidth
+        variant="outlined"
+        value={formData.deviceId}
+        onChange={handleChange}
+        disabled
+      />
+      <TextField
+        margin="dense"
+        name="logType"
+        label="Log Type"
+        type="text"
+        fullWidth
+        variant="outlined"
+        value={formData.logType}
+        onChange={handleChange}
+      />
+      <Button type="submit" color="primary" variant="contained" sx={{ mt: 2 }}>
+        Update
       </Button>
-      <Formik onSubmit={handleFormSubmit} initialValues={initialValues}>
-        {({ values, errors, touched, handleChange, handleBlur, handleSubmit }) => (
-          <Dialog
-            open={open}
-            onClose={handleClose}
-            maxWidth="sm"
-            fullWidth="fullWidth"
-            aria-labelledby="max-width-dialog-title"
-          >
-            <form onSubmit={handleSubmit}>
-              <DialogTitle id="form-dialog-title">Update</DialogTitle>
-              <DialogContent>
-                {/* <DialogContentText>
-            To subscribe to this website, please enter your email address here. We will send updates
-            occasionally.
-          </DialogContentText> */}
+      <Button color="secondary" onClick={onClose} sx={{ mt: 2, ml: 2 }}>
+        Cancel
+      </Button>
 
-                <TextField
-                  autoFocus
-                  margin="dense"
-                  id="name"
-                  label="Device Id"
-                  type="text"
-                  name="deviceid"
-                  value={values.deviceid}
-                  onChange={handleChange}
-                  fullWidth
-                  disabled
-                />
-                {/* <AutoComplete
-                  // value={value}
-                  options={deviceList.devices}
-                  defaultValue={{label:value}}
-                  onChange={handleChangeDrop}
-                  // getOptionLabel={(option) => {
-                  //   console.log('option',option)
-                  //   return  option.label;
-                  // }}
-                  renderInput={(params) => (
-                    <TextField 
-                      {...params} 
-                      margin="dense" 
-                      label="Device Id" 
-                      variant="outlined" 
-                      // name="status"
-                      // value={values.status}
-                      fullWidth />
-                  )}
-                /> */}
-
-                <TextField
-                  margin="dense"
-                  id="name"
-                  label="Log Type"
-                  type="text"
-                  name="logtype"
-                  value={values.logtype}
-                  onChange={handleChange}
-                  fullWidth
-                />
-              </DialogContent>
-              <DialogActions>
-                <Button variant="outlined" color="secondary" onClick={handleClose}>
-                  Cancel
-                </Button>
-                <Button type="submit" onClick={handleFormSubmit} color="primary">
-                  Update
-                </Button>
-              </DialogActions>
-            </form>
-          </Dialog>
-        )}
-      </Formik>
-    </Box>
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={6000}
+        onClose={handleAlertClose}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <Alert onClose={handleAlertClose} severity={alertSeverity}>
+          {alertMessage}
+        </Alert>
+      </Snackbar>
+    </form>
   );
-}
+};
+
+export default EditForm;
