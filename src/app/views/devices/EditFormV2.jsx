@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { TextField, Button, Grid, Snackbar, Alert } from '@mui/material';
 import axios from 'axios';
+import axiosInstance from '../../../axiosInterceptor';
 
 const EditFormV2 = ({ data, onClose, fetchData }) => {
     const [formData, setFormData] = useState({
@@ -35,7 +36,7 @@ const EditFormV2 = ({ data, onClose, fetchData }) => {
                 mqttTopic: [formData.mqttTopic],
             };
 
-            const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/updateMQTTDevice`, updatedData);
+            const response = await axiosInstance.post(`/updateMQTTDevice`, updatedData);
             console.log("Update successful:", response.data);
             fetchData();
             setAlertMessage('Device updated successfully!');

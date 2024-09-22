@@ -49,11 +49,11 @@ if (accessLevel == 1) {
     //     { name: 'Table', path: '/material/table', iconText: 'T' },
     //   ],
     // },
-    {
-      name: 'Charts',
-      icon: 'trending_up',
-      children: [{ name: 'Echarts', path: '/charts/echarts', iconText: 'E' }],
-    },
+    // {
+    //   name: 'Charts',
+    //   icon: 'trending_up',
+    //   children: [{ name: 'Echarts', path: '/charts/echarts', iconText: 'E' }],
+    // },
     // {
     //   name: 'Documentation',
     //   icon: 'launch',

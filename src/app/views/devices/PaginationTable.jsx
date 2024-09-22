@@ -31,6 +31,7 @@ import EditFormV2 from "./EditFormV2";
 import uuid from 'react-uuid';
 import EditIcon from '@mui/icons-material/Edit';
 import { green, red } from '@mui/material/colors';
+import axiosInstance from '../../../axiosInterceptor';
 
 const accessLevel = window.localStorage.getItem('accessLevel');
 
@@ -96,7 +97,7 @@ const PaginationTable = ({ data, fetchData }) => {
             [currentRelayId]: currentRelayState,
         }));
         try {
-            const result = await axios.post(`${process.env.REACT_APP_API_URL}/api/relayTriggerOnOrOffMQTTDevice`, { id: currentRelayId, mqttRelayState: currentRelayState });
+            const result = await axiosInstance.post(`/relayTriggerOnOrOffMQTTDevice`, { id: currentRelayId, mqttRelayState: currentRelayState });
             setAlertMessage('Device Relay Status Changed successfully!');
             setAlertSeverity('success');
         } catch (error) {
@@ -147,7 +148,7 @@ const PaginationTable = ({ data, fetchData }) => {
                 deviceId: selectedDeviceId || "",
                 userId: selectedUser || "",
             };
-            const result = await axios.post(`${process.env.REACT_APP_API_URL}/api/assignMQTTDevice`, obj);
+            const result = await axiosInstance.post(`/assignMQTTDevice`, obj);
             setAlertMessage('Device Assigned successfully!');
             setAlertSeverity('success');
         } catch (error) {
@@ -181,7 +182,7 @@ const PaginationTable = ({ data, fetchData }) => {
     const handleConfirmDelete = async () => {
         setDeleteConfirmDialogOpen(false);
         try {
-            const result = await axios.post(`${process.env.REACT_APP_API_URL}/api/deleteMQTTDevice`, { id: deleteDeviceId });
+            const result = await axiosInstance.post(`/deleteMQTTDevice`, { id: deleteDeviceId });
             setAlertMessage('Device Deleted successfully!');
             setAlertSeverity('success');
             fetchData();
@@ -200,7 +201,7 @@ const PaginationTable = ({ data, fetchData }) => {
 
     const handleEditSubmit = async (updatedDeviceData) => {
         try {
-            const result = await axios.post(`${process.env.REACT_APP_API_URL}/api/updateMQTTDevice`, updatedDeviceData);
+            const result = await axiosInstance.post(`/updateMQTTDevice`, updatedDeviceData);
             setAlertMessage('Device updated successfully!');
             setAlertSeverity('success');
             fetchData(); // Fetch updated data after the edit
@@ -211,32 +212,6 @@ const PaginationTable = ({ data, fetchData }) => {
             setAlertOpen(true);
         }
         handleEditClose();
-    };
-
-    const handleRelayOff = async (id) => {
-        try {
-            const result = await axios.post(`${process.env.REACT_APP_API_URL}/api/relayTriggerOffMQTTDevice`, { id });
-            setAlertMessage('Device Relay Off successfully!');
-            setAlertSeverity('success');
-        } catch (error) {
-            setAlertMessage(error.response.data.msg || 'Something Went Wrong');
-            setAlertSeverity('error');
-        } finally {
-            setAlertOpen(true);
-        }
-    };
-
-    const handleRelayOn = async (id) => {
-        try {
-            const result = await axios.post(`${process.env.REACT_APP_API_URL}/api/relayTriggerOnMQTTDevice`, { id });
-            setAlertMessage('Device Relay On successfully!');
-            setAlertSeverity('success');
-        } catch (error) {
-            setAlertMessage(error.response.data.msg || 'Something Went Wrong');
-            setAlertSeverity('error');
-        } finally {
-            setAlertOpen(true);
-        }
     };
 
     return (

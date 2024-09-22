@@ -4,55 +4,56 @@ import PaginationTable from './PaginationTable';
 import { useState, useEffect } from "react";
 import axios from 'axios';
 import {
-    Box,
-    styled,
-  } from '@mui/material';
+  Box,
+  styled,
+} from '@mui/material';
 
 import { Breadcrumb, SimpleCard } from 'app/components';
+import axiosInstance from '../../../axiosInterceptor';
 
 const Container = styled('div')(({ theme }) => ({
-    margin: '30px',
-    [theme.breakpoints.down('sm')]: { margin: '16px' },
-    '& .breadcrumb': {
-      marginBottom: '30px',
-      [theme.breakpoints.down('sm')]: { marginBottom: '16px' },
-    },
-  }));
+  margin: '30px',
+  [theme.breakpoints.down('sm')]: { margin: '16px' },
+  '& .breadcrumb': {
+    marginBottom: '30px',
+    [theme.breakpoints.down('sm')]: { marginBottom: '16px' },
+  },
+}));
 
 const accessLevel = window.localStorage.getItem('accessLevel');
 
 
 const Main = () => {
-    const [data, setData] = useState([]);
+  const [data, setData] = useState([]);
 
-    const fetchData = async () => {
-        try {
-          const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/getMQTTDevice`);
-          setData(response.data.status);
-        } catch (error) {
-          console.error('Error fetching data:', error);
+  const fetchData = async () => {
+    try {
+      const response = await axiosInstance.post(`/getMQTTDevice`);
+      setData(response.data.status);
+    } catch (error) {
+      console.error('Error fetching data:', error);
 
-        }
-    };
+    }
+  };
 
-    useEffect(() => {
-        fetchData();
-      }, []);
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-    return (
-        <Container>
-            {(accessLevel == 1 || accessLevel == 2) && (
+  return (
+    <Container>
+      {(accessLevel == 1 || accessLevel == 2) && (
 
-              <Box className="breadcrumb">
-                  <CreateForm fetchData={fetchData}/>
-              </Box>
-            )}
-            <SimpleCard title="Devices">
-                <PaginationTable data ={data} fetchData={fetchData}/>
-            </SimpleCard>
+        <Box className="breadcrumb">
+          <CreateForm fetchData={fetchData} />
+        </Box>
+      )}
+      <SimpleCard title="Devices">
+        <PaginationTable data={data} fetchData={fetchData} />
+      </SimpleCard>
 
-        </Container>
-    )
+    </Container>
+  )
 
 }
 
