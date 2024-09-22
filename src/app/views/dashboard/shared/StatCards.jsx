@@ -351,7 +351,7 @@ const StatCards = () => {
         )}
       </Grid>
 
-      <Box mt={4}>
+      {/* <Box mt={4}>
         <SimpleCard title="Comparison of Device Idle Time vs. Running Time">
 
           <StatisticsChart
@@ -359,7 +359,7 @@ const StatCards = () => {
             color={[theme.palette.primary.dark, theme.palette.primary.light]}
           />
         </SimpleCard>
-      </Box>
+      </Box> */}
 
       <Box mt={4}>
         <SimpleCard title="Device Status">
@@ -370,18 +370,21 @@ const StatCards = () => {
               theme.palette.primary.main,
               theme.palette.primary.light,
             ]}
+            activeCount={(dashboardData.deviceCounts && dashboardData.deviceCounts.activeCount) || 0}
+            inactiveCount={(dashboardData.deviceCounts && dashboardData.deviceCounts.inactiveCount) || 0}
+            frozenCount={(dashboardData.deviceCounts && dashboardData.deviceCounts.frozenCount) || 0}
           />
         </SimpleCard>
       </Box>
 
-      <Box mt={4}>
+      {/* <Box mt={4}>
         <SimpleCard title="Device Battery %">
           <LinceChartBattery
             height="350px"
             color={[theme.palette.primary.main, theme.palette.primary.light]}
           />
         </SimpleCard>
-      </Box>
+      </Box> */}
     </Box>
 
   );

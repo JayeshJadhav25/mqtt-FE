@@ -1,7 +1,7 @@
 import { useTheme } from '@mui/system';
 import ReactEcharts from 'echarts-for-react';
 
-const DoughnutDevicecChart = ({ height, color = [] }) => {
+const DoughnutDeviceChart = ({ height, color = [], activeCount, inactiveCount, frozenCount }) => {
     const theme = useTheme();
 
     const option = {
@@ -11,14 +11,16 @@ const DoughnutDevicecChart = ({ height, color = [] }) => {
             icon: 'circle',
             bottom: 0,
             textStyle: { color: theme.palette.text.secondary, fontSize: 13, fontFamily: 'roboto' },
+            data: ['Active', 'Inactive', 'Frozen'], // Reflect device types in the legend
         },
-        tooltip: { show: false, trigger: 'item', formatter: '{a} <br/>{b}: {c} ({d}%)' },
-        xAxis: [{ axisLine: { show: false }, splitLine: { show: false } }],
-        yAxis: [{ axisLine: { show: false }, splitLine: { show: false } }],
-
+        tooltip: {
+            show: true,
+            trigger: 'item',
+            formatter: '{a} <br/>{b}: {c} ({d}%)' // Show detailed tooltip with name, count, and percentage
+        },
         series: [
             {
-                name: 'Traffic Rate',
+                name: 'Device Status', // Title for the tooltips
                 type: 'pie',
                 radius: ['45%', '72.55%'],
                 center: ['50%', '50%'],
@@ -28,7 +30,7 @@ const DoughnutDevicecChart = ({ height, color = [] }) => {
                 label: {
                     normal: {
                         show: false,
-                        position: 'center', // shows the description data to center, turn off to show in right side
+                        position: 'center',
                         textStyle: {
                             color: theme.palette.text.secondary,
                             fontSize: 13,
@@ -39,23 +41,32 @@ const DoughnutDevicecChart = ({ height, color = [] }) => {
                     emphasis: {
                         show: true,
                         textStyle: { fontSize: '14', fontWeight: 'normal' },
-                        formatter: '{b} \n{c} ({d}%)',
+                        formatter: '{b} \n{c} ({d}%)', // Display device name, count, and percentage on hover
                     },
                 },
                 labelLine: { normal: { show: false } },
                 data: [
-                    { value: 65, name: 'Google' },
-                    { value: 20, name: 'Facebook' },
-                    { value: 15, name: 'Others' },
+                    { value: activeCount, name: 'Active' },   // Active devices count
+                    { value: inactiveCount, name: 'Inactive' }, // Inactive devices count
+                    { value: frozenCount, name: 'Frozen' },   // Frozen devices count
                 ],
                 itemStyle: {
-                    emphasis: { shadowBlur: 10, shadowOffsetX: 0, shadowColor: 'rgba(0, 0, 0, 0.5)' },
+                    emphasis: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    },
                 },
             },
         ],
     };
 
-    return <ReactEcharts style={{ height: height }} option={{ ...option, color: [...color] }} />;
+    return (
+        <ReactEcharts
+            style={{ height: height }}
+            option={{ ...option, color: color.length ? color : ['#00FF00', '#FF0000', '#0000FF'] }}
+        />
+    );
 };
 
-export default DoughnutDevicecChart;
+export default DoughnutDeviceChart;
