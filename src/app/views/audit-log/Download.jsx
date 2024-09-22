@@ -2,6 +2,7 @@
 import { Box, Icon, Autocomplete, styled } from '@mui/material';
 import Button from '@mui/material/Button';
 import axios from 'axios';
+import axiosInstance from '../../../axiosInterceptor';
 
 export default function Download({ username, moduleName, startDate, endDate, operation, status }) {
 
@@ -16,7 +17,7 @@ export default function Download({ username, moduleName, startDate, endDate, ope
             if (operation) data.operation = operation;
             if (status) data.status = status;
 
-            const result = await axios.post(`${process.env.REACT_APP_API_URL}/api/downloadAuditLog`, data);
+            const result = await axiosInstance.post(`/downloadAuditLog`, data);
             // getData();
             if (result && result.data && result.data.download) {
                 let fileUrl = result.data.download;

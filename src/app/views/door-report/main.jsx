@@ -4,6 +4,7 @@ import { SimpleCard } from 'app/components';
 import axios from 'axios';
 import Download from './Download';
 import FilterSection from './FilterSection';
+import axiosInstance from '../../../axiosInterceptor';
 
 const StyledTable = styled(Table)(() => ({
   whiteSpace: 'pre',
@@ -45,7 +46,7 @@ const Main = () => {
 
   const fetchData = async (filterParams = {}) => {
     try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/getDeviceLogger`, {
+      const response = await axiosInstance.post(`/getDeviceLogger`, {
         log_type: 'Door',
         ...filterParams,
       });

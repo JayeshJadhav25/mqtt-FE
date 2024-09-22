@@ -2,6 +2,7 @@
 import { Box, Icon, Autocomplete, styled } from '@mui/material';
 import Button from '@mui/material/Button';
 import axios from 'axios';
+import axiosInstance from '../../../axiosInterceptor';
 
 export default function Download({ deviceId, deviceName, logType, startDate, endDate }) {
 
@@ -29,7 +30,7 @@ export default function Download({ deviceId, deviceName, logType, startDate, end
             if (endDate) {
                 data.endDate = endDate;
             }
-            const result = await axios.post(`${process.env.REACT_APP_API_URL}/api/downloadLogger`, data);
+            const result = await axiosInstance.post(`/downloadLogger`, data);
             console.log('result', result);
             // getData();
             if (result && result.data && result.data.download) {

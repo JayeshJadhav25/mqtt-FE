@@ -20,6 +20,7 @@ import { useState, useEffect } from 'react';
 import { SimpleCard } from 'app/components';
 import axios from 'axios';
 import Download from './Download';
+import axiosInstance from '../../../axiosInterceptor';
 
 const StyledTable = styled(Table)(() => ({
   whiteSpace: 'pre',
@@ -84,7 +85,7 @@ const Main = () => {
         data.endDate = endDate;
       }
 
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/getStateLogger`, data);
+      const response = await axiosInstance.post(`/getStateLogger`, data);
       setData(response.data.status);
       console.log('Filter results:', response.data);
     } catch (error) {
@@ -104,7 +105,7 @@ const Main = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/getStateLogger`);
+      const response = await axiosInstance.post(`/getStateLogger`);
       setData(response.data.status);
     } catch (error) {
       console.error('Error fetching data:', error);

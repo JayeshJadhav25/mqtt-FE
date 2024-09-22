@@ -23,6 +23,7 @@ import { useState, useEffect } from 'react';
 import { Breadcrumb, SimpleCard } from 'app/components';
 import Download from './Download';
 import axios from 'axios';
+import axiosInstance from '../../../axiosInterceptor';
 
 const StyledTable = styled(Table)(() => ({
   whiteSpace: 'pre',
@@ -64,8 +65,8 @@ const Main = () => {
   };
 
   const getData = async () => {
-    axios
-      .post(`${process.env.REACT_APP_API_URL}/api/getDeviceLogger`)
+    axiosInstance
+      .post(`/getDeviceLogger`)
       .then((res) => {
         console.log('response= device>', res.data.status);
         setData(res.data.status);
@@ -99,7 +100,7 @@ const Main = () => {
         data.endDate = endDate;
       }
 
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/getDeviceLogger`, data);
+      const response = await axiosInstance.post(`/getDeviceLogger`, data);
       setData(response.data.status);
       console.log('Filter results:', response.data);
     } catch (error) {
