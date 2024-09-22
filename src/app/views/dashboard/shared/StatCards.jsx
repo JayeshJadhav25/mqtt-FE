@@ -6,6 +6,8 @@ import StatisticsChart from './StatisticsChart';
 import DoughnutDevicecChart from './DoughnutDevicecChart';
 import SimpleCard from 'app/components/SimpleCard';
 import LinceChartBattery from './LinceChartBattery';
+import axiosInstance from '../../../../axiosInterceptor';
+import WifiOffIcon from '@mui/icons-material/WifiOff';
 
 // Custom styled components for improved UI
 const StyledCard = styled(Card)(({ theme }) => ({
@@ -79,20 +81,42 @@ const OverviewLabel = styled(Typography)(({ theme }) => ({
 }));
 
 const StatCards = () => {
-  const [deviceData, setDeviceData] = useState([]);
+  const [dashboardData, setDashboardData] = useState({});
   const [timePeriod, setTimePeriod] = useState("This Month");
+  const [devices, setDevices] = useState([]);
+
   const theme = useTheme();
 
+
+  const fetchData = async () => {
+    try {
+      const response = await axiosInstance.post('/getDashboardDetails');
+      console.log('response', response.data)
+      if (response && response.data && response.data.data) {
+        setDashboardData(response.data.data || {})
+      }
+
+    } catch (error) {
+      console.error('Error fetching data', error);
+    }
+  }
+
+  const fetchDeviceData = async () => {
+    try {
+      const response = await axiosInstance.post('/getMQTTDevice');
+
+      if (response && response.data && response.data.status) {
+        setDevices(response.data.status || [])
+      }
+
+    } catch (error) {
+      console.error('Error fetching data', error);
+    }
+  }
+
   useEffect(() => {
-    axios.post(`${process.env.REACT_APP_API_URL}/api/getMQTTDevice`)
-      .then(response => {
-        if (response && response.data && response.data.status) {
-          setDeviceData(response.data.status);
-        }
-      })
-      .catch(error => {
-        console.error('Error fetching device data:', error);
-      });
+    fetchData();
+    fetchDeviceData();
   }, []);
 
   const handleTimePeriodChange = (event) => {
@@ -133,19 +157,19 @@ const StatCards = () => {
                 Total Devices
               </Typography>
               <Typography variant="h3" fontWeight="bold">
-                17
+                {(dashboardData.deviceCounts && dashboardData.deviceCounts.totalCount) || 0}
               </Typography>
             </ContentBox>
             <Box display="flex" justifyContent="space-between" width="100%" mt={2}>
               <Box textAlign="center" sx={{ paddingLeft: '16px' }}>
                 <Typography variant="h6" fontWeight="bold">
-                  7
+                  {(dashboardData.deviceCounts && dashboardData.deviceCounts.activeCount) || 0}
                 </Typography>
                 <Typography variant="body2">Active</Typography>
               </Box>
               <Box textAlign="center" sx={{ paddingRight: '16px' }}>
                 <Typography variant="h6" fontWeight="bold">
-                  10
+                  {(dashboardData.deviceCounts && dashboardData.deviceCounts.inactiveCount) || 0}
                 </Typography>
                 <Typography variant="body2">Inactive</Typography>
               </Box>
@@ -160,21 +184,21 @@ const StatCards = () => {
                 Door
               </Typography>
               <Typography variant="h3" fontWeight="bold">
-                17
+                {(dashboardData.doorCounts && dashboardData.doorCounts.totalCounts) || 0}
               </Typography>
             </ContentBox>
             <Box display="flex" justifyContent="space-between" width="100%" mt={2}>
               <Box textAlign="center" sx={{ paddingLeft: '16px' }}>
                 <Typography variant="h6" fontWeight="bold">
-                  7
+                  {(dashboardData.doorCounts && dashboardData.doorCounts.openCounts) || 0}
                 </Typography>
-                <Typography variant="body2">Active</Typography>
+                <Typography variant="body2">Open</Typography>
               </Box>
               <Box textAlign="center" sx={{ paddingRight: '16px' }}>
                 <Typography variant="h6" fontWeight="bold">
-                  10
+                  {(dashboardData.doorCounts && dashboardData.doorCounts.closeCounts) || 0}
                 </Typography>
-                <Typography variant="body2">Inactive</Typography>
+                <Typography variant="body2">Close</Typography>
               </Box>
             </Box>
           </StyledCard>
@@ -186,21 +210,21 @@ const StatCards = () => {
                 State
               </Typography>
               <Typography variant="h3" fontWeight="bold">
-                17
+                {(dashboardData.stateCounts && dashboardData.stateCounts.totalCounts) || 0}
               </Typography>
             </ContentBox>
             <Box display="flex" justifyContent="space-between" width="100%" mt={2}>
               <Box textAlign="center" sx={{ paddingLeft: '16px' }}>
                 <Typography variant="h6" fontWeight="bold">
-                  7
+                  {(dashboardData.stateCounts && dashboardData.stateCounts.runningCounts) || 0}
                 </Typography>
-                <Typography variant="body2">Active</Typography>
+                <Typography variant="body2">Running</Typography>
               </Box>
               <Box textAlign="center" sx={{ paddingRight: '16px' }}>
                 <Typography variant="h6" fontWeight="bold">
-                  10
+                  {(dashboardData.stateCounts && dashboardData.stateCounts.idleCounts) || 0}
                 </Typography>
-                <Typography variant="body2">Inactive</Typography>
+                <Typography variant="body2">Idle</Typography>
               </Box>
             </Box>
           </StyledCard>
@@ -212,21 +236,21 @@ const StatCards = () => {
                 Maintenance
               </Typography>
               <Typography variant="h3" fontWeight="bold">
-                17
+                {(dashboardData.maintenanceCounts && dashboardData.maintenanceCounts.totalCount) || 0}
               </Typography>
             </ContentBox>
             <Box display="flex" justifyContent="space-between" width="100%" mt={2}>
               <Box textAlign="center" sx={{ paddingLeft: '16px' }}>
                 <Typography variant="h6" fontWeight="bold">
-                  7
+                  {(dashboardData.maintenanceCounts && dashboardData.maintenanceCounts.pendingCount) || 0}
                 </Typography>
-                <Typography variant="body2">Active</Typography>
+                <Typography variant="body2">Pending</Typography>
               </Box>
               <Box textAlign="center" sx={{ paddingRight: '16px' }}>
                 <Typography variant="h6" fontWeight="bold">
-                  10
+                  {(dashboardData.maintenanceCounts && dashboardData.maintenanceCounts.approvedCount) || 0}
                 </Typography>
-                <Typography variant="body2">Inactive</Typography>
+                <Typography variant="body2">Approved</Typography>
               </Box>
             </Box>
           </StyledCard>
@@ -238,30 +262,93 @@ const StatCards = () => {
         Devices
       </Typography>
       <Grid container spacing={3}>
-        <Grid item xs={12} md={3}>
-          <OverviewCard>
-            <OverviewNumber>10,495</OverviewNumber>
-            <OverviewLabel>New Members</OverviewLabel>
-          </OverviewCard>
-        </Grid>
-        <Grid item xs={12} md={3}>
-          <OverviewCard>
-            <OverviewNumber>30,942</OverviewNumber>
-            <OverviewLabel>Places Added</OverviewLabel>
-          </OverviewCard>
-        </Grid>
-        <Grid item xs={12} md={3}>
-          <OverviewCard>
-            <OverviewNumber>45,269</OverviewNumber>
-            <OverviewLabel>Support Members</OverviewLabel>
-          </OverviewCard>
-        </Grid>
-        <Grid item xs={12} md={3}>
-          <OverviewCard>
-            <OverviewNumber>20,965</OverviewNumber>
-            <OverviewLabel>Tags Used</OverviewLabel>
-          </OverviewCard>
-        </Grid>
+        {devices.length > 0 ? (
+          devices.map((device, index) => (
+            <Grid item xs={12} md={3} key={index}>
+              <OverviewCard
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  // border: '1px solid black',
+                  padding: '16px',
+                  // borderRadius: '4px',
+                }}
+              >
+                {/* Device Label */}
+                <Typography variant="h6" fontWeight="bold" gutterBottom>
+                  {device.deviceName}
+                </Typography>
+
+                {/* Custom Icon and Status in a Row */}
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  {/* Custom Icon */}
+                  <Box position="relative" display="flex" alignItems="center" flexDirection="column" mr={1}>
+                    {/* Main Circle */}
+                    <Box
+                      sx={{
+                        width: '16px',
+                        height: '16px',
+                        bgcolor: (device.mqttStatusDetails && device.mqttStatusDetails.mqttRelayState == true) ? 'green' : 'red', // Dynamic color based on status
+                        borderRadius: '50%',
+                        position: 'relative',
+                        zIndex: 2,
+                      }}
+                    />
+                    {/* Antenna (using line or a Box) */}
+                    <Box
+                      sx={{
+                        width: '4px',
+                        height: '30px',
+                        bgcolor: 'gray',
+                        borderRadius: '2px',
+                        marginTop: '-5px',
+                      }}
+                    />
+                    {/* Base of the antenna */}
+                    <Box
+                      sx={{
+                        width: '24px',
+                        height: '12px',
+                        bgcolor: 'gray',
+                        borderRadius: '12px 12px 0 0',
+                        marginTop: '-3px',
+                      }}
+                    />
+                  </Box>
+
+                  {/* Dynamic Status */}
+                  <Typography variant="body1" fontWeight="bold">
+                    {(device.mqttStatusDetails && device.mqttStatusDetails.mqttRelayState == true) ? 'ONLINE' : 'OFFLINE'}
+                  </Typography>
+                </Box>
+              </OverviewCard>
+            </Grid>
+          ))
+        ) : (
+          <Grid item xs={12}>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: '16px',
+              }}
+            >
+              <Typography variant="h6" color="textSecondary">
+                No devices found
+              </Typography>
+            </Box>
+          </Grid>
+        )}
       </Grid>
 
       <Box mt={4}>
