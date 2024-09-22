@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 
 import { Breadcrumb, SimpleCard } from 'app/components';
+import axiosInstance from '../../../axiosInterceptor';
 
 const Container = styled('div')(({ theme }) => ({
   margin: '30px',
@@ -29,7 +30,7 @@ const Main = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/getMaintainenceRequest`);
+      const response = await axiosInstance.post(`/getMaintainenceRequest`);
       setData(response.data.status);
     } catch (error) {
       console.error('Error fetching data:', error);

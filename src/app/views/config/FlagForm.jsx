@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Box, TextField, Button, Typography, Card, CardContent, CardHeader, Grid, MenuItem, Select, Snackbar, Alert } from '@mui/material';
 import axios from 'axios';
+import axiosInstance from '../../../axiosInterceptor';
 
 function SimpleForm() {
   const [formData, setFormData] = useState({});
@@ -31,7 +32,7 @@ function SimpleForm() {
 
   // Fetch data on page load
   useEffect(() => {
-    axios.post(`${process.env.REACT_APP_API_URL}/api/getFlag`)
+    axiosInstance.post(`/getFlag`)
       .then(response => {
         if (response.data.success) {
           const data = response.data.status[0]; // Pick the first object from the status array
@@ -102,7 +103,7 @@ function SimpleForm() {
     }
 
     // Call API to update the values
-    axios.post(`${process.env.REACT_APP_API_URL}/api/updateFlag`, submissionData)
+    axiosInstance.post(`/updateFlag`, submissionData)
       .then(response => {
         console.log('Data updated successfully:', response.data);
         setAlertMessage('Data Updated successfully!');

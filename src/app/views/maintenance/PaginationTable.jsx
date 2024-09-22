@@ -17,6 +17,8 @@ import {
 import { useState } from "react";
 import axios from 'axios';
 import EditForm from './EditForm';
+import axiosInstance from '../../../axiosInterceptor';
+
 const accessLevel = window.localStorage.getItem('accessLevel');
 
 const StyledTable = styled(Table)(() => ({
@@ -59,7 +61,7 @@ const PaginationTable = ({ maintenanceData, fetchData }) => {
 
   const handleApproveReject = async (id, isApproved) => {
     try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/submitMaintainenceRequest`, { id, isApproved });
+      const response = await axiosInstance.post(`/submitMaintainenceRequest`, { id, isApproved });
       console.log("Approval successful:", response.data);
       if (isApproved) {
         setAlertMessage('Request Approved Successfully');

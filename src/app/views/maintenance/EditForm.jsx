@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { TextField, Button, Grid, Snackbar, Alert } from '@mui/material';
 import axios from 'axios';
+import axiosInstance from '../../../axiosInterceptor';
 
 const EditForm = ({ data, onClose, fetchData }) => {
   const [formData, setFormData] = useState({
@@ -43,7 +44,7 @@ const EditForm = ({ data, onClose, fetchData }) => {
       };
 
       // Make API call to update data
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/updateMaintainenceRequest`, updatedData);
+      const response = await axiosInstance.post(`/updateMaintainenceRequest`, updatedData);
 
       console.log("Update successful:", response.data);
       fetchData();

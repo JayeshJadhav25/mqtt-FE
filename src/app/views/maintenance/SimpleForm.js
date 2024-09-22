@@ -14,6 +14,7 @@ import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import axios from 'axios';
 import { styled } from '@mui/material/styles';
 import uuid from 'react-uuid';
+import axiosInstance from '../../../axiosInterceptor';
 
 const TextField = styled(TextValidator)(() => ({
     width: "100%",
@@ -42,7 +43,7 @@ const SimpleForm = ({ handleClose, fetchData }) => {
     };
 
     useEffect(() => {
-        axios.post(`${process.env.REACT_APP_API_URL}/api/getMQTTDevice`)
+        axiosInstance.post(`/getMQTTDevice`)
             .then(response => {
                 const options = response.data.status.map(item => ({
                     id: item.deviceId,  // Use deviceId here
@@ -79,7 +80,7 @@ const SimpleForm = ({ handleClose, fetchData }) => {
             endTime: `${state.endDate} ${state.endTime}`
         };
 
-        axios.post(`${process.env.REACT_APP_API_URL}/api/createMaintainenceRequest`, requestBody)
+        axiosInstance.post(`/createMaintainenceRequest`, requestBody)
             .then(response => {
                 setAlertMessage('Device created successfully!');
                 setAlertSeverity('success');
