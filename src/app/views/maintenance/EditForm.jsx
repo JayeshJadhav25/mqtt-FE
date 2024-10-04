@@ -37,6 +37,13 @@ const EditForm = ({ data, onClose, fetchData }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
+
+      if (!formData.engineerContact || formData.engineerContact.length !== 10) {
+        setAlertMessage('Phone Number should be exactly 10 digits');
+        setAlertSeverity('error');
+        setAlertOpen(true);
+        return; // Stop form submission if validation fails
+      }
       const updatedData = {
         ...formData,
         startTime: `${formData.startDate} ${formData.startTime}`,
@@ -78,9 +85,17 @@ const EditForm = ({ data, onClose, fetchData }) => {
         name="engineerContact"
         label="Engineer Contact"
         value={formData.engineerContact || ''}
-        onChange={handleChange}
+        onChange={(e) => {
+          // Ensure only numbers are typed
+          const value = e.target.value;
+          if (/^\d*$/.test(value)) { // Allow only digits
+            handleChange(e);
+          }
+        }}
         fullWidth
         margin="normal"
+        type="tel" // Indicate that the field is for telephone numbers
+        inputProps={{ maxLength: 10 }} // Limit input to 10 characters
       />
       <TextField
         name="status"

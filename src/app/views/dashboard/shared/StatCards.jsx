@@ -133,7 +133,7 @@ const StatCards = () => {
         </Typography> */}
 
         {/* Month Filter */}
-        <FormControl variant="outlined" size="small" sx={{ width: '150px' }}> {/* Set desired width */}
+        {/* <FormControl variant="outlined" size="small" sx={{ width: '150px' }}>
           <InputLabel id="time-period-label">Select Month</InputLabel>
           <Select
             labelId="time-period-label"
@@ -146,7 +146,7 @@ const StatCards = () => {
             <MenuItem value="This Year">This Year</MenuItem>
             <MenuItem value="All Time">All Time</MenuItem>
           </Select>
-        </FormControl>
+        </FormControl> */}
       </Box>
       <Grid container spacing={3} sx={{ mb: '24px' }}>
         {/* Existing Stat Cards */}
@@ -184,19 +184,19 @@ const StatCards = () => {
                 Door
               </Typography>
               <Typography variant="h3" fontWeight="bold">
-                {(dashboardData.doorCounts && dashboardData.doorCounts.totalCounts) || 0}
+                {(dashboardData.loggerDoorCounts && dashboardData.loggerDoorCounts.totalCount) || 0}
               </Typography>
             </ContentBox>
             <Box display="flex" justifyContent="space-between" width="100%" mt={2}>
               <Box textAlign="center" sx={{ paddingLeft: '16px' }}>
                 <Typography variant="h6" fontWeight="bold">
-                  {(dashboardData.doorCounts && dashboardData.doorCounts.openCounts) || 0}
+                  {(dashboardData.loggerDoorCounts && dashboardData.loggerDoorCounts.openCount) || 0}
                 </Typography>
                 <Typography variant="body2">Open</Typography>
               </Box>
               <Box textAlign="center" sx={{ paddingRight: '16px' }}>
                 <Typography variant="h6" fontWeight="bold">
-                  {(dashboardData.doorCounts && dashboardData.doorCounts.closeCounts) || 0}
+                  {(dashboardData.loggerDoorCounts && dashboardData.loggerDoorCounts.closedCount) || 0}
                 </Typography>
                 <Typography variant="body2">Close</Typography>
               </Box>
@@ -210,19 +210,19 @@ const StatCards = () => {
                 State
               </Typography>
               <Typography variant="h3" fontWeight="bold">
-                {(dashboardData.stateCounts && dashboardData.stateCounts.totalCounts) || 0}
+                {(dashboardData.loggerStateCounts && dashboardData.loggerStateCounts.totalCount) || 0}
               </Typography>
             </ContentBox>
             <Box display="flex" justifyContent="space-between" width="100%" mt={2}>
               <Box textAlign="center" sx={{ paddingLeft: '16px' }}>
                 <Typography variant="h6" fontWeight="bold">
-                  {(dashboardData.stateCounts && dashboardData.stateCounts.runningCounts) || 0}
+                  {(dashboardData.loggerStateCounts && dashboardData.loggerStateCounts.runningCount) || 0}
                 </Typography>
                 <Typography variant="body2">Running</Typography>
               </Box>
               <Box textAlign="center" sx={{ paddingRight: '16px' }}>
                 <Typography variant="h6" fontWeight="bold">
-                  {(dashboardData.stateCounts && dashboardData.stateCounts.idleCounts) || 0}
+                  {(dashboardData.loggerStateCounts && dashboardData.loggerStateCounts.idleCount) || 0}
                 </Typography>
                 <Typography variant="body2">Idle</Typography>
               </Box>

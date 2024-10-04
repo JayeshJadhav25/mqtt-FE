@@ -295,6 +295,20 @@ const PaginationTable = ({ data, fetchData }) => {
                                             checked={toggleStates[dataList.id] || false}
                                             onChange={handleToggleChange(dataList.id)}
                                             inputProps={{ 'aria-label': 'controlled' }}
+                                            sx={{
+                                                '& .MuiSwitch-switchBase.Mui-checked': {
+                                                    color: 'green', // Color when switch is ON
+                                                },
+                                                '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
+                                                    backgroundColor: 'green', // Track color when switch is ON
+                                                },
+                                                '& .MuiSwitch-switchBase': {
+                                                    color: 'red', // Color when switch is OFF
+                                                },
+                                                '& .MuiSwitch-track': {
+                                                    backgroundColor: 'red', // Track color when switch is OFF
+                                                }
+                                            }}
                                         />
                                     </TableCell>
                                 }

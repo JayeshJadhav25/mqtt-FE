@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TextField, Button, Grid, Snackbar, Alert } from '@mui/material';
+import { TextField, Button, Grid, Snackbar, Alert, MenuItem, Select, FormControl, InputLabel } from '@mui/material';
 import axios from 'axios';
 import axiosInstance from '../../../axiosInterceptor';
 
@@ -119,14 +119,19 @@ const EditFormV2 = ({ data, onClose, fetchData }) => {
                 fullWidth
                 margin="normal"
             />
-            <TextField
-                name="status"
-                label="Status"
-                value={formData.status || ''}
-                onChange={handleChange}
-                fullWidth
-                margin="normal"
-            />
+            <FormControl fullWidth margin="normal">
+                <InputLabel id="status-label">Status</InputLabel>
+                <Select
+                    labelId="status-label"
+                    name="status"
+                    value={formData.status || ''}
+                    onChange={handleChange}
+                    label="Status"
+                >
+                    <MenuItem value="Active">Active</MenuItem>
+                    <MenuItem value="InActive">InActive</MenuItem>
+                </Select>
+            </FormControl>
 
             <Button type="submit" color="primary" variant="contained" sx={{ mt: 2 }}>
                 Update
