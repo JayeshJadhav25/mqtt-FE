@@ -6,7 +6,7 @@ import axiosInstance from '../../../axiosInterceptor';
 const EditFormV2 = ({ data, onClose, fetchData }) => {
     const [formData, setFormData] = useState({
         ...data,
-        mqttTopic: data.mqttTopic?.[0] || '',
+        mqttTopic: data.mqttTopic && Array.isArray(data.mqttTopic) ? data.mqttTopic.join(",") : '',
     });
 
     const [alertOpen, setAlertOpen] = useState(false);
@@ -16,7 +16,7 @@ const EditFormV2 = ({ data, onClose, fetchData }) => {
     useEffect(() => {
         setFormData({
             ...data,
-            mqttTopic: data.mqttTopic?.[0] || '',
+            mqttTopic: data.mqttTopic && Array.isArray(data.mqttTopic) ? data.mqttTopic.join(",") : '',
         });
     }, [data]);
 
@@ -33,7 +33,7 @@ const EditFormV2 = ({ data, onClose, fetchData }) => {
         try {
             const updatedData = {
                 ...formData,
-                mqttTopic: [formData.mqttTopic],
+                mqttTopic: formData.mqttTopic ? formData.mqttTopic.split(",") : []
             };
 
             const response = await axiosInstance.post(`/updateMQTTDevice`, updatedData);

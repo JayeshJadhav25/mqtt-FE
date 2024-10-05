@@ -238,7 +238,7 @@ const Main = () => {
                     <TableCell align="center">{formatDateTime(dataList.timestamp)}</TableCell>
                     <TableCell align="center">{dataList.device_id}</TableCell>
                     <TableCell align="center">{dataList.device_name}</TableCell>
-                    <TableCell align="center">{dataList.state}</TableCell>
+                    <TableCell align="center">{dataList.log_desc}</TableCell>
                   </TableRow>
                 ))}
             </TableBody>

@@ -39,7 +39,7 @@ const SimpleForm = ({ handleClose, fetchData }) => {
             const updatedFormData = {
                 ...state,
                 id: uuid(),
-                mqttTopic: state.mqttTopic ? [state.mqttTopic] : [],
+                mqttTopic: state.mqttTopic ? state.mqttTopic.split(",") : [],
             };
             const response = await axiosInstance.post(`/createMQTTDevice`, updatedFormData);
             setAlertMessage('Device created successfully!');

@@ -100,6 +100,7 @@ const PaginationTable = ({ data, fetchData }) => {
             const result = await axiosInstance.post(`/relayTriggerOnOrOffMQTTDevice`, { id: currentRelayId, mqttRelayState: currentRelayState });
             setAlertMessage('Device Relay Status Changed successfully!');
             setAlertSeverity('success');
+            fetchData();
         } catch (error) {
             setAlertMessage(error.response.data.msg || 'Something Went Wrong');
             setAlertSeverity('error');
@@ -253,7 +254,7 @@ const PaginationTable = ({ data, fetchData }) => {
                                                 width: 18,    // Circle size
                                                 height: 18,   // Circle size
                                                 borderRadius: '50%',   // Circular shape
-                                                backgroundColor: (dataList.mqttStatusDetails && dataList.mqttStatusDetails.mqttRelayState) === true ? green[500] : red[500]
+                                                backgroundColor: (dataList.mqttStatusDetails && dataList.mqttStatusDetails.mqttRelayState) === true ? red[500] : green[500]
                                             }}
                                         />
                                     </Box>
@@ -261,7 +262,9 @@ const PaginationTable = ({ data, fetchData }) => {
                                 <TableCell align="center">{dataList.deviceName}</TableCell>
                                 <TableCell align="center">{dataList.mqttIP}</TableCell>
                                 <TableCell align="center">{dataList.mqttUserName}</TableCell>
-                                <TableCell align="center">{dataList.mqttTopic}</TableCell>
+                                <TableCell align="center">
+                                    {dataList.mqttTopic && Array.isArray(dataList.mqttTopic) ? dataList.mqttTopic.join(", ") : ""}
+                                </TableCell>
                                 <TableCell align="center">{dataList.mqttMacId}</TableCell>
                                 <TableCell align="center">{dataList.status}</TableCell>
                                 <TableCell align="center">{dataList.mqttPort}</TableCell>

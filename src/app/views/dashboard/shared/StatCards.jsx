@@ -297,7 +297,7 @@ const StatCards = () => {
                       sx={{
                         width: '16px',
                         height: '16px',
-                        bgcolor: (device.mqttStatusDetails && device.mqttStatusDetails.mqttRelayState == true) ? 'green' : 'red', // Dynamic color based on status
+                        bgcolor: (device.mqttStatusDetails && device.mqttStatusDetails.mqttRelayState == true) ? 'red' : 'green', // Dynamic color based on status
                         borderRadius: '50%',
                         position: 'relative',
                         zIndex: 2,
@@ -327,7 +327,7 @@ const StatCards = () => {
 
                   {/* Dynamic Status */}
                   <Typography variant="body1" fontWeight="bold">
-                    {(device.mqttStatusDetails && device.mqttStatusDetails.mqttRelayState == true) ? 'ONLINE' : 'OFFLINE'}
+                    {(device.mqttStatusDetails && device.mqttStatusDetails.mqttRelayState == true) ? 'OFFLINE' : 'ONLINE'}
                   </Typography>
                 </Box>
               </OverviewCard>
