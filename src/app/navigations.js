@@ -7,7 +7,7 @@ if (accessLevel == 1) {
   accessLevelNavigation = [
     { name: 'Dashboard', path: '/dashboard/default', icon: 'dashboard' },
     { name: 'Users', path: '/users', icon: 'account_circle' },
-    { name: 'Log Types', path: '/logtypes', icon: 'note' },
+    // { name: 'Log Types', path: '/logtypes', icon: 'note' },
     {
       name: 'Devices',
       icon: 'cloud',

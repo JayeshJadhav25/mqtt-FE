@@ -21,7 +21,7 @@ const FilterSection = ({ onFilter, onClear, filters, setFilters }) => {
     const handleFilter = () => {
         let data = {};
 
-        if (filters.deviceId) data.deviceId = filters.deviceId;
+        if (filters.device_id) data.deviceId = filters.deviceId;
         if (filters.action) data.action = filters.action;
         if (filters.startDate) data.startDate = filters.startDate;
         if (filters.endDate) data.endDate = filters.endDate;
