@@ -19,7 +19,7 @@ export default function Download({ deviceId, deviceName, logType, startDate, end
             }
 
             if (logType) {
-                data.state = logType;
+                data.log_desc = logType;
             }
 
             if (startDate) {

@@ -70,6 +70,7 @@ const PaginationTable = ({ maintenanceData, fetchData }) => {
         setAlertMessage('Request Rejected Successfully!');
         setAlertSeverity('success');
       }
+      fetchData();
     } catch (error) {
       console.error('Error:', error);
       setAlertMessage(error.response?.data?.msg || 'Something Went Wrong');
@@ -137,12 +138,21 @@ const PaginationTable = ({ maintenanceData, fetchData }) => {
                   <TableCell align="center">
                     <>
                       <Tooltip title="Reject">
-                        <IconButton onClick={() => openConfirmDialog(request.id, false)}>
-                          <Icon fontSize="small" color="error">close</Icon>
+                        <IconButton
+                          onClick={() => openConfirmDialog(request.id, false)}
+                          disabled={!request.isEditable}
+                          color={request.isEditable ? "error" : "default"}
+
+                        >
+                          <Icon fontSize="small">close</Icon>
                         </IconButton>
                       </Tooltip>
                       <Tooltip title="Approve">
-                        <IconButton onClick={() => openConfirmDialog(request.id, true)}>
+                        <IconButton
+                          onClick={() => openConfirmDialog(request.id, true)}
+                          disabled={!request.isEditable}
+                          color={request.isEditable ? "green" : "default"}
+                        >
                           <Icon fontSize="small">check</Icon>
                         </IconButton>
                       </Tooltip>

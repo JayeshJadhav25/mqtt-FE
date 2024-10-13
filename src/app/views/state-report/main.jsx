@@ -74,7 +74,7 @@ const Main = () => {
       }
 
       if (logType) {
-        data.state = logType;
+        data.log_desc = logType;
       }
 
       if (startDate) {
