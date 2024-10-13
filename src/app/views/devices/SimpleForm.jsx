@@ -39,7 +39,7 @@ const SimpleForm = ({ handleClose, fetchData }) => {
             const updatedFormData = {
                 ...state,
                 id: uuid(),
-                mqttTopic: state.mqttTopic ? state.mqttTopic.split(",") : [],
+                mqttTopic: ["Power/State", "Logs", "DOOR", "Energy", "Weight", "process_status", "super_access", "status", "Relay/State", "State", "STATE"],
             };
             const response = await axiosInstance.post(`/createMQTTDevice`, updatedFormData);
             setAlertMessage('Device created successfully!');
@@ -138,10 +138,11 @@ const SimpleForm = ({ handleClose, fetchData }) => {
                             type="text"
                             name="mqttTopic"
                             label="MQTT Topic *"
-                            onChange={handleChange}
-                            value={mqttTopic || ""}
+                            // onChange={handleChange}
+                            value={'Power/State, Logs, DOOR, Energy, Weight, process_status, super_access, status, Relay/State, State, STATE' || ""}
                             validators={["required"]}
                             errorMessages={["this field is required"]}
+                            disabled
                         />
 
 

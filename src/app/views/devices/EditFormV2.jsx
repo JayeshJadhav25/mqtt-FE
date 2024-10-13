@@ -102,6 +102,7 @@ const EditFormV2 = ({ data, onClose, fetchData }) => {
                 onChange={handleChange}
                 fullWidth
                 margin="normal"
+                disabled
             />
             <TextField
                 name="mqttMacId"
