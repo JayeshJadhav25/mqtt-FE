@@ -29,8 +29,8 @@ const Main = () => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [data, setData] = useState([]);
   const [filters, setFilters] = useState({
-    deviceId: '',
-    action: '',
+    device_id: '',
+    log_desc: '',
     startDate: '',
     endDate: '',
   });
@@ -63,8 +63,8 @@ const Main = () => {
 
   const handleClear = () => {
     setFilters({
-      deviceId: '',
-      action: '',
+      device_id: '',
+      log_desc: '',
       startDate: '',
       endDate: '',
     });
@@ -78,8 +78,8 @@ const Main = () => {
   return (
     <Container>
       <Box className="breadcrumb" display="flex" justifyContent="flex-end">
-        <Download deviceId={filters.deviceId}
-          action={filters.action}
+        <Download device_id={filters.device_id}
+          log_desc={filters.log_desc}
           startDate={filters.startDate}
           endDate={filters.endDate} />
       </Box>

@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 const FilterSection = ({ onFilter, onClear, filters, setFilters }) => {
     // const [filters, setFilters] = useState({
-    //     deviceId: '',
+    //     device_id: '',
     //     action: '',
     //     startDate: '',
     //     endDate: '',
@@ -21,8 +21,8 @@ const FilterSection = ({ onFilter, onClear, filters, setFilters }) => {
     const handleFilter = () => {
         let data = {};
 
-        if (filters.device_id) data.deviceId = filters.deviceId;
-        if (filters.action) data.action = filters.action;
+        if (filters.device_id) data.device_id = filters.device_id;
+        if (filters.log_desc) data.log_desc = filters.log_desc;
         if (filters.startDate) data.startDate = filters.startDate;
         if (filters.endDate) data.endDate = filters.endDate;
 
@@ -31,8 +31,8 @@ const FilterSection = ({ onFilter, onClear, filters, setFilters }) => {
 
     const handleClear = () => {
         setFilters({
-            deviceId: '',
-            action: '',
+            device_id: '',
+            log_desc: '',
             startDate: '',
             endDate: '',
         });
@@ -68,17 +68,17 @@ const FilterSection = ({ onFilter, onClear, filters, setFilters }) => {
                             sx={{ width: '25%' }}  // Set uniform width
                         />
                         <TextField
-                            label="DeviceId"
-                            name="deviceId"
-                            value={filters.deviceId}
+                            label="device_id"
+                            name="device_id"
+                            value={filters.device_id}
                             size="small"
                             onChange={handleInputChange}
                             sx={{ width: '25%' }}  // Set uniform width
                         />
                         <TextField
                             label="Action"
-                            name="action"
-                            value={filters.action}
+                            name="log_desc"
+                            value={filters.log_desc}
                             size="small"
                             onChange={handleInputChange}
                             sx={{ width: '25%' }}  // Set uniform width

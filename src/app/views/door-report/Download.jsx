@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import axios from 'axios';
 import axiosInstance from '../../../axiosInterceptor';
 
-export default function Download({ deviceId, action, startDate, endDate }) {
+export default function Download({ device_id, log_desc, startDate, endDate }) {
 
     async function handleDownload() {
         try {
@@ -12,8 +12,8 @@ export default function Download({ deviceId, action, startDate, endDate }) {
                 log_type: 'Door'
             };
 
-            if (deviceId) data.deviceId = deviceId;
-            if (action) data.log_desc = action;
+            if (device_id) data.device_id = device_id;
+            if (log_desc) data.log_desc = log_desc;
             if (startDate) data.startDate = startDate;
             if (endDate) data.endDate = endDate;
 
