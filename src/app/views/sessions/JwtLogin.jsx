@@ -1,11 +1,10 @@
 import { LoadingButton } from '@mui/lab';
-import { Card, Checkbox, Grid, TextField, Snackbar, Alert } from '@mui/material';
+import { Card, Grid, TextField, Snackbar, Alert } from '@mui/material';
 import { Box, styled, useTheme } from '@mui/system';
-import { Paragraph } from 'app/components/Typography';
 import useAuth from 'app/hooks/useAuth';
 import { Formik } from 'formik';
 import { useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import React from "react";
 
@@ -49,10 +48,9 @@ const validationSchema = Yup.object().shape({
 });
 
 const JwtLogin = () => {
-  const theme = useTheme();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  
+
   const [state, setState] = React.useState({
     open: false,
     vertical: "top",
@@ -61,10 +59,10 @@ const JwtLogin = () => {
 
   const [opens, setOpen] = React.useState(false);
 
-  const [errorMessage,setErrorMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const { vertical, horizontal, open } = state;
-  
+
   // function handleClose() {
   //   setState({ ...state, open: false });
   // }
@@ -94,7 +92,7 @@ const JwtLogin = () => {
   };
 
 
-  
+
 
 
   return (
@@ -205,12 +203,12 @@ const JwtLogin = () => {
       </Box> */}
 
       <Snackbar open={opens} autoHideDuration={3000} onClose={handleClose}>
-      <Alert onClose={handleClose} sx={{ m: 1 }} severity="error" variant="filled">
+        <Alert onClose={handleClose} sx={{ m: 1 }} severity="error" variant="filled">
           {errorMessage}
-      </Alert>
+        </Alert>
       </Snackbar>
 
-      
+
     </JWTRoot>
   );
 };

@@ -13,12 +13,10 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  Typography
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useState, useEffect } from 'react';
 import { SimpleCard } from 'app/components';
-import axios from 'axios';
 import Download from './Download';
 import axiosInstance from '../../../axiosInterceptor';
 
@@ -47,7 +45,6 @@ const Main = () => {
   const [data, setData] = useState([]);
   const [deviceId, setDeviceId] = useState('');
   const [deviceName, setDeviceName] = useState('');
-  const [macId, setMacId] = useState('');
   const [logType, setLogType] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -97,7 +94,6 @@ const Main = () => {
     setDeviceId('');
     setDeviceName('');
     setLogType('');
-    setMacId('');
     setStartDate('');
     setEndDate('');
     fetchData();

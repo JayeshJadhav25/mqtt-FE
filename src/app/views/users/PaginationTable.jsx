@@ -17,11 +17,10 @@ import {
   Select,
   MenuItem,
   InputLabel,
-  Dialog, DialogActions, DialogContent, DialogTitle, Button, Divider, Accordion, AccordionSummary, AccordionDetails, Typography
+  Dialog, DialogActions, DialogContent, DialogTitle, Button, Divider, Accordion, AccordionSummary, AccordionDetails,
 } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useState } from "react";
-import axios from 'axios';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditForm from './EditForm';
 import axiosInstance from '../../../axiosInterceptor';

@@ -14,7 +14,6 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Span } from "app/components/Typography";
 import { useEffect, useState } from "react";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
-import axios from 'axios';
 import { styled } from '@mui/material/styles';
 import uuid from 'react-uuid';
 import axiosInstance from '../../../axiosInterceptor';

@@ -1,7 +1,6 @@
 import { Box, styled } from "@mui/material";
 import { Breadcrumb, SimpleCard } from "app/components";
 import PaginationTable from "./PaginationTable";
-import SimpleTable from "./SimpleTable";
 
 const Container = styled("div")(({ theme }) => ({
   margin: "30px",

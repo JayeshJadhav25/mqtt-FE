@@ -15,7 +15,6 @@ import {
   Dialog, DialogActions, DialogContent, DialogTitle, Button, DialogContentText
 } from "@mui/material";
 import { useState } from "react";
-import axios from 'axios';
 import EditForm from './EditForm';
 import axiosInstance from '../../../axiosInterceptor';
 

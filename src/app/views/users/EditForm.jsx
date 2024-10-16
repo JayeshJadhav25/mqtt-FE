@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Button, Grid, Snackbar, Alert, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
-import axios from 'axios';
+import { TextField, Button, Snackbar, Alert, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import axiosInstance from '../../../axiosInterceptor';
 
 const EditForm = ({ data, onClose, fetchData }) => {

@@ -18,11 +18,6 @@ export default function FormDialog({ fetchData }) {
 		setOpen(false);
 	}
 
-	const handleSubmit = (event) => {
-		console.log("submitted");
-		console.log(event);
-	};
-
 	return (
 		<Box>
 			<Button variant="outlined" color="primary" onClick={handleClickOpen}>

@@ -1,7 +1,6 @@
 
 import { Box, Icon } from '@mui/material';
 import Button from '@mui/material/Button';
-import axios from 'axios';
 import axiosInstance from '../../../axiosInterceptor';
 
 export default function Download({ deviceId, deviceName, logType, startDate, endDate }) {

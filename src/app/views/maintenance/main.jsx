@@ -1,15 +1,13 @@
 import CreateForm from './CreateForm';
-import SimpleForm from './SimpleForm';
 import Download from './Download';
 import PaginationTable from './PaginationTable';
 import { useState, useEffect } from "react";
-import axios from 'axios'
 import {
   Box,
   styled,
 } from '@mui/material';
 
-import { Breadcrumb, SimpleCard } from 'app/components';
+import { SimpleCard } from 'app/components';
 import axiosInstance from '../../../axiosInterceptor';
 
 const Container = styled('div')(({ theme }) => ({
