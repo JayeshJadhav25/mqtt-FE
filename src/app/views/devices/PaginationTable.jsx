@@ -20,7 +20,12 @@ import {
     MenuItem,
     Select,
     Switch,
-    Tooltip
+    Tooltip,
+    Accordion,
+    AccordionSummary,
+    AccordionDetails,
+    TextField,
+    Divider
 } from "@mui/material";
 import { useState, useEffect } from "react";
 import axios from 'axios';
@@ -32,6 +37,7 @@ import uuid from 'react-uuid';
 import EditIcon from '@mui/icons-material/Edit';
 import { green, red } from '@mui/material/colors';
 import axiosInstance from '../../../axiosInterceptor';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const accessLevel = window.localStorage.getItem('accessLevel');
 
@@ -45,7 +51,7 @@ const StyledTable = styled(Table)(() => ({
     },
 }));
 
-const PaginationTable = ({ data, fetchData }) => {
+const PaginationTable = ({ data, fetchData, setData }) => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [users, setUsers] = useState([]);
@@ -61,6 +67,11 @@ const PaginationTable = ({ data, fetchData }) => {
     const [currentRelayState, setCurrentRelayState] = useState(false);
     const [deleteConfirmDialogOpen, setDeleteConfirmDialogOpen] = useState(false);
     const [deleteDeviceId, setDeleteDeviceId] = useState(null);
+    const [deviceName, setDeviceName] = useState('');
+    const [status, setStatus] = useState('');
+    const [deviceId, setDeviceId] = useState('');
+    const [deviceMacId, setDeviceMacId] = useState('');
+
 
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [editingDevice, setEditingDevice] = useState(null);
@@ -215,8 +226,101 @@ const PaginationTable = ({ data, fetchData }) => {
         handleEditClose();
     };
 
+    const handleFilter = async () => {
+        try {
+
+            let filterData = {};
+
+            if (deviceName) filterData.deviceName = deviceName;
+            if (deviceId) filterData.deviceId = deviceId;
+            if (status) filterData.status = status;
+            if (deviceMacId) filterData.mqttMacId = deviceMacId;
+
+            const response = await axiosInstance.post(`/getMQTTDevice`, filterData);
+            setData(response.data.status);
+        } catch (error) {
+            console.error('Error filtering data:', error);
+        }
+    }
+
+    const handleClear = async () => {
+        setDeviceMacId('');
+        setDeviceName('');
+        setStatus('');
+        setDeviceId('');
+        fetchData()
+    }
+
     return (
         <Box width="100%" overflow="auto">
+            <Accordion>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                    <Box fontWeight="bold">Filters</Box>
+                </AccordionSummary>
+                <AccordionDetails>
+                    <Box display="flex" justifyContent="space-between" mb={2} mt={1} alignItems="center">
+                        <TextField
+                            label="DeviceName"
+                            value={deviceName}
+                            onChange={(e) => setDeviceName(e.target.value)}
+                            variant="outlined"
+                            size="small"
+                            sx={{ width: '25%', marginRight: 2 }}
+                        />
+                        <TextField
+                            label="DeviceId"
+                            value={deviceId}
+                            onChange={(e) => setDeviceId(e.target.value)}
+                            variant="outlined"
+                            size="small"
+                            sx={{ width: '25%', marginRight: 2 }}
+                        />
+                        <FormControl variant="outlined" size="small" sx={{ width: '25%', marginRight: 2 }}>
+                            <InputLabel>Status</InputLabel>
+                            <Select
+                                name="status"
+                                value={status}
+                                onChange={(e) => setStatus(e.target.value)}
+                                label="Status"
+                            >
+                                <MenuItem value="Active">Active</MenuItem>
+                                <MenuItem value="InActive">InActive</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <TextField
+                            label="MacId"
+                            value={deviceMacId}
+                            onChange={(e) => setDeviceMacId(e.target.value)}
+                            variant="outlined"
+                            size="small"
+                            sx={{ width: '25%', marginRight: 2 }}
+                        />
+                    </Box>
+
+                    <Box display="flex" justifyContent="flex-end" mb={2}>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            size="small"
+                            onClick={handleFilter}
+                            sx={{ mr: 2 }}
+                        >
+                            Filter
+                        </Button>
+                        <Button
+                            variant="outlined"
+                            color="secondary"
+                            onClick={handleClear}
+                            sx={{ height: '100%' }}
+                        >
+                            Clear
+                        </Button>
+                    </Box>
+                </AccordionDetails>
+            </Accordion>
+
+            <Divider sx={{ marginBottom: 2 }} />
+
             <StyledTable>
                 <TableHead>
                     <TableRow>

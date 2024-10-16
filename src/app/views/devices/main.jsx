@@ -49,7 +49,7 @@ const Main = () => {
         </Box>
       )}
       <SimpleCard title="Devices">
-        <PaginationTable data={data} fetchData={fetchData} />
+        <PaginationTable data={data} fetchData={fetchData} setData={setData} />
       </SimpleCard>
 
     </Container>

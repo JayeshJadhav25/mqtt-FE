@@ -43,13 +43,15 @@ const Main = () => {
 
   return (
     <Container>
-      {accessLevel != 3 && (
-        <Box display="flex" justifyContent="space-between" alignItems="center" className="breadcrumb">
-          {/* The SimpleForm is commented out */}
-          <CreateForm fetchData={fetchData} />
+      <Box display="flex" justifyContent="space-between" alignItems="center" className="breadcrumb">
+        {/* The SimpleForm is commented out */}
+        <CreateForm fetchData={fetchData} />
+        {accessLevel != 3 && (
+
           <Download />
-        </Box>
-      )}
+        )}
+
+      </Box>
 
       <SimpleCard title="Maintenance">
         <PaginationTable maintenanceData={data} fetchData={fetchData} />
