@@ -108,7 +108,7 @@ const PaginationTable = ({ data, fetchData, setData }) => {
             [currentRelayId]: currentRelayState,
         }));
         try {
-            const result = await axiosInstance.post(`/relayTriggerOnOrOffMQTTDevice`, { id: currentRelayId, mqttRelayState: currentRelayState });
+            const result = await axiosInstance.post(`/relayTriggerOnOrOffMQTTDevice`, { deviceId: currentRelayId, mqttRelayState: currentRelayState });
             setAlertMessage('Device Relay Status Changed successfully!');
             setAlertSeverity('success');
             fetchData();
@@ -402,7 +402,7 @@ const PaginationTable = ({ data, fetchData, setData }) => {
                                     <TableCell align="center">
                                         <Switch
                                             checked={toggleStates[dataList.id] || false}
-                                            onChange={handleToggleChange(dataList.id)}
+                                            onChange={handleToggleChange(dataList.deviceId)}
                                             inputProps={{ 'aria-label': 'controlled' }}
                                             sx={{
                                                 '& .MuiSwitch-switchBase.Mui-checked': {
