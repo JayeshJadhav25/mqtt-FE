@@ -325,10 +325,11 @@ const PaginationTable = ({ data, fetchData, setData }) => {
                 <TableHead>
                     <TableRow>
                         <TableCell align="center">Relay Status</TableCell>
+                        <TableCell align="center">Device Id</TableCell>
                         <TableCell align="center">Device Name</TableCell>
                         <TableCell align="center">MQTT IP</TableCell>
                         <TableCell align="center">Username</TableCell>
-                        <TableCell align="center">Topic</TableCell>
+                        {/* <TableCell align="center">Topic</TableCell> */}
                         <TableCell align="center">MACID</TableCell>
                         <TableCell align="center">Status</TableCell>
                         <TableCell align="center">PORT</TableCell>
@@ -363,12 +364,13 @@ const PaginationTable = ({ data, fetchData, setData }) => {
                                         />
                                     </Box>
                                 </TableCell>
+                                <TableCell align="center">{dataList.deviceId}</TableCell>
                                 <TableCell align="center">{dataList.deviceName}</TableCell>
                                 <TableCell align="center">{dataList.mqttIP}</TableCell>
                                 <TableCell align="center">{dataList.mqttUserName}</TableCell>
-                                <TableCell align="center">
+                                {/* <TableCell align="center">
                                     {dataList.mqttTopic && Array.isArray(dataList.mqttTopic) ? dataList.mqttTopic.join(", ") : ""}
-                                </TableCell>
+                                </TableCell> */}
                                 <TableCell align="center">{dataList.mqttMacId}</TableCell>
                                 <TableCell align="center">{dataList.status}</TableCell>
                                 <TableCell align="center">{dataList.mqttPort}</TableCell>

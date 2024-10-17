@@ -44,10 +44,7 @@ const Main = () => {
       <Box display="flex" justifyContent="space-between" alignItems="center" className="breadcrumb">
         {/* The SimpleForm is commented out */}
         <CreateForm fetchData={fetchData} />
-        {accessLevel != 3 && (
-
-          <Download />
-        )}
+        <Download />
 
       </Box>
 
