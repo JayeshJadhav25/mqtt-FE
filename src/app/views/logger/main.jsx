@@ -15,7 +15,9 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  Typography
+  Typography,
+  Snackbar,
+  Alert
 } from '@mui/material';
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -55,6 +57,12 @@ const Main = () => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
 
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
+    setSnackbarMessage('');
+  };
   const handleChangePage = (_, newPage) => {
     setPage(newPage);
   };
@@ -78,6 +86,12 @@ const Main = () => {
 
   const handleFilter = async () => {
     try {
+      if (new Date(endDate) <= new Date(startDate)) {
+        setSnackbarMessage('End Date should be greater than Start Date.');
+        setOpenSnackbar(true);
+        return;
+      }
+
       let data = {};
 
       if (deviceId) {
@@ -262,6 +276,17 @@ const Main = () => {
           backIconButtonProps={{ 'aria-label': 'Previous Page' }}
         />
       </SimpleCard>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <Alert onClose={handleCloseSnackbar} severity="error">
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
+
     </Container>
   );
 };

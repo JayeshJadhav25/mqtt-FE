@@ -13,6 +13,8 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  Snackbar,
+  Alert
 } from '@mui/material';
 
 import { useState, useEffect } from 'react';
@@ -54,6 +56,13 @@ const Main = () => {
   const [operation, setOperation] = useState('');
   const [status, setStatus] = useState('');
 
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
+    setSnackbarMessage('');
+  };
+
   const handleChangePage = (_, newPage) => {
     setPage(newPage);
   };
@@ -79,6 +88,12 @@ const Main = () => {
   // Filter button click handler
   const handleFilter = () => {
     let data = {};
+
+    if (new Date(endDate) <= new Date(startDate)) {
+      setSnackbarMessage('End Date should be greater than Start Date.');
+      setOpenSnackbar(true);
+      return;
+    }
 
     if (username) data.userName = username;
     if (moduleName) data.moduleName = moduleName;
@@ -243,6 +258,16 @@ const Main = () => {
           />
         </Box>
       </SimpleCard>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <Alert onClose={handleCloseSnackbar} severity="error">
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 };

@@ -1,4 +1,8 @@
-import { Box, Accordion, AccordionSummary, AccordionDetails, TextField, Button, Divider } from '@mui/material';
+import {
+    Box, Accordion, AccordionSummary, AccordionDetails, TextField, Button, Divider,
+    Snackbar,
+    Alert
+} from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useState } from 'react';
 
@@ -10,6 +14,12 @@ const FilterSection = ({ onFilter, onClear, filters, setFilters }) => {
     //     endDate: '',
     // });
 
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const handleCloseSnackbar = () => {
+        setOpenSnackbar(false);
+        setSnackbarMessage('');
+    };
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFilters((prev) => ({
@@ -19,6 +29,12 @@ const FilterSection = ({ onFilter, onClear, filters, setFilters }) => {
     };
 
     const handleFilter = () => {
+        if (new Date(filters.endDate) <= new Date(filters.startDate)) {
+            setSnackbarMessage('End Date should be greater than Start Date.');
+            setOpenSnackbar(true);
+            return;
+        }
+
         let data = {};
 
         if (filters.device_id) data.device_id = filters.device_id;
@@ -96,6 +112,16 @@ const FilterSection = ({ onFilter, onClear, filters, setFilters }) => {
                     </Box>
                 </Box>
             </AccordionDetails>
+            <Snackbar
+                open={openSnackbar}
+                autoHideDuration={3000}
+                onClose={handleCloseSnackbar}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            >
+                <Alert onClose={handleCloseSnackbar} severity="error">
+                    {snackbarMessage}
+                </Alert>
+            </Snackbar>
         </Accordion>
     );
 };
