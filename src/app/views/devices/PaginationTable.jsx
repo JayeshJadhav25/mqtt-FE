@@ -328,11 +328,12 @@ const PaginationTable = ({ data, fetchData, setData }) => {
                         <TableCell align="center">Device Id</TableCell>
                         <TableCell align="center">Device Name</TableCell>
                         <TableCell align="center">MQTT IP</TableCell>
-                        <TableCell align="center">Username</TableCell>
+                        {/* <TableCell align="center">Username</TableCell> */}
                         {/* <TableCell align="center">Topic</TableCell> */}
                         <TableCell align="center">MACID</TableCell>
                         <TableCell align="center">Status</TableCell>
-                        <TableCell align="center">PORT</TableCell>
+                        <TableCell align="center">Assigned User</TableCell>
+                        {/* <TableCell align="center">PORT</TableCell> */}
                         {(accessLevel == 1 || accessLevel == 2) &&
                             <TableCell align="center">Action</TableCell>
                         }
@@ -367,22 +368,17 @@ const PaginationTable = ({ data, fetchData, setData }) => {
                                 <TableCell align="center">{dataList.deviceId}</TableCell>
                                 <TableCell align="center">{dataList.deviceName}</TableCell>
                                 <TableCell align="center">{dataList.mqttIP}</TableCell>
-                                <TableCell align="center">{dataList.mqttUserName}</TableCell>
+                                {/* <TableCell align="center">{dataList.mqttUserName}</TableCell> */}
                                 {/* <TableCell align="center">
                                     {dataList.mqttTopic && Array.isArray(dataList.mqttTopic) ? dataList.mqttTopic.join(", ") : ""}
                                 </TableCell> */}
                                 <TableCell align="center">{dataList.mqttMacId}</TableCell>
                                 <TableCell align="center">{dataList.status}</TableCell>
-                                <TableCell align="center">{dataList.mqttPort}</TableCell>
+                                <TableCell align="center">{dataList.userName || "NONE"}</TableCell>
+                                {/* <TableCell align="center">{dataList.mqttPort}</TableCell> */}
                                 {(accessLevel == 1 || accessLevel == 2) &&
                                     <TableCell align="center">
-                                        {accessLevel == 1 &&
-                                            <Tooltip title='Delete User'>
-                                                <IconButton onClick={() => handleDelete(dataList.id)} color="error">
-                                                    <DeleteIcon />
-                                                </IconButton>
-                                            </Tooltip>
-                                        }
+
                                         <Tooltip title='Assign User'>
                                             <IconButton onClick={() => handleOpenDialog(dataList.id)} color="primary">
                                                 <AssignmentIcon />
@@ -393,6 +389,13 @@ const PaginationTable = ({ data, fetchData, setData }) => {
                                                 <EditIcon />
                                             </IconButton>
                                         </Tooltip>
+                                        {accessLevel == 1 &&
+                                            <Tooltip title='Delete User'>
+                                                <IconButton onClick={() => handleDelete(dataList.id)} color="error">
+                                                    <DeleteIcon />
+                                                </IconButton>
+                                            </Tooltip>
+                                        }
                                         {/* <IconButton color="primary" >
                                             <EditForm fetchData={fetchData} dataList={dataList} />
                                         </IconButton> */}
