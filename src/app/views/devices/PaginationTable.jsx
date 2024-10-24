@@ -333,6 +333,7 @@ const PaginationTable = ({ data, fetchData, setData }) => {
                         <TableCell align="center">MACID</TableCell>
                         <TableCell align="center">Status</TableCell>
                         <TableCell align="center">Assigned User</TableCell>
+                        <TableCell align="center">State</TableCell>
                         {/* <TableCell align="center">PORT</TableCell> */}
                         {(accessLevel == 1 || accessLevel == 2) &&
                             <TableCell align="center">Action</TableCell>
@@ -375,6 +376,7 @@ const PaginationTable = ({ data, fetchData, setData }) => {
                                 <TableCell align="center">{dataList.mqttMacId}</TableCell>
                                 <TableCell align="center">{dataList.status}</TableCell>
                                 <TableCell align="center">{dataList.userName || "NONE"}</TableCell>
+                                <TableCell align="center">{(dataList.mqttStatusDetails && dataList.mqttStatusDetails.STATE) ? dataList.mqttStatusDetails.STATE : ""}</TableCell>
                                 {/* <TableCell align="center">{dataList.mqttPort}</TableCell> */}
                                 {(accessLevel == 1 || accessLevel == 2) &&
                                     <TableCell align="center">

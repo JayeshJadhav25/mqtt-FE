@@ -76,6 +76,8 @@ const Layout1Topbar = () => {
   const { logout, user } = useAuth();
   const isMdScreen = useMediaQuery(theme.breakpoints.down('md'));
 
+  const accessLevel = window.localStorage.getItem('accessLevel');
+
   const updateSidebarMode = (sidebarSettings) => {
     updateSettings({
       layout1Settings: { leftSidebar: { ...sidebarSettings } },
@@ -157,6 +159,13 @@ const Layout1Topbar = () => {
               <Icon> settings </Icon>
               <Span> Settings </Span>
             </StyledItem> */}
+
+            <StyledItem>
+              {/* <Link to="/page-layouts/user-profile"> */}
+              <Icon> person </Icon>
+              <Span> {accessLevel == 1 ? 'SuperAdmin' : accessLevel == 2 ? 'Admin' : 'SuperVisor'} </Span>
+              {/* </Link> */}
+            </StyledItem>
 
             <StyledItem onClick={logout}>
               <Icon> power_settings_new </Icon>
