@@ -324,7 +324,7 @@ const PaginationTable = ({ data, fetchData, setData }) => {
             <StyledTable>
                 <TableHead>
                     <TableRow>
-                        <TableCell align="center">Relay Status</TableCell>
+                        <TableCell align="center">Network Status</TableCell>
                         <TableCell align="center">Device Id</TableCell>
                         <TableCell align="center">Device Name</TableCell>
                         <TableCell align="center">MQTT IP</TableCell>
@@ -360,7 +360,7 @@ const PaginationTable = ({ data, fetchData, setData }) => {
                                                 width: 18,    // Circle size
                                                 height: 18,   // Circle size
                                                 borderRadius: '50%',   // Circular shape
-                                                backgroundColor: (dataList.mqttStatusDetails && dataList.mqttStatusDetails.mqttRelayState) === true ? red[500] : green[500]
+                                                backgroundColor: (dataList.status && dataList.status === 'Active') ? green[500] : red[500]
                                             }}
                                         />
                                     </Box>
