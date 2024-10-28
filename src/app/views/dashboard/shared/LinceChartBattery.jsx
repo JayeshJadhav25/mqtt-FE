@@ -1,59 +1,109 @@
-import { useTheme } from '@mui/system';
+import React, { useState, useEffect } from 'react';
+import { Box, useTheme } from '@mui/material';
 import ReactEcharts from 'echarts-for-react';
+import axiosInstance from '../../../../axiosInterceptor';
 
-const LinceChartBattery = ({ height, color = [] }) => {
+const EChartsDottedLine = () => {
     const theme = useTheme();
+    const [chartData, setChartData] = useState([]); // State to hold fetched data
+    const [loading, setLoading] = useState(true);   // Loading state
 
-    const option = {
-        grid: { top: '10%', bottom: '10%', left: '5%', right: '5%' },
-        legend: {
-            itemGap: 20,
-            icon: 'circle',
-            textStyle: { color: theme.palette.text.secondary, fontSize: 13, fontFamily: 'roboto' },
-        },
-        xAxis: {
-            type: 'category',
-            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-            axisLine: { show: false },
-            axisTick: { show: false },
-            axisLabel: {
-                fontSize: 14,
-                fontFamily: 'roboto',
-                color: theme.palette.text.secondary,
+    // Fetch data from API
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axiosInstance.post('/getDashboardGraphDetails');
+
+                if (response && response.data && response.data.data) {
+                    const apiData = response.data.data.map(item => ({
+                        day: item.day,
+                        totalCount: item.totalCount || 100,
+                        logTypes: item.log_types,  // Include log_types for the tooltip
+                    }));
+
+                    setChartData(apiData); // Set the fetched data
+                    setLoading(false);     // Set loading to false
+                }
+
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                setLoading(false);     // Set loading to false even in case of error
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    // ECharts option configuration
+    const getOption = () => {
+        return {
+            xAxis: {
+                type: 'category',
+                data: chartData.map((d) => d.day), // Dynamically set x-axis data from API
+                axisLine: {
+                    lineStyle: {
+                        color: theme.palette.text.primary, // Adjust to MUI theme
+                    },
+                },
             },
-        },
-        yAxis: {
-            type: 'value',
-            axisLine: { show: false },
-            axisTick: { show: false },
-            splitLine: {
-                lineStyle: { color: theme.palette.text.secondary, opacity: 0.15 },
+            yAxis: {
+                type: 'value',
+                min: 0,
+                max: 800,
+                interval: 200,
+                axisLine: {
+                    lineStyle: {
+                        color: theme.palette.text.primary, // Adjust to MUI theme
+                    },
+                },
             },
-            axisLabel: { color: theme.palette.text.secondary, fontSize: 13, fontFamily: 'roboto' },
-        },
-        series: [
-            {
-                data: [30, 40, 20, 50, 40, 80, 90],
-                type: 'line',
-                stack: 'This month',
-                name: 'This month',
-                smooth: true,
-                symbolSize: 4,
-                lineStyle: { width: 4 },
+            series: [
+                {
+                    data: chartData.map((d) => d.totalCount), // Dynamically set series data from API
+                    type: 'line',
+                    symbol: 'circle',
+                    symbolSize: 8,
+                    lineStyle: {
+                        type: 'dotted',
+                        color: theme.palette.primary.main, // Use MUI primary color
+                    },
+                    itemStyle: {
+                        color: theme.palette.primary.main,
+                    },
+                },
+            ],
+            tooltip: {
+                trigger: 'axis',
+                formatter: function (params) {
+                    const dataIndex = params[0].dataIndex; // Get the index of the hovered point
+                    const dayData = chartData[dataIndex];  // Access the data for that day
+
+                    // Create the log_types string for the tooltip
+                    const logTypes = dayData.logTypes
+                        .map(log => `${log.log_type}: ${log.count}`)
+                        .join(', ');
+
+                    return `${dayData.day}<br/>Total Count: ${dayData.totalCount}<br/>${logTypes}`;
+                },
             },
-            {
-                data: [20, 50, 15, 50, 30, 70, 95],
-                type: 'line',
-                stack: 'Last month',
-                name: 'Last month',
-                smooth: true,
-                symbolSize: 4,
-                lineStyle: { width: 4 },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true,
             },
-        ],
+        };
     };
 
-    return <ReactEcharts style={{ height: height }} option={{ ...option, color: [...color] }} />;
+    return (
+        <Box sx={{ height: 300 }}>
+            {loading ? (
+                <div>Loading chart data...</div> // Display loading message while data is being fetched
+            ) : (
+                <ReactEcharts option={getOption()} style={{ height: '100%', width: '100%' }} />
+            )}
+        </Box>
+    );
 };
 
-export default LinceChartBattery;
+export default EChartsDottedLine;

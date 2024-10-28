@@ -377,14 +377,14 @@ const StatCards = () => {
         </SimpleCard>
       </Box>
 
-      {/* <Box mt={4}>
-        <SimpleCard title="Device Battery %">
+      <Box mt={4}>
+        <SimpleCard title="Trend Analysis">
           <LinceChartBattery
             height="350px"
             color={[theme.palette.primary.main, theme.palette.primary.light]}
           />
         </SimpleCard>
-      </Box> */}
+      </Box>
     </Box>
 
   );
