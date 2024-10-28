@@ -17,7 +17,7 @@ const EChartsDottedLine = () => {
                 if (response && response.data && response.data.data) {
                     const apiData = response.data.data.map(item => ({
                         day: item.day,
-                        totalCount: item.totalCount || 100,
+                        totalCount: item.totalCount || 0,
                         logTypes: item.log_types,  // Include log_types for the tooltip
                     }));
 
