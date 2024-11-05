@@ -120,7 +120,7 @@ const EditFormV2 = ({ data, onClose, fetchData }) => {
                 fullWidth
                 margin="normal"
             />
-            <FormControl fullWidth margin="normal">
+            {/* <FormControl fullWidth margin="normal">
                 <InputLabel id="status-label">Status</InputLabel>
                 <Select
                     labelId="status-label"
@@ -132,7 +132,7 @@ const EditFormV2 = ({ data, onClose, fetchData }) => {
                     <MenuItem value="Active">Active</MenuItem>
                     <MenuItem value="InActive">InActive</MenuItem>
                 </Select>
-            </FormControl>
+            </FormControl> */}
 
             <Button type="submit" color="primary" variant="contained" sx={{ mt: 2 }}>
                 Update

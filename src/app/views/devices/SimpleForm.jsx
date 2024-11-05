@@ -73,7 +73,7 @@ const SimpleForm = ({ handleClose, fetchData }) => {
         // mqttUrl,
         mqttMacId,
         mqttPort,
-        status,
+        // status,
     } = state;
 
     return (
@@ -166,7 +166,7 @@ const SimpleForm = ({ handleClose, fetchData }) => {
                             errorMessages={["this field is required"]}
                         />
 
-                        <SelectValidator
+                        {/* <SelectValidator
                             name="status"
                             label="Status"
                             value={status}
@@ -174,13 +174,13 @@ const SimpleForm = ({ handleClose, fetchData }) => {
                             validators={['required']}
                             errorMessages={['This field is required']}
                             sx={{ mb: 2, width: '100%' }}
-                        >
-                            {/* <MenuItem value=""> */}
-                            {/* <em>None</em> */}
-                            {/* </MenuItem> */}
-                            <MenuItem value="Active">Active</MenuItem>
+                        > */}
+                        {/* <MenuItem value=""> */}
+                        {/* <em>None</em> */}
+                        {/* </MenuItem> */}
+                        {/* <MenuItem value="Active">Active</MenuItem>
                             <MenuItem value="InActive">InActive</MenuItem>
-                        </SelectValidator>
+                        </SelectValidator> */}
 
                         <TextField
                             type="text"

@@ -265,7 +265,7 @@ const PaginationTable = ({ data, fetchData, setData }) => {
                             onChange={(e) => setDeviceName(e.target.value)}
                             variant="outlined"
                             size="small"
-                            sx={{ width: '25%', marginRight: 2 }}
+                            sx={{ width: '33%', marginRight: 2 }}
                         />
                         <TextField
                             label="DeviceId"
@@ -273,9 +273,9 @@ const PaginationTable = ({ data, fetchData, setData }) => {
                             onChange={(e) => setDeviceId(e.target.value)}
                             variant="outlined"
                             size="small"
-                            sx={{ width: '25%', marginRight: 2 }}
+                            sx={{ width: '33%', marginRight: 2 }}
                         />
-                        <FormControl variant="outlined" size="small" sx={{ width: '25%', marginRight: 2 }}>
+                        {/* <FormControl variant="outlined" size="small" sx={{ width: '25%', marginRight: 2 }}>
                             <InputLabel>Status</InputLabel>
                             <Select
                                 name="status"
@@ -286,14 +286,14 @@ const PaginationTable = ({ data, fetchData, setData }) => {
                                 <MenuItem value="Active">Active</MenuItem>
                                 <MenuItem value="InActive">InActive</MenuItem>
                             </Select>
-                        </FormControl>
+                        </FormControl> */}
                         <TextField
                             label="MacId"
                             value={deviceMacId}
                             onChange={(e) => setDeviceMacId(e.target.value)}
                             variant="outlined"
                             size="small"
-                            sx={{ width: '25%', marginRight: 2 }}
+                            sx={{ width: '33%', marginRight: 2 }}
                         />
                     </Box>
 
@@ -331,7 +331,7 @@ const PaginationTable = ({ data, fetchData, setData }) => {
                         {/* <TableCell align="center">Username</TableCell> */}
                         {/* <TableCell align="center">Topic</TableCell> */}
                         <TableCell align="center">MACID</TableCell>
-                        <TableCell align="center">Status</TableCell>
+                        {/* <TableCell align="center">Status</TableCell> */}
                         <TableCell align="center">Assigned User</TableCell>
                         <TableCell align="center">State</TableCell>
                         {/* <TableCell align="center">PORT</TableCell> */}
@@ -374,7 +374,7 @@ const PaginationTable = ({ data, fetchData, setData }) => {
                                     {dataList.mqttTopic && Array.isArray(dataList.mqttTopic) ? dataList.mqttTopic.join(", ") : ""}
                                 </TableCell> */}
                                 <TableCell align="center">{dataList.mqttMacId}</TableCell>
-                                <TableCell align="center">{dataList.status}</TableCell>
+                                {/* <TableCell align="center">{dataList.status}</TableCell> */}
                                 <TableCell align="center">{dataList.userName || "NONE"}</TableCell>
                                 <TableCell align="center">{(dataList.mqttStatusDetails && dataList.mqttStatusDetails.STATE) ? dataList.mqttStatusDetails.STATE : ""}</TableCell>
                                 {/* <TableCell align="center">{dataList.mqttPort}</TableCell> */}
