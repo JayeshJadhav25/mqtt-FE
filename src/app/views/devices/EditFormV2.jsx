@@ -6,19 +6,19 @@ import axiosInstance from '../../../axiosInterceptor';
 const EditFormV2 = ({ data, onClose, fetchData }) => {
     const [formData, setFormData] = useState({
         ...data,
-        mqttTopic: data.mqttTopic && Array.isArray(data.mqttTopic) ? data.mqttTopic.join(",") : '',
+        // mqttTopic: data.mqttTopic && Array.isArray(data.mqttTopic) ? data.mqttTopic.join(",") : '',
     });
 
     const [alertOpen, setAlertOpen] = useState(false);
     const [alertMessage, setAlertMessage] = useState('');
     const [alertSeverity, setAlertSeverity] = useState('success');
 
-    useEffect(() => {
-        setFormData({
-            ...data,
-            mqttTopic: data.mqttTopic && Array.isArray(data.mqttTopic) ? data.mqttTopic.join(",") : '',
-        });
-    }, [data]);
+    // useEffect(() => {
+    //     setFormData({
+    //         ...data,
+    //         mqttTopic: data.mqttTopic && Array.isArray(data.mqttTopic) ? data.mqttTopic.join(",") : '',
+    //     });
+    // }, [data]);
 
     const handleChange = (event) => {
         setFormData({ ...formData, [event.target.name]: event.target.value });
@@ -33,7 +33,7 @@ const EditFormV2 = ({ data, onClose, fetchData }) => {
         try {
             const updatedData = {
                 ...formData,
-                mqttTopic: formData.mqttTopic ? formData.mqttTopic.split(",") : []
+                // mqttTopic: formData.mqttTopic ? formData.mqttTopic.split(",") : []
             };
 
             const response = await axiosInstance.post(`/updateMQTTDevice`, updatedData);
@@ -95,7 +95,7 @@ const EditFormV2 = ({ data, onClose, fetchData }) => {
                 fullWidth
                 margin="normal"
             />
-            <TextField
+            {/* <TextField
                 name="mqttTopic"
                 label="MQTT Topic"
                 value={formData.mqttTopic || ''}
@@ -103,7 +103,7 @@ const EditFormV2 = ({ data, onClose, fetchData }) => {
                 fullWidth
                 margin="normal"
                 disabled
-            />
+            /> */}
             <TextField
                 name="mqttMacId"
                 label="MQTT Mac ID"

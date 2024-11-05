@@ -39,7 +39,7 @@ const SimpleForm = ({ handleClose, fetchData }) => {
             const updatedFormData = {
                 ...state,
                 id: uuid(),
-                mqttTopic: ["Power/State", "Logs", "DOOR", "Energy", "Weight", "process_status", "super_access", "status", "Relay/State", "State", "STATE"],
+                // mqttTopic: ["Power/State", "Logs", "DOOR", "Energy", "Weight", "process_status", "super_access", "status", "Relay/State", "State", "STATE"],
             };
             const response = await axiosInstance.post(`/createMQTTDevice`, updatedFormData);
             setAlertMessage('Device created successfully!');
@@ -69,7 +69,7 @@ const SimpleForm = ({ handleClose, fetchData }) => {
         mqttIP,
         mqttUserName,
         mqttPassword,
-        mqttTopic,
+        // mqttTopic,
         // mqttUrl,
         mqttMacId,
         mqttPort,
@@ -134,7 +134,7 @@ const SimpleForm = ({ handleClose, fetchData }) => {
                         />
 
 
-                        <TextField
+                        {/* <TextField
                             type="text"
                             name="mqttTopic"
                             label="MQTT Topic *"
@@ -143,7 +143,7 @@ const SimpleForm = ({ handleClose, fetchData }) => {
                             validators={["required"]}
                             errorMessages={["this field is required"]}
                             disabled
-                        />
+                        /> */}
 
 
                         {/* <TextField
