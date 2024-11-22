@@ -327,6 +327,7 @@ const PaginationTable = ({ data, fetchData, setData }) => {
                         <TableCell align="center">Network Status</TableCell>
                         <TableCell align="center">Device Id</TableCell>
                         <TableCell align="center">Device Name</TableCell>
+                        <TableCell align="center">MQTT Alias</TableCell>
                         <TableCell align="center">MQTT IP</TableCell>
                         {/* <TableCell align="center">Username</TableCell> */}
                         {/* <TableCell align="center">Topic</TableCell> */}
@@ -368,6 +369,7 @@ const PaginationTable = ({ data, fetchData, setData }) => {
                                 </TableCell>
                                 <TableCell align="center">{dataList.deviceId}</TableCell>
                                 <TableCell align="center">{dataList.deviceName}</TableCell>
+                                <TableCell align="center">{dataList.mqttAliasName}</TableCell>
                                 <TableCell align="center">{dataList.mqttIP}</TableCell>
                                 {/* <TableCell align="center">{dataList.mqttUserName}</TableCell> */}
                                 {/* <TableCell align="center">

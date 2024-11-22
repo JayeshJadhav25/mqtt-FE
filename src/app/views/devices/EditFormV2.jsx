@@ -120,6 +120,14 @@ const EditFormV2 = ({ data, onClose, fetchData }) => {
                 fullWidth
                 margin="normal"
             />
+            <TextField
+                name="mqttAliasName"
+                label="MQTT Alias"
+                value={formData.mqttAliasName || ''}
+                onChange={handleChange}
+                fullWidth
+                margin="normal"
+            />
             {/* <FormControl fullWidth margin="normal">
                 <InputLabel id="status-label">Status</InputLabel>
                 <Select

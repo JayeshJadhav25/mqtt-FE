@@ -73,6 +73,7 @@ const SimpleForm = ({ handleClose, fetchData }) => {
         // mqttUrl,
         mqttMacId,
         mqttPort,
+        mqttAliasName
         // status,
     } = state;
 
@@ -190,6 +191,13 @@ const SimpleForm = ({ handleClose, fetchData }) => {
                             value={mqttPort || ""}
                             validators={["required"]}
                             errorMessages={["this field is required"]}
+                        />
+                        <TextField
+                            type="text"
+                            name="mqttAliasName"
+                            label="MQTT Alias *"
+                            onChange={handleChange}
+                            value={mqttAliasName || ""}
                         />
                     </Grid>
                 </Grid>

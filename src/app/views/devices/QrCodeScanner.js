@@ -25,6 +25,7 @@ const QrCodeScanner = ({ handleClose, fetchData, prefilledData }) => {
         mqttPassword: "",
         mqttMacId: "",
         mqttPort: "",
+        mqttAliasName: ""
     });
 
     const [alertOpen, setAlertOpen] = useState(false);
@@ -44,6 +45,7 @@ const QrCodeScanner = ({ handleClose, fetchData, prefilledData }) => {
                 mqttPassword: prefilledData.mqttPassword || "",
                 mqttMacId: prefilledData.mqttMacId || "",
                 mqttPort: prefilledData.mqttPort || "",
+                mqttAliasName: prefilledData.mqttAliasName || "",
             });
         }
     }, [prefilledData]);
@@ -85,6 +87,7 @@ const QrCodeScanner = ({ handleClose, fetchData, prefilledData }) => {
         mqttPassword,
         mqttMacId,
         mqttPort,
+        mqttAliasName
     } = state;
 
     return (
@@ -100,6 +103,7 @@ const QrCodeScanner = ({ handleClose, fetchData, prefilledData }) => {
                             label="Device ID *"
                             validators={["required"]}
                             errorMessages={["This field is required"]}
+                            disabled
                         />
                         <TextField
                             type="text"
@@ -109,6 +113,7 @@ const QrCodeScanner = ({ handleClose, fetchData, prefilledData }) => {
                             label="Device Name *"
                             validators={["required"]}
                             errorMessages={["This field is required"]}
+                            disabled
                         />
                         <TextField
                             type="text"
@@ -118,6 +123,7 @@ const QrCodeScanner = ({ handleClose, fetchData, prefilledData }) => {
                             label="MQTT IP *"
                             validators={["required"]}
                             errorMessages={["This field is required"]}
+                            disabled
                         />
                         <TextField
                             type="text"
@@ -125,6 +131,7 @@ const QrCodeScanner = ({ handleClose, fetchData, prefilledData }) => {
                             value={mqttUserName}
                             onChange={handleChange}
                             label="MQTT Username"
+                            disabled
                         />
                         <TextField
                             type="text"
@@ -132,6 +139,7 @@ const QrCodeScanner = ({ handleClose, fetchData, prefilledData }) => {
                             value={mqttPassword}
                             onChange={handleChange}
                             label="MQTT Password"
+                            disabled
                         />
                         <TextField
                             type="text"
@@ -141,6 +149,7 @@ const QrCodeScanner = ({ handleClose, fetchData, prefilledData }) => {
                             label="MQTT MAC ID *"
                             validators={["required"]}
                             errorMessages={["This field is required"]}
+                            disabled
                         />
                         <TextField
                             type="text"
@@ -150,6 +159,15 @@ const QrCodeScanner = ({ handleClose, fetchData, prefilledData }) => {
                             label="MQTT Port *"
                             validators={["required"]}
                             errorMessages={["This field is required"]}
+                            disabled
+                        />
+                        <TextField
+                            type="text"
+                            name="mqttAliasName"
+                            value={mqttAliasName}
+                            onChange={handleChange}
+                            label="MQTT Alias "
+                            disabled
                         />
                     </Grid>
                 </Grid>

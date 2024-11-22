@@ -93,7 +93,7 @@ const Main = () => {
             flexWrap: 'nowrap', // Prevent wrapping to the next line
           }}
         >
-          <CreateForm fetchData={fetchData} />
+          {accessLevel == 1 && <CreateForm fetchData={fetchData} />}
           <Button
             variant="contained"
             color="primary"
@@ -104,6 +104,7 @@ const Main = () => {
           </Button>
         </Box>
       )}
+
 
 
       <SimpleCard title="Devices">
