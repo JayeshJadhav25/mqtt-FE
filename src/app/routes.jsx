@@ -17,6 +17,7 @@ import stateReportRoutes from 'app/views/state-report/StateRoute';
 import doorReportRoutes from './views/door-report/DoorReportRoute';
 import auditLogRoutes from './views/audit-log/AuditLogRoutes';
 import configRoutes from './views/config/ConfigRoute';
+import energyRoutes from 'app/views/energy-consumption/EnergyRoute';
 
 const routes = [
   {
@@ -39,7 +40,8 @@ const routes = [
       ...stateReportRoutes,
       ...doorReportRoutes,
       ...auditLogRoutes,
-      ...configRoutes
+      ...configRoutes,
+      ...energyRoutes
     ],
   },
   ...sessionRoutes,
