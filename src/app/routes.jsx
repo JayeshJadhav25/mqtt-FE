@@ -18,6 +18,7 @@ import doorReportRoutes from './views/door-report/DoorReportRoute';
 import auditLogRoutes from './views/audit-log/AuditLogRoutes';
 import configRoutes from './views/config/ConfigRoute';
 import energyRoutes from 'app/views/energy-consumption/EnergyRoute';
+import locationRoutes from 'app/views/locations/LocationRoutes';
 
 const routes = [
   {
@@ -41,7 +42,8 @@ const routes = [
       ...doorReportRoutes,
       ...auditLogRoutes,
       ...configRoutes,
-      ...energyRoutes
+      ...energyRoutes,
+      ...locationRoutes
     ],
   },
   ...sessionRoutes,

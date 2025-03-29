@@ -15,7 +15,7 @@ if (accessLevel == 1) {
         { name: 'Devices', iconText: 'FP', path: '/devices' },
         { name: 'Config', iconText: 'FP', path: '/config' },
         { name: 'Maintenance', iconText: 'FP', path: '/maintenance' },
-
+        { name: 'Location', iconText: '404', path: '/location' },
       ],
     },
     {
@@ -75,7 +75,7 @@ else if (accessLevel == 2) {
         { name: 'Devices', iconText: 'FP', path: '/devices' },
         // { name: 'Config', iconText: 'FP', path: '/config' },
         { name: 'Maintenance', iconText: 'FP', path: '/maintenance' },
-        { name: 'Energy Consumption Report', iconText: '404', path: '/report/energy' },
+        { name: 'Location', iconText: '404', path: '/location' },
       ],
     },
     {
@@ -85,6 +85,7 @@ else if (accessLevel == 2) {
         // { name: 'Logger Report', iconText: 'FP', path: '/logger' },
         { name: 'Door Report', iconText: 'SU', path: '/report/door' },
         { name: 'State Report', iconText: '404', path: '/report/state' },
+        { name: 'Energy Consumption Report', iconText: '404', path: '/report/energy' },
       ],
     },
     { name: 'Audit Log', path: '/auditlog', icon: 'history' },
