@@ -13,16 +13,12 @@ import {
     Snackbar,
     Alert,
     Dialog, DialogActions, DialogContent, DialogTitle, Button, DialogContentText,
-    Accordion,
-    AccordionSummary,
-    AccordionDetails,
-    TextField,
     Divider
 } from "@mui/material";
 import { useState } from "react";
 import EditForm from './EditForm';
 import axiosInstance from '../../../axiosInterceptor';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const accessLevel = window.localStorage.getItem('accessLevel');
 
@@ -48,6 +44,9 @@ const PaginationTable = ({ maintenanceData, fetchData, setData }) => {
 
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
+
+    const [deleteId, setDeleteId] = useState(null);
+    const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
     const handleCloseSnackbar = () => {
         setOpenSnackbar(false);
@@ -76,6 +75,35 @@ const PaginationTable = ({ maintenanceData, fetchData, setData }) => {
         setOpenDialog(false);
         setSelectedData(null);
     };
+
+    const handleDelete = (id) => {
+        setDeleteId(id);
+        setOpenDeleteDialog(true);
+    };
+
+    const handleCloseDeleteDialog = () => {
+        setOpenDeleteDialog(false);
+        setDeleteId(null);
+    };
+
+    const handleConfirmDelete = async () => {
+        if (deleteId) {
+            try {
+                const result = await axiosInstance.post(`/deleteMQTTLocation`, { id: deleteId });
+                setAlertMessage('User Deleted successfully!');
+                setAlertSeverity('success');
+                fetchData();
+            } catch (error) {
+                console.log('error', error.response);
+                setAlertMessage(error.response.data.msg || 'Something Went Wrong');
+                setAlertSeverity('error');
+            } finally {
+                setAlertOpen(true);
+            }
+            handleCloseDeleteDialog();
+        }
+    };
+
 
     return (
         <Box width="100%" overflow="auto">
@@ -106,6 +134,11 @@ const PaginationTable = ({ maintenanceData, fetchData, setData }) => {
                                             <Icon fontSize="small">edit</Icon>
                                         </IconButton>
                                     </Tooltip>
+                                    <Tooltip title='Delete User'>
+                                        <IconButton onClick={() => handleDelete(request.id)} color="error">
+                                            <DeleteIcon />
+                                        </IconButton>
+                                    </Tooltip>
                                 </TableCell>
                             </TableRow>
                         ))}
@@ -126,12 +159,23 @@ const PaginationTable = ({ maintenanceData, fetchData, setData }) => {
             />
 
             <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth>
-                <DialogTitle>Edit Maintenance Request</DialogTitle>
+                <DialogTitle>Edit Location</DialogTitle>
                 <DialogContent>
                     {selectedData && <EditForm data={selectedData} fetchData={fetchData} onClose={handleCloseDialog} />}
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseDialog} color="primary">Close</Button>
+                </DialogActions>
+            </Dialog>
+
+            <Dialog open={openDeleteDialog} onClose={handleCloseDeleteDialog} fullWidth>
+                <DialogTitle>Delete Confirmation</DialogTitle>
+                <DialogContent>
+                    Are you sure you want to delete this location?
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseDeleteDialog}>Cancel</Button>
+                    <Button onClick={handleConfirmDelete} color="error">Delete</Button>
                 </DialogActions>
             </Dialog>
 
