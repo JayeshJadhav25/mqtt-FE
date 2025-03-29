@@ -3,22 +3,18 @@ import { Box, Icon } from '@mui/material';
 import Button from '@mui/material/Button';
 import axiosInstance from '../../../axiosInterceptor';
 
-export default function Download({ deviceId, deviceName, logType, startDate, endDate }) {
+export default function Download({ deviceName, startDate, endDate, status }) {
 
     async function handleDownload() {
         try {
             let data = {};
 
-            if (deviceId) {
-                data.device_id = deviceId;
+            if (status) {
+                data.status = status;
             }
 
             if (deviceName) {
                 data.device_name = deviceName;
-            }
-
-            if (logType) {
-                data.log_desc = logType;
             }
 
             if (startDate) {

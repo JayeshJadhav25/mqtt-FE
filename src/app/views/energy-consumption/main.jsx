@@ -14,7 +14,11 @@ import {
   AccordionSummary,
   AccordionDetails,
   Snackbar,
-  Alert
+  Alert,
+  FormControl,
+  Select,
+  MenuItem,
+  InputLabel,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useState, useEffect } from 'react';
@@ -40,6 +44,7 @@ const Container = styled('div')(({ theme }) => ({
   },
 }));
 
+const accessLevel = window.localStorage.getItem('accessLevel');
 const Main = () => {
 
   const [page, setPage] = useState(0);
@@ -52,6 +57,7 @@ const Main = () => {
   const [endDate, setEndDate] = useState('');
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [status, setStatus] = useState('');
 
   const handleCloseSnackbar = () => {
     setOpenSnackbar(false);
@@ -77,16 +83,12 @@ const Main = () => {
     try {
       let data = {};
 
-      if (deviceId) {
-        data.device_id = deviceId;
+      if (status) {
+        data.status = status;
       }
 
       if (deviceName) {
         data.device_name = deviceName;
-      }
-
-      if (logType) {
-        data.log_desc = logType;
       }
 
       if (startDate) {
@@ -111,6 +113,7 @@ const Main = () => {
     setLogType('');
     setStartDate('');
     setEndDate('');
+    setStatus('')
     fetchData();
   };
 
@@ -144,11 +147,12 @@ const Main = () => {
   return (
     <Container>
       <Box className="breadcrumb" display="flex" justifyContent="flex-end">
-        <Download deviceId={deviceId}
+        <Download
           deviceName={deviceName}
-          logType={logType}
           startDate={startDate}
-          endDate={endDate} />
+          endDate={endDate}
+          status={status}
+        />
       </Box>
 
       <SimpleCard title="State Report">
@@ -182,14 +186,6 @@ const Main = () => {
                     sx={{ width: '20%', marginRight: 2 }}
                   />
                   <TextField
-                    label="Device ID"
-                    value={deviceId}
-                    onChange={(e) => setDeviceId(e.target.value)}
-                    variant="outlined"
-                    size="small"
-                    sx={{ width: '20%', marginRight: 2 }}
-                  />
-                  <TextField
                     label="Device Name"
                     value={deviceName}
                     onChange={(e) => setDeviceName(e.target.value)}
@@ -197,14 +193,19 @@ const Main = () => {
                     size="small"
                     sx={{ width: '20%', marginRight: 2 }}
                   />
-                  <TextField
-                    label="Device State"
-                    value={logType}
-                    onChange={(e) => setLogType(e.target.value)}
-                    variant="outlined"
-                    size="small"
-                    sx={{ width: '20%' }}
-                  />
+                  <FormControl variant="outlined" size="small" sx={{ width: '20%', marginRight: 2 }}>
+                    <InputLabel>Status</InputLabel>
+                    <Select
+                      name="status"
+                      value={status}
+                      onChange={(e) => setStatus(e.target.value)}
+                      label="Status"
+                    >
+                      <MenuItem value="pending">pending</MenuItem>
+                      <MenuItem value="approved">approved</MenuItem>
+                      <MenuItem value="completed">completed</MenuItem>
+                    </Select>
+                  </FormControl>
                 </Box>
 
                 <Box display="flex" justifyContent="flex-end" mb={2}>
@@ -236,9 +237,20 @@ const Main = () => {
             <TableHead>
               <TableRow>
                 <TableCell align="center">Date / Time</TableCell>
-                <TableCell align="center">DeviceId</TableCell>
                 <TableCell align="center">DeviceName</TableCell>
-                <TableCell align="center">DeviceState</TableCell>
+                <TableCell align="center">Active Energy(kWh)</TableCell>
+                {accessLevel == 1 && (
+                  <>
+                    <TableCell align="center">Power Factor</TableCell>
+                    <TableCell align="center">Max Demand(kW)</TableCell>
+                    <TableCell align="center">Active Power(kW)</TableCell>
+                    <TableCell align="center">Apparent Energy(kVAh)</TableCell>
+                    <TableCell align="center">Reactive Energy(kVARh)</TableCell>
+                    <TableCell align="center">Current(A)</TableCell>
+                    <TableCell align="center">Voltage(v)</TableCell>
+                  </>
+                )}
+                <TableCell align="center">Operating Hours</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -247,13 +259,25 @@ const Main = () => {
                 .map((dataList, index) => (
                   <TableRow key={index}>
                     <TableCell align="center">{formatDateTime(dataList.timestamp)}</TableCell>
-                    <TableCell align="center">{dataList.device_id}</TableCell>
                     <TableCell align="center">{dataList.device_name}</TableCell>
-                    <TableCell align="center">{dataList.log_desc}</TableCell>
+                    <TableCell align="center">{dataList.active_energy_kwh}</TableCell>
+                    {accessLevel == 1 && (
+                      <>
+                        <TableCell align="center">{dataList.phase1_power_factor}</TableCell>
+                        <TableCell align="center">{dataList.max_demand_power_kw}</TableCell>
+                        <TableCell align="center">{dataList.active_power_kw}</TableCell>
+                        <TableCell align="center">{dataList.apparent_energy_kvah}</TableCell>
+                        <TableCell align="center">{dataList.reactive_energy_kvarh}</TableCell>
+                        <TableCell align="center">{dataList.phase1_current}</TableCell>
+                        <TableCell align="center">{dataList.phase1_voltage}</TableCell>
+                      </>
+                    )}
+                    <TableCell align="center">{dataList.operating_hours}</TableCell>
                   </TableRow>
                 ))}
             </TableBody>
           </StyledTable>
+
 
           <TablePagination
             sx={{ px: 2 }}
