@@ -90,7 +90,7 @@ const PaginationTable = ({ maintenanceData, fetchData, setData }) => {
         if (deleteId) {
             try {
                 const result = await axiosInstance.post(`/deleteMQTTLocation`, { id: deleteId });
-                setAlertMessage('User Deleted successfully!');
+                setAlertMessage('Location Deleted successfully!');
                 setAlertSeverity('success');
                 fetchData();
             } catch (error) {

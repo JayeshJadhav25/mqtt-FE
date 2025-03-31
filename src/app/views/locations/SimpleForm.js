@@ -27,8 +27,8 @@ const TextField = styled(TextValidator)(() => ({
 const SimpleForm = ({ handleClose, fetchData }) => {
     const [state, setState] = useState({
         location: '',
-        domesticCosts: [4, 6, 8, 12],
-        commercialCosts: [9, 10, 12, 16]
+        domesticCosts: [0, 0, 0, 0],
+        commercialCosts: [0, 0, 0, 0]
     });
 
     const [alertOpen, setAlertOpen] = useState(false);
