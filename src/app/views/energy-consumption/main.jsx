@@ -155,7 +155,7 @@ const Main = () => {
         />
       </Box>
 
-      <SimpleCard title="State Report">
+      <SimpleCard title="Energy Consumption Report">
         <Box width="100%" overflow="auto">
           {/* Expansion Panel for Filters */}
           <Accordion>
@@ -193,19 +193,6 @@ const Main = () => {
                     size="small"
                     sx={{ width: '20%', marginRight: 2 }}
                   />
-                  <FormControl variant="outlined" size="small" sx={{ width: '20%', marginRight: 2 }}>
-                    <InputLabel>Status</InputLabel>
-                    <Select
-                      name="status"
-                      value={status}
-                      onChange={(e) => setStatus(e.target.value)}
-                      label="Status"
-                    >
-                      <MenuItem value="pending">pending</MenuItem>
-                      <MenuItem value="approved">approved</MenuItem>
-                      <MenuItem value="completed">completed</MenuItem>
-                    </Select>
-                  </FormControl>
                 </Box>
 
                 <Box display="flex" justifyContent="flex-end" mb={2}>
@@ -251,6 +238,7 @@ const Main = () => {
                   </>
                 )}
                 <TableCell align="center">Operating Hours</TableCell>
+                <TableCell align="center">Cost</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -273,6 +261,7 @@ const Main = () => {
                       </>
                     )}
                     <TableCell align="center">{dataList.operating_hours}</TableCell>
+                    <TableCell align="center">{dataList.cost}</TableCell>
                   </TableRow>
                 ))}
             </TableBody>

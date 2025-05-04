@@ -232,7 +232,7 @@ const Main = () => {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((dataList, index) => (
                   <TableRow key={index}>
-                    <TableCell align="center">{dataList.modified_time}</TableCell>
+                    <TableCell align="center">{formatDateTime(dataList.modified_time)}</TableCell>
                     <TableCell align="center">{dataList.modified_user_name}</TableCell>
                     <TableCell align="center">{dataList.role}</TableCell>
                     <TableCell align="center">{dataList.moduleName}</TableCell>
