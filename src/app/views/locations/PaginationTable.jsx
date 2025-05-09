@@ -12,15 +12,13 @@ import {
     Tooltip,
     Snackbar,
     Alert,
-    Dialog, DialogActions, DialogContent, DialogTitle, Button, DialogContentText,
+    Dialog, DialogActions, DialogContent, DialogTitle, Button,
     Divider
 } from "@mui/material";
 import { useState } from "react";
 import EditForm from './EditForm';
 import axiosInstance from '../../../axiosInterceptor';
 import DeleteIcon from '@mui/icons-material/Delete';
-
-const accessLevel = window.localStorage.getItem('accessLevel');
 
 const StyledTable = styled(Table)(() => ({
     whiteSpace: "pre",
@@ -89,7 +87,7 @@ const PaginationTable = ({ maintenanceData, fetchData, setData }) => {
     const handleConfirmDelete = async () => {
         if (deleteId) {
             try {
-                const result = await axiosInstance.post(`/deleteMQTTLocation`, { id: deleteId });
+                await axiosInstance.post(`/deleteMQTTLocation`, { id: deleteId });
                 setAlertMessage('Location Deleted successfully!');
                 setAlertSeverity('success');
                 fetchData();

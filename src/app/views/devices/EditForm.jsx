@@ -9,14 +9,11 @@ import {
     Icon
 } from "@mui/material";
 import { Span } from "app/components/Typography";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { TextValidator, ValidatorForm, SelectValidator } from "react-material-ui-form-validator";
 import axios from 'axios';
-import uuid from 'react-uuid';
 import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import React from 'react';
 const TextField = styled(TextValidator)(() => ({
@@ -164,17 +161,6 @@ const EditForm = ({ fetchData, dataList }) => {
                                     errorMessages={["this field is required"]}
                                 />
 
-
-                                {/* <TextField
-                            type="text"
-                            name="mqttUrl"
-                            label="MQTT Url *"
-                            onChange={handleChange}
-                            value={mqttUrl || ""}
-                            validators={["required"]}
-                            errorMessages={["this field is required"]}
-                        /> */}
-
                                 <TextField
                                     type="text"
                                     name="mqttMacId"
@@ -194,9 +180,6 @@ const EditForm = ({ fetchData, dataList }) => {
                                     errorMessages={['This field is required']}
                                     sx={{ mb: 2, width: '100%' }}
                                 >
-                                    {/* <MenuItem value=""> */}
-                                    {/* <em>None</em> */}
-                                    {/* </MenuItem> */}
                                     <MenuItem value="Active">Active</MenuItem>
                                     <MenuItem value="InActive">InActive</MenuItem>
                                 </SelectValidator>

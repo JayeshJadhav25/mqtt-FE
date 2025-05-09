@@ -19,11 +19,7 @@ const TextField = styled(TextValidator)(() => ({
 }));
 
 const SimpleForm = ({ handleClose, fetchData }) => {
-    const [state, setState] = useState({
-        // date: new Date(),
-        // dropdown: [], // Initialize as an array for multi-selection
-        // dropdownOptions: [] // State to hold dropdown options
-    });
+    const [state, setState] = useState({});
 
     const [alertOpen, setAlertOpen] = useState(false);
     const [alertMessage, setAlertMessage] = useState('');

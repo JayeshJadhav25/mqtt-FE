@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { TextField, Button, Snackbar, Alert, Select, MenuItem, FormControl, InputLabel, InputAdornment, IconButton } from '@mui/material';
 import axiosInstance from '../../../axiosInterceptor';
 
-import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
+import { ValidatorForm } from "react-material-ui-form-validator";
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 const EditForm = ({ data, onClose, fetchData }) => {

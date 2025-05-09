@@ -7,13 +7,6 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useState } from 'react';
 
 const FilterSection = ({ onFilter, onClear, filters, setFilters }) => {
-    // const [filters, setFilters] = useState({
-    //     device_id: '',
-    //     action: '',
-    //     startDate: '',
-    //     endDate: '',
-    // });
-
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const handleCloseSnackbar = () => {

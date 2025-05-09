@@ -1,5 +1,4 @@
 import CreateForm from './CreateForm';
-import Download from './Download';
 import PaginationTable from './PaginationTable';
 import { useState, useEffect } from "react";
 import {
@@ -18,9 +17,6 @@ const Container = styled('div')(({ theme }) => ({
         [theme.breakpoints.down('sm')]: { marginBottom: '16px' },
     },
 }));
-
-const accessLevel = window.localStorage.getItem('accessLevel');
-
 
 const Main = () => {
 

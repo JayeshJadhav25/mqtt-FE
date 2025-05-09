@@ -10,12 +10,12 @@ const Container = styled('div')(({ theme }) => ({
         marginBottom: '30px',
         [theme.breakpoints.down('sm')]: { marginBottom: '16px' },
     },
-    }));
+}));
 
 const Main = () => {
     return (
         <Container>
-            <SimpleForm/>
+            <SimpleForm />
         </Container>
     )
 

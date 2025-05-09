@@ -13,13 +13,6 @@ const EditFormV2 = ({ data, onClose, fetchData }) => {
     const [alertMessage, setAlertMessage] = useState('');
     const [alertSeverity, setAlertSeverity] = useState('success');
 
-    // useEffect(() => {
-    //     setFormData({
-    //         ...data,
-    //         mqttTopic: data.mqttTopic && Array.isArray(data.mqttTopic) ? data.mqttTopic.join(",") : '',
-    //     });
-    // }, [data]);
-
     const handleChange = (event) => {
         setFormData({ ...formData, [event.target.name]: event.target.value });
     };
@@ -128,19 +121,6 @@ const EditFormV2 = ({ data, onClose, fetchData }) => {
                 fullWidth
                 margin="normal"
             />
-            {/* <FormControl fullWidth margin="normal">
-                <InputLabel id="status-label">Status</InputLabel>
-                <Select
-                    labelId="status-label"
-                    name="status"
-                    value={formData.status || ''}
-                    onChange={handleChange}
-                    label="Status"
-                >
-                    <MenuItem value="Active">Active</MenuItem>
-                    <MenuItem value="InActive">InActive</MenuItem>
-                </Select>
-            </FormControl> */}
 
             <Button type="submit" color="primary" variant="contained" sx={{ mt: 2 }}>
                 Update
