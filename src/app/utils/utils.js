@@ -1,5 +1,3 @@
-import { differenceInSeconds } from 'date-fns';
-
 export const convertHexToRGB = (hex) => {
 	// check if it's a rgba
 	if (hex.match('rgba')) {
@@ -124,23 +122,6 @@ export function scrollTo(scrollableElement, elmID) {
 	return false;
 }
 
-export function getTimeDifference(date) {
-	let difference = differenceInSeconds(new Date(), date);
-
-	if (difference < 60) return `${Math.floor(difference)} sec`;
-	else if (difference < 3600) return `${Math.floor(difference / 60)} min`;
-	else if (difference < 86400) return `${Math.floor(difference / 3660)} h`;
-	else if (difference < 86400 * 30) return `${Math.floor(difference / 86400)} d`;
-	else if (difference < 86400 * 30 * 12) return `${Math.floor(difference / 86400 / 30)} mon`;
-	else return `${(difference / 86400 / 30 / 12).toFixed(1)} y`;
-}
-
-export function generateRandomId() {
-	let tempId = Math.random().toString();
-	let uid = tempId.substr(2, tempId.length - 1);
-	return uid;
-}
-
 export function getQueryParam(prop) {
 	var params = {};
 	var search = decodeURIComponent(
@@ -153,21 +134,3 @@ export function getQueryParam(prop) {
 	});
 	return prop && prop in params ? params[prop] : params;
 }
-
-export function classList(classes) {
-	return Object.entries(classes)
-		.filter((entry) => entry[1])
-		.map((entry) => entry[0])
-		.join(' ');
-}
-
-export const flat = (array) => {
-	var result = [];
-	array.forEach(function (a) {
-		result.push(a);
-		if (Array.isArray(a.children)) {
-			result = result.concat(flat(a.children));
-		}
-	});
-	return result;
-};

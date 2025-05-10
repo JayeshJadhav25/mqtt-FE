@@ -4,12 +4,12 @@ import { themeColors } from './themeColors';
 import themeOptions from './themeOptions';
 
 function createMatxThemes() {
-  let themes = {};
+	let themes = {};
 
-  forEach(themeColors, (value, key) => {
-    themes[key] = createTheme(merge({}, themeOptions, value));
-  });
+	forEach(themeColors, (value, key) => {
+		themes[key] = createTheme(merge({}, themeOptions, value));
+	});
 
-  return themes;
+	return themes;
 }
 export const themes = createMatxThemes();

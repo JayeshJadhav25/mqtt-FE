@@ -16,30 +16,30 @@ import energyRoutes from 'app/views/energy-consumption/EnergyRoute';
 import locationRoutes from 'app/views/locations/LocationRoutes';
 
 const routes = [
-  {
-    element: (
-      <AuthGuard>
-        <MatxLayout />
-      </AuthGuard>
-    ),
-    children: [
-      ...dashboardRoutes,
-      ...userRoutes,
-      // ...deviceRoutes,
-      ...loggerRoutes,
-      ...maintenanceRoutes,
-      ...mainDeviceRoutes,
-      ...stateReportRoutes,
-      ...doorReportRoutes,
-      ...auditLogRoutes,
-      ...configRoutes,
-      ...energyRoutes,
-      ...locationRoutes
-    ],
-  },
-  ...sessionRoutes,
-  { path: '/', element: <Navigate to="dashboard/default" /> },
-  { path: '*', element: <NotFound /> },
+	{
+		element: (
+			<AuthGuard>
+				<MatxLayout />
+			</AuthGuard>
+		),
+		children: [
+			...dashboardRoutes,
+			...userRoutes,
+			// ...deviceRoutes,
+			...loggerRoutes,
+			...maintenanceRoutes,
+			...mainDeviceRoutes,
+			...stateReportRoutes,
+			...doorReportRoutes,
+			...auditLogRoutes,
+			...configRoutes,
+			...energyRoutes,
+			...locationRoutes
+		],
+	},
+	...sessionRoutes,
+	{ path: '/', element: <Navigate to="dashboard/default" /> },
+	{ path: '*', element: <NotFound /> },
 ];
 
 export default routes;

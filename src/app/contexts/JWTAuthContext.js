@@ -100,9 +100,9 @@ export const AuthProvider = ({ children }) => {
 		const { token: accessToken, userData } = response.data;
 		let user = {
 			id: 1,
-			avatar: '/assets/images/face-6.jpg',
-			email: 'jason@ui-lib.com',
-			name: 'Jason Alexander',
+			avatar: '/assets/images/sidebar-bg-light.jpg',
+			email: 'm@premchand.com',
+			name: 'MPremchand',
 			role: 'SA',
 		};
 
@@ -147,13 +147,11 @@ export const AuthProvider = ({ children }) => {
 				const accessLevel = window.localStorage.getItem('accessLevel');
 				if (accessToken) {
 					setSession(accessToken, accessLevel);
-					//   const response = await axios.get('/api/auth/profile');
-					//   const { user } = response.data;
 					let user = {
 						id: 1,
-						avatar: '/assets/images/face-6.jpg',
-						email: 'jason@ui-lib.com',
-						name: 'Jason Alexander',
+						avatar: '/assets/images/sidebar-bg-light.jpg',
+						email: 'm@premchand.com',
+						name: 'MPremchand',
 						role: 'SA',
 					};
 

@@ -1,5 +1,4 @@
 import useAuth from 'app/hooks/useAuth';
-// import { flat } from 'app/utils/utils';
 import { Navigate, useLocation } from 'react-router-dom';
 
 const AuthGuard = ({ children }) => {
