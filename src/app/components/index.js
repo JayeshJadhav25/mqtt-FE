@@ -1,4 +1,3 @@
-export { default as Breadcrumb } from './Breadcrumb';
 export { default as ConfirmationDialog } from './ConfirmationDialog';
 export { MatxLayouts } from './MatxLayout/index';
 export { default as MatxLayout } from './MatxLayout/MatxLayout';

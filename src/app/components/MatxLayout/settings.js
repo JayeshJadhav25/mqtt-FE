@@ -15,10 +15,4 @@ export const MatxLayoutSettings = {
 		open: false,
 		theme: 'slateDark1', // View all valid theme colors inside MatxTheme/themeColors.js
 	},
-	// Footer options
-	footer: {
-		show: true,
-		fixed: false,
-		theme: 'slateDark1', // View all valid theme colors inside MatxTheme/themeColors.js
-	},
 };
