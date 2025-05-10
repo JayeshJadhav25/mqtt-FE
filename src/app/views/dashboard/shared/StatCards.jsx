@@ -46,7 +46,6 @@ const OverviewCard = styled(Card)(({ theme }) => ({
 
 const StatCards = () => {
 	const [dashboardData, setDashboardData] = useState({});
-	const [timePeriod, setTimePeriod] = useState("This Month");
 	const [devices, setDevices] = useState([]);
 
 	const theme = useTheme();
@@ -55,7 +54,6 @@ const StatCards = () => {
 	const fetchData = async () => {
 		try {
 			const response = await axiosInstance.post('/getDashboardDetails');
-			console.log('response', response.data)
 			if (response && response.data && response.data.data) {
 				setDashboardData(response.data.data || {})
 			}
@@ -83,35 +81,8 @@ const StatCards = () => {
 		fetchDeviceData();
 	}, []);
 
-	const handleTimePeriodChange = (event) => {
-		setTimePeriod(event.target.value);
-	};
-
 	return (
 		<Box sx={{ p: 3 }}>
-
-			<Box display="flex" justifyContent="flex-end" alignItems="center" mb={3}>
-				{/* "Overview" Title */}
-				{/* <Typography variant="h5" fontWeight="bold">
-          Dashboard
-        </Typography> */}
-
-				{/* Month Filter */}
-				{/* <FormControl variant="outlined" size="small" sx={{ width: '150px' }}>
-          <InputLabel id="time-period-label">Select Month</InputLabel>
-          <Select
-            labelId="time-period-label"
-            value={timePeriod}
-            onChange={handleTimePeriodChange}
-            label="Time Period"
-          >
-            <MenuItem value="This Month">This Month</MenuItem>
-            <MenuItem value="Last Month">Last Month</MenuItem>
-            <MenuItem value="This Year">This Year</MenuItem>
-            <MenuItem value="All Time">All Time</MenuItem>
-          </Select>
-        </FormControl> */}
-			</Box>
 			<Grid container spacing={3} sx={{ mb: '24px' }}>
 				{/* Existing Stat Cards */}
 				<Grid item xs={12} md={3}>
@@ -314,16 +285,6 @@ const StatCards = () => {
 					</Grid>
 				)}
 			</Grid>
-
-			{/* <Box mt={4}>
-        <SimpleCard title="Comparison of Device Idle Time vs. Running Time">
-
-          <StatisticsChart
-            height="350px"
-            color={[theme.palette.primary.dark, theme.palette.primary.light]}
-          />
-        </SimpleCard>
-      </Box> */}
 
 			<Box mt={4}>
 				<SimpleCard title="Device Status">

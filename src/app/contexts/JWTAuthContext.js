@@ -97,7 +97,6 @@ export const AuthProvider = ({ children }) => {
 		}
 
 		const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/login`, obj);
-		console.log('response.data', response.data);
 		const { token: accessToken, userData } = response.data;
 		let user = {
 			id: 1,

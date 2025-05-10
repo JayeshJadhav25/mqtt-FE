@@ -34,7 +34,6 @@ const QrCodeScanner = ({ handleClose, fetchData, prefilledData }) => {
 
     // Prefill the form when `prefilledData` changes
     useEffect(() => {
-        console.log('prefilledData', prefilledData);
         if (prefilledData) {
             setState({
                 ...state,

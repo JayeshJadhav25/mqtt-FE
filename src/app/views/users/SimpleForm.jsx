@@ -130,7 +130,6 @@ const SimpleForm = ({ handleClose, fetchData }) => {
 
         axiosInstance.post(`/createUser`, requestBody)
             .then(response => {
-                console.log("Success:", response.data);
                 setAlertMessage('User created successfully!');
                 setAlertSeverity('success');
                 fetchData();

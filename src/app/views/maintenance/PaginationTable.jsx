@@ -79,8 +79,7 @@ const PaginationTable = ({ maintenanceData, fetchData, setData }) => {
 
 	const handleApproveReject = async (id, isApproved) => {
 		try {
-			const response = await axiosInstance.post(`/submitMaintainenceRequest`, { id, isApproved });
-			console.log("Approval successful:", response.data);
+			await axiosInstance.post(`/submitMaintainenceRequest`, { id, isApproved });
 			if (isApproved) {
 				setAlertMessage('Request Approved Successfully');
 				setAlertSeverity('success');
@@ -254,33 +253,39 @@ const PaginationTable = ({ maintenanceData, fetchData, setData }) => {
 									<TableCell align="center">
 										<>
 											<Tooltip title="Reject">
-												<IconButton
-													onClick={() => openConfirmDialog(request.id, false)}
-													disabled={!request.isEditable}
-													color={request.isEditable ? "error" : "default"}
+												<span>
+													<IconButton
+														onClick={() => openConfirmDialog(request.id, false)}
+														disabled={!request.isEditable}
+														color={request.isEditable ? "error" : "default"}
 
-												>
-													<Icon fontSize="small">close</Icon>
-												</IconButton>
+													>
+														<Icon fontSize="small">close</Icon>
+													</IconButton>
+												</span>
 											</Tooltip>
 											<Tooltip title="Approve">
-												<IconButton
-													onClick={() => openConfirmDialog(request.id, true)}
-													disabled={!request.isEditable}
-													color={request.isEditable ? "green" : "default"}
-												>
-													<Icon fontSize="small">check</Icon>
-												</IconButton>
+												<span>
+													<IconButton
+														onClick={() => openConfirmDialog(request.id, true)}
+														disabled={!request.isEditable}
+														color={request.isEditable ? "green" : "default"}
+													>
+														<Icon fontSize="small">check</Icon>
+													</IconButton>
+												</span>
 											</Tooltip>
 										</>
 										<Tooltip title="Edit">
-											<IconButton
-												onClick={() => handleEditClick(request)}
-												disabled={!request.isEditable}
-												color={request.isEditable ? "primary" : "default"}
-											>
-												<Icon fontSize="small">edit</Icon>
-											</IconButton>
+											<span>
+												<IconButton
+													onClick={() => handleEditClick(request)}
+													disabled={!request.isEditable}
+													color={request.isEditable ? "primary" : "default"}
+												>
+													<Icon fontSize="small">edit</Icon>
+												</IconButton>
+											</span>
 										</Tooltip>
 									</TableCell>
 								)}
@@ -313,7 +318,7 @@ const PaginationTable = ({ maintenanceData, fetchData, setData }) => {
 			</Dialog>
 
 			{/* Confirmation Dialog */}
-			<Dialog open={confirmDialogOpen} onClose={handleConfirmClose} fullWidth>
+			< Dialog open={confirmDialogOpen} onClose={handleConfirmClose} fullWidth >
 				<DialogTitle>Confirm Action</DialogTitle>
 				<DialogContent>
 					<DialogContentText>{confirmMessage}</DialogContentText>

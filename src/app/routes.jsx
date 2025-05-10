@@ -1,12 +1,10 @@
 import AuthGuard from 'app/auth/AuthGuard';
 import dashboardRoutes from 'app/views/dashboard/DashboardRoutes';
-import materialRoutes from 'app/views/material-kit/MaterialRoutes';
 import NotFound from 'app/views/sessions/NotFound';
 import sessionRoutes from 'app/views/sessions/SessionRoutes';
 import { Navigate } from 'react-router-dom';
 import MatxLayout from './components/MatxLayout/MatxLayout';
 import userRoutes from 'app/views/users/UserRoutes';
-import deviceConfigRoutes from 'app/views/device-config/DeviceConfigRoutes';
 import loggerRoutes from 'app/views/logger/LoggerRoutes';
 import maintenanceRoutes from 'app/views/maintenance/MaintenanceRoutes';
 import mainDeviceRoutes from 'app/views/devices/DeviceRoutes';
@@ -26,9 +24,7 @@ const routes = [
     ),
     children: [
       ...dashboardRoutes,
-      ...materialRoutes,
       ...userRoutes,
-      ...deviceConfigRoutes,
       // ...deviceRoutes,
       ...loggerRoutes,
       ...maintenanceRoutes,

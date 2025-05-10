@@ -62,7 +62,6 @@ const JwtRegister = () => {
 			navigate('/');
 			setLoading(false);
 		} catch (e) {
-			console.log(e);
 			setLoading(false);
 		}
 	};

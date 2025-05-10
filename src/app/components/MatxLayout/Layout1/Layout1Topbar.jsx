@@ -69,9 +69,8 @@ const IconBox = styled('div')(({ theme }) => ({
 const Layout1Topbar = () => {
 	const theme = useTheme();
 	const { settings, updateSettings } = useSettings();
-	const { logout, user } = useAuth();
+	const { logout } = useAuth();
 	const isMdScreen = useMediaQuery(theme.breakpoints.down('md'));
-
 	const accessLevel = window.localStorage.getItem('accessLevel');
 
 	const updateSidebarMode = (sidebarSettings) => {

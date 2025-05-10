@@ -72,7 +72,6 @@ const Main = () => {
 		axiosInstance
 			.post(`/getDeviceLogger`)
 			.then((res) => {
-				console.log('response= device>', res.data.status);
 				setData(res.data.status);
 			})
 			.catch((error) => {

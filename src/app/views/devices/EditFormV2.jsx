@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { TextField, Button, Grid, Snackbar, Alert, MenuItem, Select, FormControl, InputLabel } from '@mui/material';
-import axios from 'axios';
+import React, { useState } from 'react';
+import { TextField, Button, Snackbar, Alert } from '@mui/material';
 import axiosInstance from '../../../axiosInterceptor';
 
 const EditFormV2 = ({ data, onClose, fetchData }) => {
@@ -29,8 +28,7 @@ const EditFormV2 = ({ data, onClose, fetchData }) => {
                 // mqttTopic: formData.mqttTopic ? formData.mqttTopic.split(",") : []
             };
 
-            const response = await axiosInstance.post(`/updateMQTTDevice`, updatedData);
-            console.log("Update successful:", response.data);
+            await axiosInstance.post(`/updateMQTTDevice`, updatedData);
             fetchData();
             setAlertMessage('Device updated successfully!');
             setAlertSeverity('success');

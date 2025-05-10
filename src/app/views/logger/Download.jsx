@@ -29,9 +29,8 @@ export default function Download({ deviceId, deviceName, logType, startDate, end
             if (endDate) {
                 data.endDate = endDate;
             }
+
             const result = await axiosInstance.post(`/downloadLogger`, data);
-            console.log('result', result);
-            // getData();
             if (result && result.data && result.data.download) {
                 let fileUrl = result.data.download;
                 const link = document.createElement('a');

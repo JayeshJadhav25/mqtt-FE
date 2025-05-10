@@ -111,7 +111,6 @@ const PaginationTable = ({ data, fetchData, setData }) => {
 				setAlertSeverity('success');
 				fetchData();
 			} catch (error) {
-				console.log('error', error.response);
 				setAlertMessage(error.response.data.msg || 'Something Went Wrong');
 				setAlertSeverity('error');
 			} finally {

@@ -55,7 +55,7 @@ const Main = () => {
 
 	const handleDelete = async (id) => {
 		try {
-			const result = await axios.post(`${process.env.REACT_APP_API_URL}/api/deleteUser`, { id });
+			await axios.post(`${process.env.REACT_APP_API_URL}/api/deleteUser`, { id });
 			getData();
 		} catch (error) {
 			console.log('error', error);
@@ -66,7 +66,6 @@ const Main = () => {
 		axios
 			.post(`${process.env.REACT_APP_API_URL}/api/getUser`)
 			.then((res) => {
-				console.log('response=>', res.data.status);
 				setData({ list: res.data.status });
 			})
 			.catch((error) => {
@@ -84,14 +83,11 @@ const Main = () => {
 		axios
 			.post(`${process.env.REACT_APP_API_URL}/api/getUser`, filter)
 			.then((res) => {
-				console.log('response=>', res.data.status);
 				setData({ list: res.data.status });
 			})
 			.catch((error) => {
 				console.log(error);
 			});
-
-		console.log('hanlding fliter..')
 		console.log('filterData', filterData);
 	}
 

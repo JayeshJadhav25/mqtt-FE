@@ -33,7 +33,9 @@ const StyledScrollBar = styled(Scrollbar)(() => ({
 	flexDirection: 'column',
 }));
 
-const LayoutContainer = styled(Box)(({ width, secondarySidebar }) => ({
+const LayoutContainer = styled(Box, {
+	shouldForwardProp: (prop) => prop !== 'width' && prop !== 'secondarySidebar'
+})(({ width, secondarySidebar }) => ({
 	height: '100vh',
 	display: 'flex',
 	flexGrow: '1',

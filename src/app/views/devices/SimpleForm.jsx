@@ -2,14 +2,12 @@ import {
     Button,
     Grid,
     styled,
-    MenuItem,
     Snackbar,
     Alert
 } from "@mui/material";
 import { Span } from "app/components/Typography";
-import { useEffect, useState } from "react";
-import { TextValidator, ValidatorForm, SelectValidator } from "react-material-ui-form-validator";
-import axios from 'axios';
+import { useState } from "react";
+import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import uuid from 'react-uuid';
 import axiosInstance from '../../../axiosInterceptor';
 
@@ -29,7 +27,6 @@ const SimpleForm = ({ handleClose, fetchData }) => {
         setAlertOpen(false); // Close the alert
     };
     const handleSubmit = async (event) => {
-        console.log("submitted");
         event.preventDefault();
         try {
             const updatedFormData = {
@@ -37,14 +34,14 @@ const SimpleForm = ({ handleClose, fetchData }) => {
                 id: uuid(),
                 // mqttTopic: ["Power/State", "Logs", "DOOR", "Energy", "Weight", "process_status", "super_access", "status", "Relay/State", "State", "STATE"],
             };
-            const response = await axiosInstance.post(`/createMQTTDevice`, updatedFormData);
+
+            await axiosInstance.post(`/createMQTTDevice`, updatedFormData);
             setAlertMessage('Device created successfully!');
             setAlertSeverity('success');
             fetchData()
             setTimeout(() => {
                 handleClose()
-            }, 1000)
-            // console.log('Success:', response.data);
+            }, 1000);
         } catch (error) {
             console.error('Error:', error);
             setAlertMessage(error.response.data.msg || 'Something Went Wrong');

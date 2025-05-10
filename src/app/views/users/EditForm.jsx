@@ -65,9 +65,7 @@ const EditForm = ({ data, onClose, fetchData }) => {
             }
 
             // Make API call to update data
-            const response = await axiosInstance.post(`/updateUser`, updatedData);
-
-            console.log("Update successful:", response.data);
+            await axiosInstance.post(`/updateUser`, updatedData);
             setAlertMessage('User Updated successfully!');
             setAlertSeverity('success');
             fetchData();

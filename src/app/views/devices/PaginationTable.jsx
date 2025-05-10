@@ -31,7 +31,6 @@ import { useState, useEffect } from "react";
 import axios from 'axios';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AssignmentIcon from '@mui/icons-material/Assignment';
-import EditForm from './EditForm';
 import EditFormV2 from "./EditFormV2";
 import uuid from 'react-uuid';
 import EditIcon from '@mui/icons-material/Edit';
@@ -108,7 +107,7 @@ const PaginationTable = ({ data, fetchData, setData }) => {
             [currentRelayId]: currentRelayState,
         }));
         try {
-            const result = await axiosInstance.post(`/relayTriggerOnOrOffMQTTDevice`, { deviceId: currentRelayId, mqttRelayState: currentRelayState });
+            await axiosInstance.post(`/relayTriggerOnOrOffMQTTDevice`, { deviceId: currentRelayId, mqttRelayState: currentRelayState });
             setAlertMessage('Device Relay Status Changed successfully!');
             setAlertSeverity('success');
             fetchData();
@@ -160,7 +159,8 @@ const PaginationTable = ({ data, fetchData, setData }) => {
                 deviceId: selectedDeviceId || "",
                 userId: selectedUser || "",
             };
-            const result = await axiosInstance.post(`/assignMQTTDevice`, obj);
+
+            await axiosInstance.post(`/assignMQTTDevice`, obj);
             setAlertMessage('Device Assigned successfully!');
             setAlertSeverity('success');
         } catch (error) {
@@ -173,7 +173,6 @@ const PaginationTable = ({ data, fetchData, setData }) => {
     };
 
     const handleUserChange = (event) => {
-        console.log('event.target.value', event.target.value)
         setSelectedUser(event.target.value);
     };
 
@@ -194,7 +193,7 @@ const PaginationTable = ({ data, fetchData, setData }) => {
     const handleConfirmDelete = async () => {
         setDeleteConfirmDialogOpen(false);
         try {
-            const result = await axiosInstance.post(`/deleteMQTTDevice`, { id: deleteDeviceId });
+            await axiosInstance.post(`/deleteMQTTDevice`, { id: deleteDeviceId });
             setAlertMessage('Device Deleted successfully!');
             setAlertSeverity('success');
             fetchData();
@@ -213,7 +212,7 @@ const PaginationTable = ({ data, fetchData, setData }) => {
 
     const handleEditSubmit = async (updatedDeviceData) => {
         try {
-            const result = await axiosInstance.post(`/updateMQTTDevice`, updatedDeviceData);
+            await axiosInstance.post(`/updateMQTTDevice`, updatedDeviceData);
             setAlertMessage('Device updated successfully!');
             setAlertSeverity('success');
             fetchData(); // Fetch updated data after the edit

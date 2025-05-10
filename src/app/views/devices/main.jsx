@@ -62,7 +62,6 @@ const Main = () => {
 
 				if (code) {
 					try {
-						console.log('code.data', code.data)
 						const qrData = JSON.parse(code.data); // Assuming the QR data is JSON formatted
 						console.log('qrData', qrData);
 						setPrefilledData(qrData); // Store the scanned QR data

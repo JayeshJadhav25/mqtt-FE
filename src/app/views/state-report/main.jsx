@@ -99,7 +99,6 @@ const Main = () => {
 
 			const response = await axiosInstance.post(`/getStateLogger`, data);
 			setData(response.data.status);
-			console.log('Filter results:', response.data);
 		} catch (error) {
 			console.error('Error filtering data:', error);
 		}

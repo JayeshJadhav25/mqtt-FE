@@ -41,7 +41,7 @@ const Container = styled('div')(({ theme }) => ({
 }));
 
 const accessLevel = window.localStorage.getItem('accessLevel');
-console.log("accessLevel", accessLevel);
+
 const Main = () => {
 
 	const [page, setPage] = useState(0);

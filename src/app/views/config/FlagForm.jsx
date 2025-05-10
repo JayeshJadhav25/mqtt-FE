@@ -104,12 +104,10 @@ function SimpleForm() {
 		// Call API to update the values
 		axiosInstance.post(`/updateFlag`, submissionData)
 			.then(response => {
-				console.log('Data updated successfully:', response.data);
 				setAlertMessage('Data Updated successfully!');
 				setAlertSeverity('success');
 			})
 			.catch(error => {
-				console.error('There was an error updating the data!', error);
 				setAlertMessage(error.response?.data?.msg || 'Something Went Wrong');
 				setAlertSeverity('error');
 			})

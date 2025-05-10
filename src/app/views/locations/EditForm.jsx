@@ -76,9 +76,7 @@ const EditForm = ({ data, onClose, fetchData }) => {
                 },
             };
 
-            const response = await axiosInstance.post(`/updateMQTTLocation`, updatedData);
-
-            console.log("Update successful:", response.data);
+            await axiosInstance.post(`/updateMQTTLocation`, updatedData);
             fetchData();
             setAlertMessage('Location Updated successfully!');
             setAlertSeverity('success');

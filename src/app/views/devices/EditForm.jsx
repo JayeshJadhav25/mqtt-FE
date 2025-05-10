@@ -43,7 +43,6 @@ const EditForm = ({ fetchData, dataList }) => {
         setAlertOpen(false); // Close the alert
     };
     const handleSubmit = async (event) => {
-        console.log("submitted");
         event.preventDefault();
         try {
             const updatedFormData = {
@@ -51,14 +50,14 @@ const EditForm = ({ fetchData, dataList }) => {
                 // id: uuid(),
                 mqttTopic: state.mqttTopic ? [state.mqttTopic] : [],
             };
-            const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/updateMQTTDevice`, updatedFormData);
+
+            await axios.post(`${process.env.REACT_APP_API_URL}/api/updateMQTTDevice`, updatedFormData);
             setAlertMessage('Device updated successfully!');
             setAlertSeverity('success');
             fetchData()
             setTimeout(() => {
                 handleClose()
-            }, 1000)
-            // console.log('Success:', response.data);
+            }, 1000);
         } catch (error) {
             console.error('Error:', error);
             setAlertMessage(error.response.data.msg || 'Something Went Wrong');
