@@ -13,8 +13,8 @@ export const SettingsProvider = ({ settings, children }) => {
     )
 
     const handleUpdateSettings = (update = {}) => {
-        const marged = merge({}, currentSettings, update)
-        setCurrentSettings(marged)
+        const marged = merge({}, currentSettings, update);
+        setCurrentSettings(marged);
     }
 
     return (

@@ -297,7 +297,6 @@ const StatCards = () => {
 						]}
 						activeCount={(dashboardData.deviceCounts && dashboardData.deviceCounts.activeCount) || 0}
 						inactiveCount={(dashboardData.deviceCounts && dashboardData.deviceCounts.inactiveCount) || 0}
-						frozenCount={(dashboardData.deviceCounts && dashboardData.deviceCounts.frozenCount) || 0}
 					/>
 				</SimpleCard>
 			</Box>

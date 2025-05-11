@@ -31,7 +31,6 @@ const MatxMenu = (props) => {
 			<ThemeProvider theme={settings.themes[settings.activeTheme]}>
 				<Menu
 					elevation={8}
-					getContentAnchorEl={null}
 					anchorEl={anchorEl}
 					open={!!anchorEl}
 					onClose={handleClose}

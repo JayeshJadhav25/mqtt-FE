@@ -1,16 +1,12 @@
-import { Avatar, Hidden, Icon, IconButton, MenuItem, useMediaQuery } from '@mui/material';
-import { Box, styled, useTheme } from '@mui/system';
+import { Avatar, Hidden, Icon, MenuItem } from '@mui/material';
+import { Box, styled } from '@mui/system';
 import { MatxMenu } from 'app/components';
 import { themeShadows } from 'app/components/MatxTheme/themeColors';
 import useAuth from 'app/hooks/useAuth';
-import useSettings from 'app/hooks/useSettings';
 import { topBarHeight } from 'app/utils/constant';
 import React from 'react';
 import { Span } from '../../../components/Typography';
 
-const StyledIconButton = styled(IconButton)(({ theme }) => ({
-	color: theme.palette.text.primary,
-}));
 
 const TopbarRoot = styled('div')(({ theme }) => ({
 	top: 0,
@@ -67,37 +63,13 @@ const IconBox = styled('div')(({ theme }) => ({
 }));
 
 const Layout1Topbar = () => {
-	const theme = useTheme();
-	const { settings, updateSettings } = useSettings();
 	const { logout } = useAuth();
-	const isMdScreen = useMediaQuery(theme.breakpoints.down('md'));
 	const accessLevel = window.localStorage.getItem('accessLevel');
-
-	const updateSidebarMode = (sidebarSettings) => {
-		updateSettings({
-			layout1Settings: { leftSidebar: { ...sidebarSettings } },
-		});
-	};
-
-	const handleSidebarToggle = () => {
-		let { layout1Settings } = settings;
-		let mode;
-		if (isMdScreen) {
-			mode = layout1Settings.leftSidebar.mode === 'close' ? 'mobile' : 'close';
-		} else {
-			mode = layout1Settings.leftSidebar.mode === 'full' ? 'close' : 'full';
-		}
-		updateSidebarMode({ mode });
-	};
 
 	return (
 		<TopbarRoot>
 			<TopbarContainer>
 				<Box display="flex">
-					<StyledIconButton onClick={handleSidebarToggle}>
-						<Icon>menu</Icon>
-					</StyledIconButton>
-
 					<IconBox>
 					</IconBox>
 				</Box>

@@ -1,7 +1,7 @@
 import { useTheme } from '@mui/system';
 import ReactEcharts from 'echarts-for-react';
 
-const DoughnutDeviceChart = ({ height, color = [], activeCount, inactiveCount, frozenCount }) => {
+const DoughnutDeviceChart = ({ height, color = [], activeCount, inactiveCount }) => {
     const theme = useTheme();
 
     const option = {
@@ -15,7 +15,7 @@ const DoughnutDeviceChart = ({ height, color = [], activeCount, inactiveCount, f
                 fontSize: 13,
                 fontFamily: 'roboto'
             },
-            data: ['Active', 'Inactive', 'Frozen']
+            data: ['Active', 'Inactive']
         },
         tooltip: {
             show: true,
@@ -58,7 +58,6 @@ const DoughnutDeviceChart = ({ height, color = [], activeCount, inactiveCount, f
                 data: [
                     { value: activeCount, name: 'Active' },
                     { value: inactiveCount, name: 'Inactive' },
-                    { value: frozenCount, name: 'Frozen' }
                 ]
             }
         ]
