@@ -3,14 +3,14 @@ import useSettings from 'app/hooks/useSettings';
 import { MatxLayouts } from './index';
 
 const MatxLayout = (props) => {
-  const { settings } = useSettings();
-  const Layout = MatxLayouts[settings.activeLayout];
+	const { settings } = useSettings();
+	const Layout = MatxLayouts[settings.activeLayout];
 
-  return (
-    <MatxSuspense>
-      <Layout {...props} />
-    </MatxSuspense>
-  );
+	return (
+		<MatxSuspense>
+			<Layout {...props} />
+		</MatxSuspense>
+	);
 };
 
 export default MatxLayout;

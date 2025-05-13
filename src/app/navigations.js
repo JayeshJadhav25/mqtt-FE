@@ -1,4 +1,3 @@
-
 const accessLevel = window.localStorage.getItem('accessLevel');
 let accessLevelNavigation = [];
 
@@ -8,71 +7,70 @@ if (accessLevel == 1) {
 		{ name: 'Users', path: '/users', icon: 'account_circle' },
 		{
 			name: 'Devices',
-			icon: 'cloud',
+			icon: 'devices',
 			children: [
-				{ name: 'Devices', iconText: 'FP', path: '/devices' },
-				{ name: 'Config', iconText: 'FP', path: '/config' },
-				{ name: 'Maintenance', iconText: 'FP', path: '/maintenance' },
-				{ name: 'Location', iconText: '404', path: '/location' },
+				{ name: 'Devices', icon: 'memory', path: '/devices' },
+				{ name: 'Config', icon: 'settings', path: '/config' },
+				{ name: 'Maintenance', icon: 'build', path: '/maintenance' },
+				{ name: 'Location', icon: 'location_on', path: '/location' },
 			],
 		},
 		{
 			name: 'Reports',
-			icon: 'security',
+			icon: 'bar_chart',
 			children: [
-				{ name: 'Logger Report', iconText: 'FP', path: '/logger' },
-				{ name: 'Door Report', iconText: 'SU', path: '/report/door' },
-				{ name: 'State Report', iconText: '404', path: '/report/state' },
-				{ name: 'Energy Consumption Report', iconText: '404', path: '/report/energy' },
+				{ name: 'Logger Report', icon: 'list_alt', path: '/logger' },
+				{ name: 'Door Report', icon: 'meeting_room', path: '/report/door' },
+				{ name: 'State Report', icon: 'toggle_on', path: '/report/state' },
+				{ name: 'Energy Consumption Report', icon: 'bolt', path: '/report/energy' },
 			],
 		},
 		{ name: 'Audit Log', path: '/auditlog', icon: 'history' },
-	]
-}
-else if (accessLevel == 2) {
+	];
+} else if (accessLevel == 2) {
 	accessLevelNavigation = [
 		{ name: 'Dashboard', path: '/dashboard/default', icon: 'dashboard' },
 		{ name: 'Users', path: '/users', icon: 'account_circle' },
 		{
 			name: 'Devices',
-			icon: 'cloud',
+			icon: 'devices',
 			children: [
-				{ name: 'Devices', iconText: 'FP', path: '/devices' },
-				{ name: 'Maintenance', iconText: 'FP', path: '/maintenance' },
-				{ name: 'Location', iconText: '404', path: '/location' },
+				{ name: 'Devices', icon: 'memory', path: '/devices' },
+				{ name: 'Maintenance', icon: 'build', path: '/maintenance' },
+				{ name: 'Location', icon: 'location_on', path: '/location' },
 			],
 		},
 		{
 			name: 'Reports',
-			icon: 'security',
+			icon: 'bar_chart',
 			children: [
-				{ name: 'Door Report', iconText: 'SU', path: '/report/door' },
-				{ name: 'State Report', iconText: '404', path: '/report/state' },
-				{ name: 'Energy Consumption Report', iconText: '404', path: '/report/energy' },
+				{ name: 'Door Report', icon: 'meeting_room', path: '/report/door' },
+				{ name: 'State Report', icon: 'toggle_on', path: '/report/state' },
+				{ name: 'Energy Consumption Report', icon: 'bolt', path: '/report/energy' },
 			],
 		},
 		{ name: 'Audit Log', path: '/auditlog', icon: 'history' },
-	]
+	];
 } else if (accessLevel == 3) {
 	accessLevelNavigation = [
 		{ name: 'Dashboard', path: '/dashboard/default', icon: 'dashboard' },
 		{
 			name: 'Devices',
-			icon: 'cloud',
+			icon: 'devices',
 			children: [
-				{ name: 'Devices', iconText: 'FP', path: '/devices' },
-				{ name: 'Maintenance', iconText: 'FP', path: '/maintenance' },
-
+				{ name: 'Devices', icon: 'memory', path: '/devices' },
+				{ name: 'Maintenance', icon: 'build', path: '/maintenance' },
 			],
 		},
 		{
 			name: 'Reports',
-			icon: 'security',
+			icon: 'bar_chart',
 			children: [
-				{ name: 'Door Report', iconText: 'SU', path: '/report/door' },
-				{ name: 'State Report', iconText: '404', path: '/report/state' },
+				{ name: 'Door Report', icon: 'meeting_room', path: '/report/door' },
+				{ name: 'State Report', icon: 'toggle_on', path: '/report/state' },
 			],
 		},
-	]
+	];
 }
-export const navigations = accessLevelNavigation;  // Your navigation array
+
+export const navigations = accessLevelNavigation;
