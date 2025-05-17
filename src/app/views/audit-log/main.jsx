@@ -22,6 +22,7 @@ import { SimpleCard } from 'app/components';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Download from './Download';
 import axiosInstance from '../../../axiosInterceptor';
+import { formatDateTime } from 'app/utils/utils';
 
 const StyledTable = styled(Table)(() => ({
 	whiteSpace: 'pre',
@@ -83,19 +84,6 @@ const Main = () => {
 	useEffect(() => {
 		fetchData();
 	}, []);
-
-
-	const formatDateTime = (value) => {
-		const date = new Date(value);
-		const year = date.getFullYear();
-		const month = String(date.getMonth() + 1).padStart(2, '0');
-		const day = String(date.getDate()).padStart(2, '0');
-		const hours = String(date.getHours()).padStart(2, '0');
-		const minutes = String(date.getMinutes()).padStart(2, '0');
-		const seconds = String(date.getSeconds()).padStart(2, '0');
-		return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-	};
-
 
 	// Filter button click handler
 	const handleFilter = () => {

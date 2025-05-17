@@ -19,6 +19,7 @@ import { useState } from "react";
 import EditForm from './EditForm';
 import axiosInstance from '../../../axiosInterceptor';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { formatDateTime } from 'app/utils/utils';
 
 const StyledTable = styled(Table)(() => ({
     whiteSpace: "pre",
@@ -121,7 +122,7 @@ const PaginationTable = ({ maintenanceData, fetchData, setData }) => {
                         .map((request, index) => (
                             <TableRow key={request.id}>
                                 <TableCell align="center">{request.locationName}</TableCell>
-                                <TableCell align="center">{request.modified_time}</TableCell>
+                                <TableCell align="center">{formatDateTime(request.modified_time)}</TableCell>
                                 <TableCell align="center">
                                     <Tooltip title="Edit">
                                         <IconButton

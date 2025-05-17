@@ -23,6 +23,7 @@ import { useState } from "react";
 import EditForm from './EditForm';
 import axiosInstance from '../../../axiosInterceptor';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { formatDateTime } from 'app/utils/utils';
 
 const accessLevel = window.localStorage.getItem('accessLevel');
 
@@ -245,8 +246,8 @@ const PaginationTable = ({ maintenanceData, fetchData, setData }) => {
 							<TableRow key={request.id}>
 								<TableCell align="center">{request.engineerName}</TableCell>
 								<TableCell align="center">{request.engineerContact}</TableCell>
-								<TableCell align="center">{request.startTime}</TableCell>
-								<TableCell align="center">{request.endTime}</TableCell>
+								<TableCell align="center">{formatDateTime(request.startTime)}</TableCell>
+								<TableCell align="center">{formatDateTime(request.endTime)}</TableCell>
 								<TableCell align="center">{request.status}</TableCell>
 								<TableCell align="center">{request.devices}</TableCell>
 								{(accessLevel == 1 || accessLevel == 2) && (

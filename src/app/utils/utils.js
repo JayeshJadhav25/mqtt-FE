@@ -134,3 +134,16 @@ export function getQueryParam(prop) {
 	});
 	return prop && prop in params ? params[prop] : params;
 }
+
+
+export const formatDateTime = (dateString) => {
+	const dateObj = new Date(dateString);
+	const day = String(dateObj.getDate()).padStart(2, "0");
+	const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+	const year = String(dateObj.getFullYear()).slice(2);
+	const hours = String(dateObj.getHours()).padStart(2, "0");
+	const minutes = String(dateObj.getMinutes()).padStart(2, "0");
+	const seconds = String(dateObj.getSeconds()).padStart(2, "0");
+
+	return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
+};

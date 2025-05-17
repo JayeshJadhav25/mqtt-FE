@@ -4,6 +4,7 @@ import { SimpleCard } from 'app/components';
 import Download from './Download';
 import FilterSection from './FilterSection';
 import axiosInstance from '../../../axiosInterceptor';
+import { formatDateTime } from 'app/utils/utils';
 
 const StyledTable = styled(Table)(() => ({
 	whiteSpace: 'pre',
@@ -102,7 +103,7 @@ const Main = () => {
 								.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 								.map((dataList, index) => (
 									<TableRow key={index}>
-										<TableCell align="center">{dataList.timestamp}</TableCell>
+										<TableCell align="center">{formatDateTime(dataList.timestamp)}</TableCell>
 										<TableCell align="center">{dataList.device_id}</TableCell>
 										<TableCell align="center">{dataList.device_name}</TableCell>
 										<TableCell align="center">{dataList.log_desc}</TableCell>

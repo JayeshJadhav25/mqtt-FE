@@ -22,6 +22,7 @@ import { useState, useEffect } from 'react';
 import { SimpleCard } from 'app/components';
 import Download from './Download';
 import axiosInstance from '../../../axiosInterceptor';
+import { formatDateTime } from 'app/utils/utils';
 
 const StyledTable = styled(Table)(() => ({
 	whiteSpace: 'pre',
@@ -124,18 +125,6 @@ const Main = () => {
 		setStartDate('');
 		setEndDate('');
 		getData();
-	};
-
-	const formatDateTime = (dateString) => {
-		const dateObj = new Date(dateString);
-		const day = String(dateObj.getDate()).padStart(2, "0");
-		const month = String(dateObj.getMonth() + 1).padStart(2, "0");
-		const year = String(dateObj.getFullYear()).slice(2);
-		const hours = String(dateObj.getHours()).padStart(2, "0");
-		const minutes = String(dateObj.getMinutes()).padStart(2, "0");
-		const seconds = String(dateObj.getSeconds()).padStart(2, "0");
-
-		return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
 	};
 
 	useEffect(() => {
