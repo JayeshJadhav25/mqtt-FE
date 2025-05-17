@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Box, TextField, Button, Typography, Card, CardContent, CardHeader, Grid, MenuItem, Select, Snackbar, Alert } from '@mui/material';
 import axiosInstance from '../../../axiosInterceptor';
-import { formatDateTime } from 'app/utils/utils';
 
 function SimpleForm() {
 	const [formData, setFormData] = useState({});
@@ -17,6 +16,18 @@ function SimpleForm() {
 
 	// Fields to be excluded
 	const excludedFields = ['_id', 'created_time', 'modified_time'];
+
+	// Function to format datetime values to 'YYYY-MM-DD HH:MM:SS'
+	const formatDateTime = (value) => {
+		const date = new Date(value);
+		const year = date.getFullYear();
+		const month = String(date.getMonth() + 1).padStart(2, '0');
+		const day = String(date.getDate()).padStart(2, '0');
+		const hours = String(date.getHours()).padStart(2, '0');
+		const minutes = String(date.getMinutes()).padStart(2, '0');
+		const seconds = String(date.getSeconds()).padStart(2, '0');
+		return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+	};
 
 	// Fetch data on page load
 	useEffect(() => {
