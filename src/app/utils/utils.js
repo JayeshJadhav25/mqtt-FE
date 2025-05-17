@@ -138,12 +138,18 @@ export function getQueryParam(prop) {
 
 export const formatDateTime = (dateString) => {
 	const dateObj = new Date(dateString);
-	const day = String(dateObj.getDate()).padStart(2, "0");
-	const month = String(dateObj.getMonth() + 1).padStart(2, "0");
-	const year = String(dateObj.getFullYear()).slice(2);
-	const hours = String(dateObj.getHours()).padStart(2, "0");
-	const minutes = String(dateObj.getMinutes()).padStart(2, "0");
-	const seconds = String(dateObj.getSeconds()).padStart(2, "0");
+
+	// Convert to IST (UTC+5:30)
+	const utc = dateObj.getTime() + dateObj.getTimezoneOffset() * 60000;
+	const istOffset = 5.5 * 60 * 60000; // IST offset in milliseconds
+	const istTime = new Date(utc + istOffset);
+
+	const day = String(istTime.getDate()).padStart(2, "0");
+	const month = String(istTime.getMonth() + 1).padStart(2, "0");
+	const year = String(istTime.getFullYear()).slice(2);
+	const hours = String(istTime.getHours()).padStart(2, "0");
+	const minutes = String(istTime.getMinutes()).padStart(2, "0");
+	const seconds = String(istTime.getSeconds()).padStart(2, "0");
 
 	return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
 };
