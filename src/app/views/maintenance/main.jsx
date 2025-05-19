@@ -25,7 +25,7 @@ const Main = () => {
 
 	const fetchData = async () => {
 		try {
-			const response = await axiosInstance.post(`/getMaintainenceRequest`);
+			const response = await axiosInstance.post(`/getMaintainenceRequest`, {});
 			setData(response.data.status);
 		} catch (error) {
 			console.error('Error fetching data:', error);

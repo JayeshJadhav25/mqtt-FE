@@ -31,7 +31,7 @@ function SimpleForm() {
 
 	// Fetch data on page load
 	useEffect(() => {
-		axiosInstance.post(`/getFlag`)
+		axiosInstance.post(`/getFlag`, {})
 			.then(response => {
 				if (response.data.success) {
 					const data = response.data.status[0]; // Pick the first object from the status array

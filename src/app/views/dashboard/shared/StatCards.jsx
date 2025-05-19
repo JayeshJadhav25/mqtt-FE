@@ -53,7 +53,7 @@ const StatCards = () => {
 
 	const fetchData = async () => {
 		try {
-			const response = await axiosInstance.post('/getDashboardDetails');
+			const response = await axiosInstance.post('/getDashboardDetails', {});
 			if (response && response.data && response.data.data) {
 				setDashboardData(response.data.data || {})
 			}
@@ -65,7 +65,7 @@ const StatCards = () => {
 
 	const fetchDeviceData = async () => {
 		try {
-			const response = await axiosInstance.post('/getMQTTDevice');
+			const response = await axiosInstance.post('/getMQTTDevice', {});
 
 			if (response && response.data && response.data.status) {
 				setDevices(response.data.status || [])

@@ -12,7 +12,7 @@ const EChartsDottedLine = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axiosInstance.post('/getDashboardGraphDetails');
+                const response = await axiosInstance.post('/getDashboardGraphDetails', {});
 
                 if (response && response.data && response.data.data) {
                     const apiData = response.data.data.map(item => ({

@@ -42,7 +42,7 @@ const SimpleForm = ({ handleClose, fetchData }) => {
     };
 
     useEffect(() => {
-        axiosInstance.post(`/getMQTTDevice`)
+        axiosInstance.post(`/getMQTTDevice`, {})
             .then(response => {
                 const options = response.data.status.map(item => ({
                     id: item.deviceId,  // Use deviceId here

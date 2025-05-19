@@ -71,7 +71,7 @@ const Main = () => {
 
 	const getData = async () => {
 		axiosInstance
-			.post(`/getDeviceLogger`)
+			.post(`/getDeviceLogger`, {})
 			.then((res) => {
 				setData(res.data.status);
 			})
